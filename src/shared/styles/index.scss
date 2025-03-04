@@ -1,0 +1,15 @@
+// Стили библиотек
+@import "swiper/css/bundle";
+
+// Стили проекта
+// utils
+@import "utils/reset";
+@import "utils/fonts";
+@import "utils/core";
+
+// components
+@import "components/base";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;

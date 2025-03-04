@@ -1,0 +1,31 @@
+---
+import Button from '@shared/ui/buttons/button/Button.astro';
+import Layout from '@widgets/Layout/Layout.astro';
+
+const pages = [
+  {
+    title: 'UI',
+    href: 'ui',
+  },
+  {
+    title: 'Главная',
+    href: 'main',
+  },
+];
+---
+
+<Layout pageName='index'>
+  <h1 class='text-primary text-title-100 devices:text-title-40 px-4'>
+    Ссылки на страницы проекта
+  </h1>
+
+  <div class='flex flex-col gap-4 mt-6'>
+    {
+      pages.map(page => (
+        <Button href={`/main/${page.href}`} theme='spaced' class='w-fit'>
+          {page.title}
+        </Button>
+      ))
+    }
+  </div>
+</Layout>

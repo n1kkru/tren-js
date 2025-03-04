@@ -1,0 +1,103 @@
+.checkbox {
+  width: fit-content;
+
+  display: flex;
+  gap: rem(12px);
+
+  position: relative;
+
+  cursor: pointer;
+
+  @media #{media('<',d)} {
+    width: 100%;
+  }
+
+  @media #{media('>',d)} and (hover: hover) and (pointer: fine) {
+    &:hover {
+      input:not(:checked)~.checkbox__box {
+        border-color: #000000;
+        background: #ffffff;
+      }
+    }
+  }
+
+  &__box {
+    display: block;
+    width: 32px;
+    height: 32px;
+
+    border: 1px solid #e4e4e4;
+    background: #f6f6f6;
+
+    transition: $transition;
+
+    flex-shrink: 0;
+
+    @media #{media('<',d)} {
+      width: 24px;
+      height: 24px;
+    }
+
+    svg {
+      opacity: 0;
+      transition: $transition;
+
+      @apply text-white;
+
+      path {
+        transition: $transition;
+
+        stroke-dasharray: 25;
+        stroke-dashoffset: 25;
+      }
+    }
+  }
+
+  &__text {
+    transition: color $transition;
+    margin-top: 1px;
+
+    @media #{media('<',d)} {
+      margin-top: 1.5px;
+    }
+  }
+
+  input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+    z-index: -1;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  input:checked~&__box {
+    @apply border-primary;
+    @apply bg-primary;
+
+    svg {
+      opacity: 1;
+
+      path {
+        stroke-dasharray: 25;
+        stroke-dashoffset: 0;
+      }
+    }
+  }
+
+  &.disabled {
+    cursor: auto;
+    pointer-events: none;
+
+    .checkbox__box {
+      @apply border-gray-light;
+      opacity: 0.5;
+    }
+
+    .checkbox__text {
+      @apply text-secondary;
+    }
+  }
+}

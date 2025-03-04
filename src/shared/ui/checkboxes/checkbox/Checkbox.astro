@@ -1,0 +1,23 @@
+---
+interface Props {
+  class?: string;
+  label: string;
+  name: string;
+  checked?: boolean;
+  disabled?: boolean;
+}
+
+const { class: className, label, ...props } = Astro.props as Props;
+
+export { Checkbox };
+---
+
+<label class:list={['checkbox', { disabled: props.disabled }, className]}>
+  <input type='checkbox' {...props} />
+  <span class='checkbox__box'> SVG </span>
+  <span class='checkbox__text text-20 devices:text-14'>{label}</span>
+</label>
+
+<style>
+  @import './checkbox.scss';
+</style>

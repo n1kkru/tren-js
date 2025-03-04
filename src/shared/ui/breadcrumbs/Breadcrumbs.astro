@@ -1,0 +1,35 @@
+---
+interface Props {
+  class?: string;
+  current: string;
+  list?: Array<{ text: string; href: string }>;
+}
+
+const { class: className, current, list = [], ...props } = Astro.props as Props;
+
+export { Breadcrumbs };
+---
+
+<nav class:list={['breadcrumbs', className]} {...props}>
+  <ul class='breadcrumbs__list text-title-20 devices:text-title-16'>
+    <li class='breadcrumbs__item'>
+      <a href='/'>Главная</a>
+    </li>
+
+    {
+      list.map(item => (
+        <li class='breadcrumbs__item'>
+          <a href={item.href}>{item.text}</a>
+        </li>
+      ))
+    }
+
+    <li class='breadcrumbs__item active'>
+      <span>{current}</span>
+    </li>
+  </ul>
+</nav>
+
+<style>
+  @import './index.scss';
+</style>

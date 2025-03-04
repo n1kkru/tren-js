@@ -1,0 +1,138 @@
+.switch {
+  position: relative;
+
+  display: flex;
+  gap: rem(24px);
+  justify-content: space-between;
+
+  cursor: pointer;
+
+  flex-shrink: 0;
+
+  &.disabled {
+    cursor: auto;
+    pointer-events: none;
+    opacity: 0.4;
+  }
+
+  @media #{media('>',d)} and (hover: hover) and (pointer: fine) {
+    &:hover {
+      input:not(:checked)~.switch__toggler {
+        @apply border-primary;
+
+        .switch__slider {
+          @apply bg-primary;
+        }
+      }
+    }
+  }
+
+  * {
+    transition: $transition;
+  }
+
+  &__text {
+    margin-top: 1px;
+
+    @media #{media('<',d)} {
+      margin-top: 4px;
+    }
+  }
+
+  &__toggler {
+    display: block;
+
+    width: 64px;
+    height: 32px;
+
+    padding: 5px;
+    border: 1px solid;
+
+    border-radius: 32px;
+
+    position: relative;
+
+    flex-shrink: 0;
+    @apply border-gray-light;
+  }
+
+  &__slider {
+    display: block;
+
+    height: 21px;
+    width: 21px;
+    border-radius: 23px;
+
+    position: absolute;
+    top: 50%;
+
+    left: 5px;
+    transform: translateY(-50%);
+    right: auto;
+
+    @apply bg-gray-light;
+  }
+
+  input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+    opacity: 0;
+    z-index: -1;
+    pointer-events: none;
+  }
+
+  input:checked~.switch__toggler {
+    @apply border-primary;
+
+    .switch__slider {
+      @apply bg-primary;
+
+      animation: switch 0.5s cubic-bezier(0.33, 1, 0.68, 1) forwards;
+    }
+  }
+
+  input:not(:checked)~.switch__toggler {
+    .switch__slider {
+      animation: switch-back 0.5s cubic-bezier(0.33, 1, 0.68, 1) forwards;
+    }
+  }
+
+  @keyframes switch {
+    0% {
+      width: 22px;
+    }
+
+    50% {
+      width: 54px;
+      left: 5px;
+      right: 5px;
+    }
+
+    100% {
+      width: 22px;
+      right: 5px;
+      left: 37px;
+    }
+  }
+
+  @keyframes switch-back {
+    0% {
+      width: 22px;
+      right: 5px;
+      left: 37px;
+    }
+
+    50% {
+      width: 54px;
+      left: 5px;
+      right: 5px;
+    }
+
+    100% {
+      width: 22px;
+    }
+  }
+}

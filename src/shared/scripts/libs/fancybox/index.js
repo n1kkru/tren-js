@@ -1,0 +1,60 @@
+import { Fancybox } from '@fancyapps/ui'
+import '@fancyapps/ui/dist/fancybox/fancybox.css'
+
+import { disableScroll, enableScroll } from '../../utils/scroll'
+
+const fancyboxInit = () => {
+  Fancybox.bind('[data-fancybox]', {
+    Toolbar: false,
+    idle: false,
+    closeButton: false,
+    Images: {
+      zoom: false
+    },
+    Thumbs: {
+      type: 'classic'
+    },
+    keyboard: {
+      ArrowRight: 'next',
+      ArrowLeft: 'prev'
+    },
+    Carousel: {
+      Navigation: false
+    },
+    on: {
+      initCarousel: fancybox => {
+        const slidesCount = fancybox.userSlides.length
+
+        disableScroll()
+
+        const controlsTemplate = document.querySelector('[data-fancybox-controls-template]')
+        if (!controlsTemplate) return
+
+        const controls = controlsTemplate.content
+          .cloneNode(true)
+          .querySelector('[data-fancybox-controls]')
+
+        fancybox.container.appendChild(controls)
+
+        const closeBtn = controls.querySelector('[data-fancybox-button="close"]')
+        const prevBtn = controls.querySelector('[data-fancybox-button="prev"]')
+        const nextBtn = controls.querySelector('[data-fancybox-button="next"]')
+
+        closeBtn.addEventListener('click', () => fancybox.close())
+
+        if (slidesCount <= 1) {
+          prevBtn.style.display = 'none'
+          nextBtn.style.display = 'none'
+        } else {
+          prevBtn.addEventListener('click', () => fancybox.prev())
+          nextBtn.addEventListener('click', () => fancybox.next())
+        }
+      },
+      close: () => {
+        enableScroll()
+      }
+    }
+  })
+}
+
+export { fancyboxInit }

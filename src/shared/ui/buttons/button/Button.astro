@@ -1,0 +1,55 @@
+---
+interface Props {
+  variant?: 'text' | 'contained' | 'outlined';
+  color?: 'light' | 'primary';
+  class?: string;
+  href?: string;
+  disabled?: boolean;
+  startIcon?: any;
+  endIcon?: any;
+}
+
+const {
+  variant = 'contained',
+  color = 'primary',
+  class: className,
+  startIcon: StartIcon,
+  endIcon: EndIcon,
+  ...props
+} = Astro.props as Props;
+
+const isLink: boolean = 'href' in Astro.props;
+const Tag: 'a' | 'button' = isLink ? 'a' : 'button';
+
+export { Button };
+---
+
+<Tag
+  {...props}
+  class:list={[
+    'button',
+    { [`button_variant_${variant}`]: !!variant },
+    { [`button_color_${color}`]: !!color },
+    className,
+  ]}
+>
+  {
+    StartIcon && (
+      <span class='button__icon button__icon_left'>
+        <StartIcon />
+      </span>
+    )
+  }
+  <span class='button__text'><slot /></span>
+  {
+    EndIcon && (
+      <span class='button__icon button__icon_right'>
+        <EndIcon />
+      </span>
+    )
+  }
+</Tag>
+
+<style>
+  @import './index.scss';
+</style>

@@ -1,0 +1,25 @@
+---
+interface Props {
+  class?: string;
+  label: string;
+  name: string;
+  checked?: boolean;
+  disabled?: boolean;
+}
+
+const { class: className, label, ...props } = Astro.props as Props;
+
+export { Switch };
+---
+
+<label class:list={['switch', { disabled: props.disabled }, className]}>
+  <input type='checkbox' {...props} />
+  <span class='switch__text text-title-20 devices:text-title-16'>{label}</span>
+  <span class='switch__toggler'>
+    <span class='switch__slider'></span>
+  </span>
+</label>
+
+<style>
+  @import './switch.scss';
+</style>

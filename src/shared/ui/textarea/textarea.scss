@@ -1,0 +1,81 @@
+.textarea {
+  $this: &;
+  font-family: $font;
+  // font-size: rem(20px);
+  // font-style: normal;
+  // font-weight: 300;
+  // line-height: rem(30px);
+  // letter-spacing: -0.2px;
+  display: block;
+  width: 100%;
+  height: 110px;
+  padding-bottom: rem(16px);
+  resize: none;
+  background: none;
+
+  @media #{media('<',d)} {
+    height: 100px;
+  }
+  // @media #{media('<',d)} {
+  //   font-size: rem(14px);
+  // }
+
+  // &__row {
+  //   border-bottom: 3px solid;
+  //   width: 100%;
+  //   padding-bottom: rem(16px);
+  //   &::placeholder {
+  //     color: black;
+  //   }
+  //   &:focus::placeholder {
+  //     visibility: hidden;
+  //   }
+  // }
+
+  &__error {
+    height: fit-content;
+    max-height: 0;
+    will-change: height, opacity;
+    overflow: hidden;
+
+    transition: $transition;
+    transition-duration: 2s;
+
+    &:not(:empty),
+    &.visible {
+      max-height: 100px;
+    }
+  }
+
+  &__inner {
+    display: block;
+    border-bottom: rem(3px) solid;
+    cursor: text;
+
+    @apply border-gray-light;
+
+    transition: border-color $transition;
+
+    &:focus-within {
+      @apply border-primary;
+    }
+
+    @media #{media('>',d)} and (hover: hover) and (pointer: fine) {
+      &:hover {
+        @apply border-primary;
+      }
+    }
+
+    @media #{media('<',d)} {
+      border-bottom-width: 2px;
+    }
+  }
+}
+
+[data-input-parent] {
+  &.error {
+    .textarea__inner {
+      @apply border-primary;
+    }
+  }
+}

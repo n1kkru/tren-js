@@ -1,0 +1,29 @@
+---
+interface Props {
+  id?: string;
+  validate?: string;
+  placeholder?: string;
+  class?: string;
+  required?: boolean;
+  disabled?: boolean;
+  value?: string;
+}
+
+const { class: className, ...props } = Astro.props as Props;
+const isRequired: boolean = 'required' in props;
+const hasPlaceholder = 'placeholder' in props;
+const placeholder: string | null | undefined = hasPlaceholder
+  ? isRequired
+    ? `${props.placeholder}*`
+    : props.placeholder
+  : null;
+---
+
+<label class:list={['input', className]} data-input-parent>
+  <input class='input__field' placeholder={placeholder} data-input {...props} />
+  <span class='input__error' data-error-container></span>
+</label>
+
+<style>
+  @import './input.scss';
+</style>

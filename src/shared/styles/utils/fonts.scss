@@ -1,0 +1,19 @@
+@font-face {
+  font-family: SuisseIntl;
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+  src:
+    url('./fonts/SuisseIntl-Light.woff2') format('woff2'),
+    url('./fonts/SuisseIntl-Light.woff') format('woff');
+}
+
+@font-face {
+  font-family: SuisseIntl;
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+  src:
+    url('./fonts/SuisseIntl-SemiBold.woff2') format('woff2'),
+    url('./fonts/SuisseIntl-SemiBold.woff') format('woff');
+}
