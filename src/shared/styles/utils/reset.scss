@@ -29,6 +29,16 @@ a {
   text-decoration: none;
 }
 
+input {
+  border: none;
+  outline: none;
+  background: none;
+
+  &::placeholder {
+    opacity: 1;
+  }
+}
+
 ul {
   margin: 0;
   padding: 0;

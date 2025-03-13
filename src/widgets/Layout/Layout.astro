@@ -19,6 +19,19 @@ export { Layout };
     <meta name='viewport' content='width=device-width, initial-scale=1' />
     <link rel='icon' type='image/svg+xml' href='/favicon.svg' />
     <meta name='generator' content={Astro.generator} />
+
+    <slot name='description'>
+      <meta name='description' content='Описание страницы' />
+    </slot>
+
+    <slot name='opengraph'>
+      <meta property='og:title' content='Название страницы' />
+      <meta property='og:description' content='Описание страницы' />
+      <meta property='og:image' content='https://example.com/image.jpg' />
+      <meta property='og:url' content='https://example.com' />
+      <meta property='og:type' content='website' />
+    </slot>
+
     <title>{pageName}</title>
   </head>
   <body>
