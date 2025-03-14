@@ -7,13 +7,19 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "disable toolbar": "astro preferences disable devToolbar"
+    "disable toolbar": "astro preferences disable devToolbar",
+    "stylelint": "stylelint '**/*.{css,scss}'",
+    "stylelint:fix": "stylelint '**/*.{css,scss}' --fix",
+    "prettier": "prettier . --check",
+    "prettier:fix": "prettier . --write"
   },
   "dependencies": {
-    "@astrojs/tailwind": "^5.1.4",
-    "astro": "^5.1.6",
-    "inputmask": "^5.0.9",
+    "@astrojs/tailwind": "^6.0.0",
+    "accordion-js": "^3.4.0",
+    "astro": "^5.4.2",
+    "gsap": "^3.12.7",
     "infinite-marquee": "^1.0.7",
+    "inputmask": "^5.0.9",
     "node": "^18.20.7",
     "sass": "^1.83.4",
     "swiper": "^11.2.1",
@@ -22,6 +28,12 @@
   },
   "devDependencies": {
     "postcss": "^8.5.1",
-    "postcss-scss": "^4.0.9"
+    "postcss-html": "^1.8.0",
+    "postcss-scss": "^4.0.9",
+    "prettier": "^3.5.3",
+    "prettier-plugin-astro": "^0.14.1",
+    "stylelint": "^16.16.0",
+    "stylelint-config-clean-order": "^7.0.0",
+    "stylelint-scss": "^6.11.1"
   }
 }

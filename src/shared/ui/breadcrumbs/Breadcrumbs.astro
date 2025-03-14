@@ -1,11 +1,10 @@
 ---
 interface Props {
   class?: string;
-  current: string;
   list?: Array<{ text: string; href: string }>;
 }
 
-const { class: className, current, list = [], ...props } = Astro.props as Props;
+const { class: className, list = [], ...props } = Astro.props as Props;
 
 export { Breadcrumbs };
 ---
@@ -13,20 +12,22 @@ export { Breadcrumbs };
 <nav class:list={['breadcrumbs', className]} {...props}>
   <ul class='breadcrumbs__list text-title-20 devices:text-title-16'>
     <li class='breadcrumbs__item'>
-      <a href='/'>Главная</a>
+      <a href='/' class='breadcrumbs__item-text'>Главная</a>
     </li>
 
     {
       list.map(item => (
         <li class='breadcrumbs__item'>
-          <a href={item.href}>{item.text}</a>
+          {list.indexOf(item) === list.length - 1 ? (
+            <span class='breadcrumbs__item-text active'>{item.text}</span>
+          ) : (
+            <a href={item.href} class='breadcrumbs__item-text'>
+              {item.text}
+            </a>
+          )}
         </li>
       ))
     }
-
-    <li class='breadcrumbs__item active'>
-      <span>{current}</span>
-    </li>
   </ul>
 </nav>
 

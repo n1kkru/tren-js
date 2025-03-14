@@ -1,0 +1,22 @@
+---
+import Logo from '@shared/assets/images/svg/cloudmill-logo.svg';
+
+interface Props {
+  class?: string;
+}
+
+const { class: className, ...props } = Astro.props as Props;
+
+export { Author };
+---
+
+<p class:list={['author', className]} {...props}>
+  <span>Сделано в</span>
+  <a href='https://cloudmill.ru' class='author__logo'>
+    <Logo />
+  </a>
+</p>
+
+<style>
+  @import './index.scss';
+</style>

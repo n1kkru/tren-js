@@ -1,7 +1,7 @@
 @mixin color-light {
   @apply bg-white text-primary !important;
 
-  @media #{media('>',t)} and (hover: hover) and (pointer: fine) {
+  @media #{media('>',d)} and (hover: hover) and (pointer: fine) {
     &:hover {
       @apply bg-primary text-white !important;
     }
@@ -17,7 +17,7 @@
   justify-content: center;
   align-items: center;
   gap: rem(12px);
-  transition: $transition;
+  transition: color, background-color $transition;
   user-select: none;
   @apply text-title-20;
 
@@ -75,6 +75,7 @@
       border: 1px solid;
       @apply border-primary;
 
+      width: 100%;
       height: rem(78px);
       padding-inline: rem(24px);
       justify-content: flex-start !important;
@@ -92,7 +93,7 @@
     &_primary {
       @apply bg-primary text-white;
 
-      @media #{media('>',t)} and (hover: hover) and (pointer: fine) {
+      @media #{media('>',d)} and (hover: hover) and (pointer: fine) {
         &:hover {
           @apply bg-gray;
         }
@@ -101,7 +102,7 @@
       &.button_variant_text {
         @apply text-primary bg-transparent;
 
-        @media #{media('>',t)} and (hover: hover) and (pointer: fine) {
+        @media #{media('>',d)} and (hover: hover) and (pointer: fine) {
           &:hover {
             @apply text-gray bg-transparent;
           }

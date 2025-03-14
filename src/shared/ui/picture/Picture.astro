@@ -1,0 +1,101 @@
+---
+import type { ImageMetadata } from 'astro';
+import { getImage } from 'astro:assets';
+
+interface Props {
+  imgAttributes?: astroHTML.JSX.ImgHTMLAttributes;
+  class?: string;
+  desktopImage: ImageMetadata;
+  mobileImage?: ImageMetadata;
+  breakpoint?: number | string;
+  alt?: string;
+}
+
+const {
+  imgAttributes,
+  class: className,
+  desktopImage,
+  mobileImage,
+  breakpoint = 768,
+  alt = '',
+  ...props
+} = Astro.props as Props;
+
+// Если изображение импортировано как модуль, предполагаем наличие метаданных (width/height)
+const imageWidth = desktopImage.width;
+const imageHeight = desktopImage.height;
+
+const fallbackFormat = desktopImage.format;
+
+// Оптимизируем desktop-изображение
+const desktopWebp = await getImage({
+  src: desktopImage,
+  formats: ['webp'],
+  widths: [imageWidth]
+});
+const desktopFallback = await getImage({ 
+    src: desktopImage, 
+    formats: [fallbackFormat],
+    widths: [imageWidth]
+  });
+
+// Если включена мобильная версия, обрабатываем её
+let mobileWebp, mobileFallback, mobileFallbackFormat;
+if (mobileImage) {
+  const mobileImageWidth = mobileImage.width;
+
+  mobileFallbackFormat = mobileImage.format;
+  mobileWebp = await getImage({ 
+    src: mobileImage,
+    formats: ['webp'],
+    widths: [mobileImageWidth] 
+});
+  mobileFallback = await getImage({
+    src: mobileImage,
+    formats: [mobileFallbackFormat],
+    widths: [mobileImageWidth]
+  });
+}
+
+/**
+ * Функция для извлечения числового значения из breakpoint.
+ * Позволяет передавать breakpoint как число или строку (например, "768px" или "768").
+ * @param bp Брейкпоинт (number или string)
+ * @returns Числовое значение брейкпоинта
+ */
+  const getBreakpointValue = (bp: number | string): number => {
+  return typeof bp === 'number' ? bp : parseInt(bp, 10);
+}
+
+const breakpointStr = `(max-width: ${getBreakpointValue(breakpoint)}px)`;
+---
+
+<picture class:list={['picture', className]} {...props}>
+  {mobileWebp && mobileFallback && (
+    <>
+      <!-- Мобильная версия с media-запросом -->
+      <source media={breakpointStr} type="image/webp" srcset={mobileWebp.srcSet.attribute} />
+      <source media={breakpointStr} type={`image/${mobileFallbackFormat}`} srcset={mobileFallback.srcSet.attribute} />
+    </>
+  )}
+  
+  <!-- Desktop-версия -->
+  <source type="image/webp" srcset={desktopWebp.srcSet.attribute} />
+  <source type={`image/${fallbackFormat}`} srcset={desktopFallback.srcSet.attribute} />
+  
+  <!-- Fallback для браузеров, не поддерживающих <picture> -->
+  <img 
+    src={desktopFallback.src} 
+    alt={alt} 
+    {...(imageWidth ? { width: imageWidth } : {})}
+    {...(imageHeight ? { height: imageHeight } : {})}
+    loading="lazy"
+    decoding="async"
+    class:list={['picture__img', imgAttributes?.class]}
+    {...imgAttributes}
+  />
+</picture>
+
+<style>
+  @import './index.scss';
+</style>

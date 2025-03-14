@@ -1,15 +1,26 @@
 ---
-interface Props {
+import type { HTMLAttributes } from 'astro/types';
+
+interface ButtonProps extends astroHTML.JSX.ButtonHTMLAttributes {
+  as?: 'button' | 'div' | 'span';
+  href?: never;
+}
+
+interface AnchorProps extends astroHTML.JSX.AnchorHTMLAttributes {
+  as?: 'a';
+  href: string;
+}
+
+type Props = (ButtonProps | AnchorProps) & {
   variant?: 'text' | 'contained' | 'outlined';
   color?: 'light' | 'primary';
   class?: string;
-  href?: string;
-  disabled?: boolean;
   startIcon?: any;
   endIcon?: any;
-}
+};
 
 const {
+  as,
   variant = 'contained',
   color = 'primary',
   class: className,
@@ -19,13 +30,13 @@ const {
 } = Astro.props as Props;
 
 const isLink: boolean = 'href' in Astro.props;
-const Tag: 'a' | 'button' = isLink ? 'a' : 'button';
+const Tag: Props['as'] = isLink ? 'a' : as ? as : 'button';
 
 export { Button };
 ---
 
 <Tag
-  {...props}
+  {...props as HTMLAttributes<typeof Tag>}
   class:list={[
     'button',
     { [`button_variant_${variant}`]: !!variant },

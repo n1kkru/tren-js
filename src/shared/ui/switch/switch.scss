@@ -3,13 +3,18 @@
 
   display: flex;
   gap: rem(24px);
+  align-items: center;
   justify-content: space-between;
 
   cursor: pointer;
 
   flex-shrink: 0;
 
-  &.disabled {
+  @media #{media('<',d)} {
+    gap: rem(12px);
+  }
+
+  &:has(input:disabled) {
     cursor: auto;
     pointer-events: none;
     opacity: 0.4;
@@ -32,11 +37,7 @@
   }
 
   &__text {
-    margin-top: 1px;
-
-    @media #{media('<',d)} {
-      margin-top: 4px;
-    }
+    @include cropText(2);
   }
 
   &__toggler {

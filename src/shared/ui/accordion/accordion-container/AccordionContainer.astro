@@ -1,0 +1,29 @@
+---
+interface Props {
+  class?: string;
+  multiple?: boolean;
+}
+
+const { class: className, multiple = false, ...props } = Astro.props as Props;
+
+export { AccordionContainer };
+---
+
+<div
+  class:list={['accordion-container', className]}
+  {...props}
+  data-accordion-container
+  data-multiple={multiple}
+>
+  <slot />
+</div>
+
+<style lang='scss'>
+  .accordion-container {
+    display: flex;
+    flex-direction: column;
+    gap: rem(24px);
+  }
+</style>
+
+<script src='./index.js'></script>
