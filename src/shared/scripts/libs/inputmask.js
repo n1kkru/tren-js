@@ -7,7 +7,7 @@ export function inputmaskInit() {
   const myPhoneInputs = document.querySelectorAll('[data-mask-phone]')
   const im = new Inputmask('+7 (999) 999-99-99')
 
-  myPhoneInputs.forEach((myInput) => {
+  myPhoneInputs.forEach(myInput => {
     im.mask(myInput)
 
     myInput.inputmask.option({
@@ -19,7 +19,7 @@ export function inputmaskInit() {
 
         return processedValue
       },
-      showMaskOnHover: false,
+      showMaskOnHover: false
     })
   })
 }

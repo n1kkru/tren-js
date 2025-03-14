@@ -40,9 +40,9 @@ const updateParams = (initialSlider: Swiper, config: SwiperOptions, rewrite = fa
   const updatedParams: SwiperOptions = rewrite
     ? config
     : {
-      ...initialParams,
-      ...config
-    }
+        ...initialParams,
+        ...config
+      }
 
   const container: HTMLElement = initialSlider.el,
     newSlider: Swiper = new Swiper(container, updatedParams),

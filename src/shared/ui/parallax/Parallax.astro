@@ -1,22 +1,26 @@
 ---
 interface Props {
-  class?: string;
+  class?: string
 }
 
-const { class: className, ...props } = Astro.props as Props;
+const { class: className, ...props } = Astro.props as Props
 
-export { Parallax };
+export { Parallax }
 ---
 
-<div class:list={['parallax', className]} {...props} data-parallax-container>
+<div
+  class:list={['parallax', className]}
+  {...props}
+  data-parallax-container
+>
   <slot />
 </div>
 
-<style lang='scss'>
+<style lang="scss">
   .parallax {
     position: relative !important;
     overflow: hidden;
   }
 </style>
 
-<script src='./parallax.js'></script>
+<script src="./parallax.js"></script>

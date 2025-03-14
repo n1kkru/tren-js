@@ -12,9 +12,10 @@ body {
 }
 
 picture {
+  overflow: hidden;
   display: flex;
   align-items: center;
-  overflow: hidden;
+
   width: 100%;
   height: 100%;
 
@@ -42,11 +43,13 @@ picture {
 }
 
 svg {
+  overflow: visible;
   width: 100%;
   height: 100%;
-  overflow: visible;
 
   * {
+    transform-box: fill-box;
+
     &[fill] {
       fill: currentColor;
     }
@@ -54,8 +57,6 @@ svg {
     &[stroke] {
       stroke: currentColor;
     }
-
-    transform-box: fill-box;
   }
 }
 
@@ -66,8 +67,9 @@ input {
 }
 
 code {
-  font-family: monospace;
   padding-inline: rem(4px);
   border-radius: rem(4px);
+  font-family: monospace;
+
   @apply bg-gray text-white;
 }

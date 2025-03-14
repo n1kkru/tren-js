@@ -1,17 +1,16 @@
 .input {
-  position: relative;
-  display: block;
-  padding-bottom: rem(16px);
-  border-bottom: 3px solid;
   cursor: text;
 
-  @apply border-gray-light text-20;
+  position: relative;
+
+  display: block;
+
+  padding-bottom: rem(16px);
+  border-bottom: 3px solid;
 
   transition: border-color $transition;
 
-  &:focus-within {
-    @apply border-primary;
-  }
+  @apply border-gray-light text-20;
 
   @media #{media('>',d)} and (hover: hover) and (pointer: fine) {
     &:hover {
@@ -21,14 +20,19 @@
 
   @media #{media('<',d)} {
     border-bottom-width: 2px;
+
     @apply text-14;
   }
 
+  &:focus-within {
+    @apply border-primary;
+  }
+
   &__field {
+    display: block;
     width: 100%;
     height: 30px;
     background: none;
-    display: block;
 
     &::placeholder {
       user-select: none;
@@ -49,24 +53,31 @@
   &:has(input[disabled]) {
     pointer-events: none;
     cursor: auto;
+
     @apply border-gray-light text-secondary;
   }
 
   &__error {
-    position: absolute;
-    top: calc(100% + 4px);
-    height: fit-content;
-    transform: translateY(-4px);
     pointer-events: none;
     will-change: opacity, transform;
-    transition: opacity, transform $transition;
+
+    position: absolute;
+    top: calc(100% + 4px);
+    transform: translateY(-4px);
+
+    height: fit-content;
+
+    transition:
+      opacity,
+      transform $transition;
+
     @apply text-12 text-red;
 
     &:not(:empty),
     &.visible {
       pointer-events: auto;
-      opacity: 1;
       transform: translateY(0);
+      opacity: 1;
     }
   }
 }

@@ -1,14 +1,14 @@
 ---
-import type { ImageMetadata } from 'astro';
-import { getImage } from 'astro:assets';
+import type { ImageMetadata } from 'astro'
+import { getImage } from 'astro:assets'
 
 interface Props {
-  imgAttributes?: astroHTML.JSX.ImgHTMLAttributes;
-  class?: string;
-  desktopImage: ImageMetadata;
-  mobileImage?: ImageMetadata;
-  breakpoint?: number | string;
-  alt?: string;
+  imgAttributes?: astroHTML.JSX.ImgHTMLAttributes
+  class?: string
+  desktopImage: ImageMetadata
+  mobileImage?: ImageMetadata
+  breakpoint?: number | string
+  alt?: string
 }
 
 const {
@@ -19,42 +19,42 @@ const {
   breakpoint = 768,
   alt = '',
   ...props
-} = Astro.props as Props;
+} = Astro.props as Props
 
 // Если изображение импортировано как модуль, предполагаем наличие метаданных (width/height)
-const imageWidth = desktopImage.width;
-const imageHeight = desktopImage.height;
+const imageWidth = desktopImage.width
+const imageHeight = desktopImage.height
 
-const fallbackFormat = desktopImage.format;
+const fallbackFormat = desktopImage.format
 
 // Оптимизируем desktop-изображение
 const desktopWebp = await getImage({
   src: desktopImage,
   formats: ['webp'],
   widths: [imageWidth]
-});
-const desktopFallback = await getImage({ 
-    src: desktopImage, 
-    formats: [fallbackFormat],
-    widths: [imageWidth]
-  });
+})
+const desktopFallback = await getImage({
+  src: desktopImage,
+  formats: [fallbackFormat],
+  widths: [imageWidth]
+})
 
 // Если включена мобильная версия, обрабатываем её
-let mobileWebp, mobileFallback, mobileFallbackFormat;
+let mobileWebp, mobileFallback, mobileFallbackFormat
 if (mobileImage) {
-  const mobileImageWidth = mobileImage.width;
+  const mobileImageWidth = mobileImage.width
 
-  mobileFallbackFormat = mobileImage.format;
-  mobileWebp = await getImage({ 
+  mobileFallbackFormat = mobileImage.format
+  mobileWebp = await getImage({
     src: mobileImage,
     formats: ['webp'],
-    widths: [mobileImageWidth] 
-});
+    widths: [mobileImageWidth]
+  })
   mobileFallback = await getImage({
     src: mobileImage,
     formats: [mobileFallbackFormat],
     widths: [mobileImageWidth]
-  });
+  })
 }
 
 /**
@@ -63,32 +63,51 @@ if (mobileImage) {
  * @param bp Брейкпоинт (number или string)
  * @returns Числовое значение брейкпоинта
  */
-  const getBreakpointValue = (bp: number | string): number => {
-  return typeof bp === 'number' ? bp : parseInt(bp, 10);
+const getBreakpointValue = (bp: number | string): number => {
+  return typeof bp === 'number' ? bp : parseInt(bp, 10)
 }
 
-const breakpointStr = `(max-width: ${getBreakpointValue(breakpoint)}px)`;
+const breakpointStr = `(max-width: ${getBreakpointValue(breakpoint)}px)`
 ---
 
-<picture class:list={['picture', className]} {...props}>
-  {mobileWebp && mobileFallback && (
-    <>
-      <!-- Мобильная версия с media-запросом -->
-      <source media={breakpointStr} type="image/webp" srcset={mobileWebp.srcSet.attribute} />
-      <source media={breakpointStr} type={`image/${mobileFallbackFormat}`} srcset={mobileFallback.srcSet.attribute} />
-    </>
-  )}
-  
-  <!-- Desktop-версия -->
-  <source type="image/webp" srcset={desktopWebp.srcSet.attribute} />
-  <source type={`image/${fallbackFormat}`} srcset={desktopFallback.srcSet.attribute} />
-  
-  <!-- Fallback для браузеров, не поддерживающих <picture> -->
-  <img 
-    src={desktopFallback.src} 
-    alt={alt} 
-    {...(imageWidth ? { width: imageWidth } : {})}
-    {...(imageHeight ? { height: imageHeight } : {})}
+<picture
+  class:list={['picture', className]}
+  {...props}
+>
+  {
+    mobileWebp && mobileFallback && (
+      <>
+        {/* Мобильная версия с media-запросом */}
+        <source
+          media={breakpointStr}
+          type="image/webp"
+          srcset={mobileWebp.srcSet.attribute}
+        />
+        <source
+          media={breakpointStr}
+          type={`image/${mobileFallbackFormat}`}
+          srcset={mobileFallback.srcSet.attribute}
+        />
+      </>
+    )
+  }
+
+  {/* Desktop-версия */}
+  <source
+    type="image/webp"
+    srcset={desktopWebp.srcSet.attribute}
+  />
+  <source
+    type={`image/${fallbackFormat}`}
+    srcset={desktopFallback.srcSet.attribute}
+  />
+
+  {/* Fallback для браузеров, не поддерживающих <picture> */}
+  <img
+    src={desktopFallback.src}
+    alt={alt}
+    {...imageWidth ? { width: imageWidth } : {}}
+    {...imageHeight ? { height: imageHeight } : {}}
     loading="lazy"
     decoding="async"
     class:list={['picture__img', imgAttributes?.class]}

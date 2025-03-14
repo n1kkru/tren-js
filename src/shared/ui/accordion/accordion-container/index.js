@@ -15,7 +15,6 @@ const accordionInit = () => {
     triggerClass: 'accordion__trigger',
     activeClass: 'active',
     panelClass: 'accordion__content'
-
   }
 
   for (const element of accordionEls) {

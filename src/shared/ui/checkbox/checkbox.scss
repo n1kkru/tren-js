@@ -1,12 +1,12 @@
 .checkbox {
-  width: fit-content;
+  cursor: pointer;
+
+  position: relative;
 
   display: flex;
   gap: rem(12px);
 
-  position: relative;
-
-  cursor: pointer;
+  width: fit-content;
 
   @media #{media('<',d)} {
     width: 100%;
@@ -14,7 +14,7 @@
 
   @media #{media('>',d)} and (hover: hover) and (pointer: fine) {
     &:hover {
-      input:not(:checked)~.checkbox__box {
+      input:not(:checked) ~ .checkbox__box {
         border-color: #000000;
         background: #ffffff;
       }
@@ -23,15 +23,15 @@
 
   &__box {
     display: block;
+    flex-shrink: 0;
+
     width: 32px;
     height: 32px;
-
     border: 1px solid #e4e4e4;
+
     background: #f6f6f6;
 
     transition: $transition;
-
-    flex-shrink: 0;
 
     @media #{media('<',d)} {
       width: 24px;
@@ -45,17 +45,16 @@
       @apply text-white;
 
       path {
-        transition: $transition;
-
         stroke-dasharray: 25;
         stroke-dashoffset: 25;
+        transition: $transition;
       }
     }
   }
 
   &__text {
-    transition: color $transition;
     margin-top: 1px;
+    transition: color $transition;
     @include cropText(4);
 
     @media #{media('<',d)} {
@@ -64,18 +63,22 @@
   }
 
   input {
+    pointer-events: none;
+
     position: absolute;
+    z-index: -1;
     top: 0;
     left: 0;
+
     width: 0;
     height: 0;
-    z-index: -1;
+
     opacity: 0;
-    pointer-events: none;
   }
 
-  input:checked~&__box {
+  input:checked ~ &__box {
     @apply border-primary;
+
     @apply bg-primary;
 
     svg {
@@ -89,12 +92,13 @@
   }
 
   &:has(input:disabled) {
-    cursor: auto;
     pointer-events: none;
+    cursor: auto;
 
     .checkbox__box {
-      @apply border-gray-light;
       opacity: 0.5;
+
+      @apply border-gray-light;
     }
 
     .checkbox__text {

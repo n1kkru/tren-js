@@ -1,45 +1,73 @@
 ---
-import Footer from '@widgets/footer/Footer.astro';
-import Header from '@widgets/header/Header.astro';
+import Footer from '@widgets/footer/Footer.astro'
+import Header from '@widgets/header/Header.astro'
 
 interface Props {
-  pageName?: string;
-  props?: any;
+  pageName?: string
+  props?: any
 }
 
-const { pageName, ...props } = Astro.props as Props;
+const { pageName, ...props } = Astro.props as Props
 
-export { Layout };
+export { Layout }
 ---
 
 <!doctype html>
-<html lang='ru'>
+<html lang="ru">
   <head>
-    <meta charset='UTF-8' />
-    <meta name='viewport' content='width=device-width, initial-scale=1' />
-    <link rel='icon' type='image/svg+xml' href='/main/favicon.svg' />
-    <meta name='generator' content={Astro.generator} />
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1"
+    />
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="/main/favicon.svg"
+    />
+    <meta
+      name="generator"
+      content={Astro.generator}
+    />
 
-    <slot name='description'>
-      <meta name='description' content='Описание страницы' />
+    <slot name="description">
+      <meta
+        name="description"
+        content="Описание страницы"
+      />
     </slot>
 
-    <slot name='opengraph'>
-      <meta property='og:title' content='Название страницы' />
-      <meta property='og:description' content='Описание страницы' />
-      <meta property='og:image' content='https://example.com/image.jpg' />
-      <meta property='og:url' content='https://example.com' />
-      <meta property='og:type' content='website' />
+    <slot name="opengraph">
+      <meta
+        property="og:title"
+        content="Название страницы"
+      />
+      <meta
+        property="og:description"
+        content="Описание страницы"
+      />
+      <meta
+        property="og:image"
+        content="https://example.com/image.jpg"
+      />
+      <meta
+        property="og:url"
+        content="https://example.com"
+      />
+      <meta
+        property="og:type"
+        content="website"
+      />
     </slot>
 
     <title>{pageName}</title>
   </head>
   <body>
-    <div class='wrapper'>
+    <div class="wrapper">
       <Header />
       <main
-        class='page-container'
-        data-barba='container'
+        class="page-container"
+        data-barba="container"
         data-barba-namespace={pageName}
         {...props}
       >
@@ -55,4 +83,4 @@ export { Layout };
   @import './index.scss';
 </style>
 
-<script src='@shared/scripts/index.js'></script>
+<script src="@shared/scripts/index.js"></script>

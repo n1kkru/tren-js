@@ -3,23 +3,21 @@
     display: flex;
     flex-wrap: wrap;
     gap: rem(24px);
-
     padding: rem(24px);
 
     @media #{media('<',d)} {
+      overflow-x: auto;
       flex-wrap: nowrap;
       gap: rem(16px);
       padding: rem(16px);
-
-      overflow-x: auto;
       @include scrollbar-hidden();
     }
   }
 
   &__item {
     &-text {
-      transition: color $transition;
       white-space: nowrap;
+      transition: color $transition;
 
       &:not(.active) {
         @media #{media('>',d)} and (hover: hover) and (pointer: fine) {

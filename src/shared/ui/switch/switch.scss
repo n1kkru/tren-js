@@ -1,28 +1,21 @@
 .switch {
+  cursor: pointer;
+
   position: relative;
 
   display: flex;
+  flex-shrink: 0;
   gap: rem(24px);
   align-items: center;
   justify-content: space-between;
-
-  cursor: pointer;
-
-  flex-shrink: 0;
 
   @media #{media('<',d)} {
     gap: rem(12px);
   }
 
-  &:has(input:disabled) {
-    cursor: auto;
-    pointer-events: none;
-    opacity: 0.4;
-  }
-
   @media #{media('>',d)} and (hover: hover) and (pointer: fine) {
     &:hover {
-      input:not(:checked)~.switch__toggler {
+      input:not(:checked) ~ .switch__toggler {
         @apply border-primary;
 
         .switch__slider {
@@ -30,6 +23,48 @@
         }
       }
     }
+  }
+
+  @keyframes switch {
+    0% {
+      width: 22px;
+    }
+
+    50% {
+      right: 5px;
+      left: 5px;
+      width: 54px;
+    }
+
+    100% {
+      right: 5px;
+      left: 37px;
+      width: 22px;
+    }
+  }
+
+  @keyframes switch-back {
+    0% {
+      right: 5px;
+      left: 37px;
+      width: 22px;
+    }
+
+    50% {
+      right: 5px;
+      left: 5px;
+      width: 54px;
+    }
+
+    100% {
+      width: 22px;
+    }
+  }
+
+  &:has(input:disabled) {
+    pointer-events: none;
+    cursor: auto;
+    opacity: 0.4;
   }
 
   * {
@@ -41,99 +76,63 @@
   }
 
   &__toggler {
+    position: relative;
+
     display: block;
+    flex-shrink: 0;
 
     width: 64px;
     height: 32px;
-
     padding: 5px;
     border: 1px solid;
-
     border-radius: 32px;
 
-    position: relative;
-
-    flex-shrink: 0;
     @apply border-gray-light;
   }
 
   &__slider {
-    display: block;
-
-    height: 21px;
-    width: 21px;
-    border-radius: 23px;
-
     position: absolute;
     top: 50%;
-
+    right: auto;
     left: 5px;
     transform: translateY(-50%);
-    right: auto;
+
+    display: block;
+
+    width: 21px;
+    height: 21px;
+    border-radius: 23px;
 
     @apply bg-gray-light;
   }
 
   input {
+    pointer-events: none;
+
     position: absolute;
+    z-index: -1;
     top: 0;
     left: 0;
+
     width: 0;
     height: 0;
+
     opacity: 0;
-    z-index: -1;
-    pointer-events: none;
   }
 
-  input:checked~.switch__toggler {
+  input:checked ~ .switch__toggler {
     @apply border-primary;
 
     .switch__slider {
-      @apply bg-primary;
-
       animation: switch 0.5s cubic-bezier(0.33, 1, 0.68, 1) forwards;
+
+      @apply bg-primary;
     }
   }
 
-  input:not(:checked)~.switch__toggler {
+  input:not(:checked) ~ .switch__toggler {
     .switch__slider {
       animation: switch-back 0.5s cubic-bezier(0.33, 1, 0.68, 1) forwards;
-    }
-  }
-
-  @keyframes switch {
-    0% {
-      width: 22px;
-    }
-
-    50% {
-      width: 54px;
-      left: 5px;
-      right: 5px;
-    }
-
-    100% {
-      width: 22px;
-      right: 5px;
-      left: 37px;
-    }
-  }
-
-  @keyframes switch-back {
-    0% {
-      width: 22px;
-      right: 5px;
-      left: 37px;
-    }
-
-    50% {
-      width: 54px;
-      left: 5px;
-      right: 5px;
-    }
-
-    100% {
-      width: 22px;
     }
   }
 }

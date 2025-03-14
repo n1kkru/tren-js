@@ -13,22 +13,27 @@
 }
 
 .button {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: rem(12px);
-  transition: color, background-color $transition;
   user-select: none;
-  @apply text-title-20;
 
-  &[disabled] {
-    cursor: not-allowed;
-    opacity: 0.1;
-    pointer-events: none;
-  }
+  display: flex;
+  gap: rem(12px);
+  align-items: center;
+  justify-content: center;
+
+  transition:
+    color,
+    background-color $transition;
+
+  @apply text-title-20;
 
   @media #{media('<',d)} {
     @apply text-title-14;
+  }
+
+  &[disabled] {
+    pointer-events: none;
+    cursor: not-allowed;
+    opacity: 0.1;
   }
 
   &__icon {
@@ -37,8 +42,8 @@
     height: rem(32px);
 
     @media #{media('<',d)} {
-      height: rem(24px);
       width: rem(24px);
+      height: rem(24px);
     }
 
     svg {
@@ -53,37 +58,40 @@
 
       @media #{media('<',d)} {
         gap: rem(8px) !important;
+
         @apply text-title-16;
       }
     }
 
     &_contained {
       width: 100%;
-      transition: $transition;
       height: rem(100px);
       padding-inline: rem(24px);
+      transition: $transition;
 
       @media #{media('<',d)} {
+        gap: rem(24px) !important;
+        justify-content: space-between;
         height: rem(60px);
         padding-inline: rem(16px);
-        justify-content: space-between;
-        gap: rem(24px) !important;
       }
     }
 
     &_outlined {
-      border: 1px solid;
-      @apply border-primary;
+      justify-content: flex-start !important;
 
       width: 100%;
       height: rem(78px);
       padding-inline: rem(24px);
-      justify-content: flex-start !important;
+      border: 1px solid;
+
+      @apply border-primary;
       @include color-light;
 
       @media #{media('<',d)} {
         height: rem(56px);
         padding-inline: rem(16px);
+
         @apply text-title-16;
       }
     }
@@ -100,18 +108,18 @@
       }
 
       &.button_variant_text {
-        @apply text-primary bg-transparent;
+        @apply bg-transparent text-primary;
 
         @media #{media('>',d)} and (hover: hover) and (pointer: fine) {
           &:hover {
-            @apply text-gray bg-transparent;
+            @apply bg-transparent text-gray;
           }
         }
 
         &[disabled] {
+          pointer-events: none;
           cursor: not-allowed;
           opacity: 0.3;
-          pointer-events: none;
         }
       }
     }

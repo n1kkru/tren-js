@@ -10,7 +10,7 @@ const errorMessages = {
   number: 'Введите корректное число',
   textOnly: 'Введите корректное имя',
   textCyrillic: 'Только кириллица',
-  textEnglish: 'Только инглиш',
+  textEnglish: 'Только инглиш'
 }
 
 class InputValidator {
@@ -30,14 +30,9 @@ class InputValidator {
     this.wrapper = this.el.closest('[data-input-parent]')
 
     if (input.dataset.errorContainer) {
-      this.errorContainer = document.getElementById(
-        `${input.dataset.errorContainer}`
-      )
+      this.errorContainer = document.getElementById(`${input.dataset.errorContainer}`)
       this.errorContainer.classList.add('input__error')
-    } else
-      this.errorContainer = input.parentNode.querySelector(
-        '[data-error-container]'
-      )
+    } else this.errorContainer = input.parentNode.querySelector('[data-error-container]')
   }
 
   validate() {
@@ -77,8 +72,7 @@ class InputValidator {
             break
           case 'text-only':
             this.isValid =
-              validator.isAlpha(textValue, 'ru-RU') ||
-              validator.isAlpha(textValue, 'en-US')
+              validator.isAlpha(textValue, 'ru-RU') || validator.isAlpha(textValue, 'en-US')
             this.errorMessage = errorMessages.textOnly
             break
           case 'text-cyrillic':
@@ -138,15 +132,15 @@ export const validateFormInit = () => {
 
   inputmaskInit()
 
-  forms.forEach((form) => {
+  forms.forEach(form => {
     form.setAttribute('novalidate', '')
     const inputs = form.querySelectorAll('[data-validate]')
 
-    form.addEventListener('submit', (e) => {
+    form.addEventListener('submit', e => {
       e.preventDefault()
       let isValidForm = true
 
-      inputs.forEach((input) => {
+      inputs.forEach(input => {
         const inputValidator = new InputValidator(input)
 
         if (!inputValidator.validate()) isValidForm = false
@@ -158,7 +152,7 @@ export const validateFormInit = () => {
 function isValidFormByElement(form) {
   const inputs = form.querySelectorAll('[data-validate]')
   let isValidForm = true
-  inputs.forEach((input) => {
+  inputs.forEach(input => {
     const inputValidator = new InputValidator(input)
     if (!inputValidator.checkValid()) isValidForm = false
   })

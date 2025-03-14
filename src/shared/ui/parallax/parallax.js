@@ -8,7 +8,7 @@ const moveAttributesToChild = parent => {
 
   // Перенос классов
   if (parent.className) {
-    child.classList.add(...parent.className.split(' '));
+    child.classList.add(...parent.className.split(' '))
   }
 
   // Перенос data-атрибутов

@@ -4,7 +4,7 @@
     "@trivago/prettier-plugin-sort-imports",
     "prettier-plugin-tailwindcss"
   ],
-  "tailwindConfig": "tailwind.config.js",
+  "tailwindConfig": "tailwind.config.mjs",
   "printWidth": 100,
   "tabWidth": 2,
   "useTabs": false,
@@ -25,12 +25,7 @@
       }
     }
   ],
-  "importOrder": [
-    "^builtin",
-    "^external",
-    "^internal",
-    "^[./]"
-  ],
+  "importOrder": ["^builtin", "^external", "^internal", "^[./]"],
   "importOrderSeparation": true,
   "importOrderSortSpecifiers": true
 }

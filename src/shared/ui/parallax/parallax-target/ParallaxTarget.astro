@@ -1,12 +1,12 @@
 ---
 interface Props {
-  class?: string;
-  spead?: number;
+  class?: string
+  spead?: number
 }
 
-const { class: className, spead, ...props } = Astro.props as Props;
+const { class: className, spead, ...props } = Astro.props as Props
 
-export { ParallaxTarget };
+export { ParallaxTarget }
 ---
 
 <div
@@ -18,7 +18,7 @@ export { ParallaxTarget };
   <slot />
 </div>
 
-<style lang='scss'>
+<style lang="scss">
   .parallax-target {
     will-change: transform;
     position: absolute !important;

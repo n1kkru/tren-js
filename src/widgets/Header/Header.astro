@@ -1,19 +1,25 @@
 ---
 // import Logo from '@images/svg/astro.svg';
-export { Header };
+export { Header }
 ---
 
-<header class='header'>
-  <a href='#' class='logo'>
+<header class="header">
+  <a
+    href="#"
+    class="logo"
+  >
     <!-- <Logo /> -->
   </a>
 
   <nav>
-    <ul class='nav'>
+    <ul class="nav">
       {
         ['О компании', 'Услуги', 'Контакты', 'Блог'].map((link: string) => (
-          <li class='nav__item'>
-            <a class='nav__link' href='#'>
+          <li class="nav__item">
+            <a
+              class="nav__link"
+              href="#"
+            >
               {link}
             </a>
           </li>

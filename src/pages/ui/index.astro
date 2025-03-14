@@ -1,34 +1,35 @@
 ---
-import AccordionContainer from '@shared/ui/accordion/accordion-container/AccordionContainer.astro';
-import Accordion from '@shared/ui/accordion/Accordion.astro';
-import Author from '@shared/ui/author/Author.astro';
-import Breadcrumbs from '@shared/ui/breadcrumbs/Breadcrumbs.astro';
-import Button from '@shared/ui/buttons/button/Button.astro';
-import Checkbox from '@shared/ui/checkbox/Checkbox.astro';
-import Input from '@shared/ui/input/Input.astro';
-import Switch from '@shared/ui/switch/Switch.astro';
-import Textarea from '@shared/ui/textarea/Textarea.astro';
-import Layout from '@widgets/Layout/Layout.astro';
+import AccordionContainer from '@shared/ui/accordion/accordion-container/AccordionContainer.astro'
+import Accordion from '@shared/ui/accordion/Accordion.astro'
+import Author from '@shared/ui/author/Author.astro'
+import Breadcrumbs from '@shared/ui/breadcrumbs/Breadcrumbs.astro'
+import Button from '@shared/ui/buttons/button/Button.astro'
+import Checkbox from '@shared/ui/checkbox/Checkbox.astro'
+import Input from '@shared/ui/input/Input.astro'
+import Switch from '@shared/ui/switch/Switch.astro'
+import Textarea from '@shared/ui/textarea/Textarea.astro'
+import Layout from '@widgets/layout/Layout.astro'
 ---
 
-<Layout pageName='ui'>
-  <div class='flex flex-col gap-20'>
-    <h1 class='text-title-100 devices:text-title-40 px-4'>
-      Примеры UI компонентов проекта
-    </h1>
+<Layout pageName="ui">
+  <div class="flex flex-col gap-20">
+    <h1 class="px-4 text-title-100 devices:text-title-40">Примеры UI компонентов проекта</h1>
 
-    <div class='flex flex-col gap-16'>
+    <div class="flex flex-col gap-16">
       <section>
         <p>Multiple</p>
 
         <AccordionContainer multiple>
-          <Accordion title='Accordion 1' expanded>
+          <Accordion
+            title="Accordion 1"
+            expanded
+          >
             <p>Accordion content 1</p>
           </Accordion>
-          <Accordion title='Accordion 2'>
+          <Accordion title="Accordion 2">
             <p>Accordion content 2</p>
           </Accordion>
-          <Accordion title='Accordion 3'>
+          <Accordion title="Accordion 3">
             <p>Accordion content 3</p>
           </Accordion>
         </AccordionContainer>
@@ -38,13 +39,16 @@ import Layout from '@widgets/Layout/Layout.astro';
         <p>Not multiple</p>
 
         <AccordionContainer>
-          <Accordion title='Accordion 1'>
+          <Accordion title="Accordion 1">
             <p>Accordion content 1</p>
           </Accordion>
-          <Accordion title='Accordion 2' expanded>
+          <Accordion
+            title="Accordion 2"
+            expanded
+          >
             <p>Accordion content 2</p>
           </Accordion>
-          <Accordion title='Accordion 3'>
+          <Accordion title="Accordion 3">
             <p>Accordion content 3</p>
           </Accordion>
         </AccordionContainer>
@@ -60,34 +64,58 @@ import Layout from '@widgets/Layout/Layout.astro';
             { text: 'Каталог', href: '#' },
             { text: 'Посуда', href: '#' },
             { text: 'Сковороды', href: '#' },
-            { text: 'Сковорода Шеф Бернардо', href: '#' },
+            { text: 'Сковорода Шеф Бернардо', href: '#' }
           ]}
         />
       </section>
 
       <section>
-        <Button href='#' variant='text'>Ссылка text</Button>
-        <Button variant='contained'>Кнопка contained</Button>
-        <Button variant='contained' color='light'>Кнопка contained light</Button
+        <Button
+          href="#"
+          variant="text"
+          >Ссылка text</Button
         >
-        <Button variant='outlined'>Кнопка outlined</Button>
+        <Button variant="contained">Кнопка contained</Button>
+        <Button
+          variant="contained"
+          color="light"
+          >Кнопка contained light</Button
+        >
+        <Button variant="outlined">Кнопка outlined</Button>
       </section>
 
       <section>
-        <Checkbox label='Checkbox' />
-        <Checkbox name={'checkbox'} checked={true}
-          >Checkbox с вложенной <a href='#' class='text-blue hover:text-red'
+        <Checkbox label="Checkbox" />
+        <Checkbox
+          name={'checkbox'}
+          checked={true}
+          >Checkbox с вложенной <a
+            href="#"
+            class="text-blue hover:text-red"
             >ссылкой</a
           ></Checkbox
         >
-        <Checkbox label='Checkbox disabled' disabled />
+        <Checkbox
+          label="Checkbox disabled"
+          disabled
+        />
       </section>
 
-      <section class='w-1/4'>
-        <Switch label='Switch' />
-        <Switch label='Switch' checked />
-        <Switch label='Switch' disabled />
-        <Switch label='Switch' checked disabled />
+      <section class="w-1/4">
+        <Switch label="Switch" />
+        <Switch
+          label="Switch"
+          checked
+        />
+        <Switch
+          label="Switch"
+          disabled
+        />
+        <Switch
+          label="Switch"
+          checked
+          disabled
+        />
         <Switch>Switch без label</Switch>
       </section>
 

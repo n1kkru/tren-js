@@ -1,7 +1,6 @@
 // @ts-check
-import { defineConfig } from "astro/config";
-
-import tailwind from "@astrojs/tailwind";
+import tailwind from '@astrojs/tailwind'
+import { defineConfig } from 'astro/config'
 
 // https://astro.build/config
 export default defineConfig({
@@ -11,7 +10,7 @@ export default defineConfig({
   },
 
   devToolbar: {
-    enabled: false,
+    enabled: false
   },
 
   compressHTML: false,
@@ -25,9 +24,9 @@ export default defineConfig({
           additionalData: `
             @import '@shared/styles/global/config';
             @import '@shared/styles/global/mixins';
-          `,
-        },
-      },
-    },
-  },
-});
+          `
+        }
+      }
+    }
+  }
+})

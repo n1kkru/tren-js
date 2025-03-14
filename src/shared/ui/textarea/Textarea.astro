@@ -1,21 +1,26 @@
 ---
 interface Props extends astroHTML.JSX.TextareaHTMLAttributes {
-  class?: string;
+  class?: string
 }
 
-const { class: className, ...props } = Astro.props as Props;
+const { class: className, ...props } = Astro.props as Props
 ---
 
-<div data-input-parent class='textarea__wrapper'>
-  <div class='textarea__inner'>
+<div
+  data-input-parent
+  class="textarea__wrapper"
+>
+  <div class="textarea__inner">
     <textarea
-      class:list={[
-        'textarea text-primary border-gray-light placeholder text-20 devices:text-14',
-      ]}
+      class:list={['textarea placeholder border-gray-light text-20 text-primary devices:text-14']}
       data-input
-      {...props}></textarea>
+      {...props}
+    ></textarea>
   </div>
-  <span class='textarea__error text-red' data-error-container></span>
+  <span
+    class="textarea__error text-red"
+    data-error-container
+  ></span>
 </div>
 
 <style>

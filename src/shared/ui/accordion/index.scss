@@ -3,8 +3,11 @@
     display: flex;
     gap: rem(12px);
     align-items: center;
+
     width: 100%;
+
     transition: color $transition;
+
     @apply text-title-32 text-primary;
 
     @media #{media('>',d)} and (hover: hover) and (pointer: fine) {
@@ -15,6 +18,7 @@
 
     @media #{media('<',d)} {
       gap: rem(8px);
+
       @apply text-title-16;
     }
   }
@@ -40,11 +44,13 @@
     overflow: hidden;
     padding-top: rem(24px);
     padding-left: rem(44px);
+
     @apply text-20;
 
     @media #{media('<',d)} {
       padding-top: rem(16px);
       padding-left: 0;
+
       @apply text-14;
     }
   }

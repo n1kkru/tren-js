@@ -1,21 +1,21 @@
-import { validateFormInit } from "./components/custom-validator";
-import { hoverControlledSlider } from "./components/hover-slider";
-import { initSliders } from "./components/slider";
-import config from "./config";
+import { validateFormInit } from './components/custom-validator'
+import { hoverControlledSlider } from './components/hover-slider'
+import { initSliders } from './components/slider'
+import config from './config'
 
-document.addEventListener("DOMContentLoaded", () => {
-  commonFunction();
-});
+document.addEventListener('DOMContentLoaded', () => {
+  commonFunction()
+})
 
 export const commonFunction = () => {
   // libs config
-  config();
+  config()
 
   // components
-  initSliders();
+  initSliders()
 
-  validateFormInit();
-  hoverControlledSlider();
-};
+  validateFormInit()
+  hoverControlledSlider()
+}
 
-console.info(import.meta.env);
+console.info(import.meta.env)

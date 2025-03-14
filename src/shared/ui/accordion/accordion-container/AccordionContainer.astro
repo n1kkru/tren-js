@@ -1,12 +1,12 @@
 ---
 interface Props {
-  class?: string;
-  multiple?: boolean;
+  class?: string
+  multiple?: boolean
 }
 
-const { class: className, multiple = false, ...props } = Astro.props as Props;
+const { class: className, multiple = false, ...props } = Astro.props as Props
 
-export { AccordionContainer };
+export { AccordionContainer }
 ---
 
 <div
@@ -18,7 +18,7 @@ export { AccordionContainer };
   <slot />
 </div>
 
-<style lang='scss'>
+<style lang="scss">
   .accordion-container {
     display: flex;
     flex-direction: column;
@@ -26,4 +26,4 @@ export { AccordionContainer };
   }
 </style>
 
-<script src='./index.js'></script>
+<script src="./index.js"></script>

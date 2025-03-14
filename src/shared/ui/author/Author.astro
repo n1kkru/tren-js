@@ -1,18 +1,24 @@
 ---
-import Logo from '@shared/assets/images/svg/cloudmill-logo.svg';
+import Logo from '@shared/assets/images/svg/cloudmill-logo.svg'
 
 interface Props {
-  class?: string;
+  class?: string
 }
 
-const { class: className, ...props } = Astro.props as Props;
+const { class: className, ...props } = Astro.props as Props
 
-export { Author };
+export { Author }
 ---
 
-<p class:list={['author', className]} {...props}>
+<p
+  class:list={['author', className]}
+  {...props}
+>
   <span>Сделано в</span>
-  <a href='https://cloudmill.ru' class='author__logo'>
+  <a
+    href="https://cloudmill.ru"
+    class="author__logo"
+  >
     <Logo />
   </a>
 </p>

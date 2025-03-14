@@ -1,20 +1,15 @@
 ---
-import CloseIcon from '@shared/assets/images/svg/close.svg';
+import CloseIcon from '@shared/assets/images/svg/close.svg'
 
 interface Props {
-  class?: string;
-  expanded?: boolean;
-  title: string;
+  class?: string
+  expanded?: boolean
+  title: string
 }
 
-const {
-  class: className,
-  expanded = false,
-  title,
-  ...props
-} = Astro.props as Props;
+const { class: className, expanded = false, title, ...props } = Astro.props as Props
 
-export { Accordion };
+export { Accordion }
 ---
 
 <div
@@ -23,17 +18,23 @@ export { Accordion };
   data-accordion
   data-expanded={expanded}
 >
-  <h3 class='accordion__header'>
-    <button type='button' class='accordion__trigger'>
-      <span class='accordion__icon'>
+  <h3 class="accordion__header">
+    <button
+      type="button"
+      class="accordion__trigger"
+    >
+      <span class="accordion__icon">
         <CloseIcon />
       </span>
-      <span class='accordion__title' set:html={title} />
+      <span
+        class="accordion__title"
+        set:html={title}
+      />
     </button>
   </h3>
 
-  <div class='accordion__content'>
-    <div class='accordion__content-inner'>
+  <div class="accordion__content">
+    <div class="accordion__content-inner">
       <slot />
     </div>
   </div>

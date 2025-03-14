@@ -30,15 +30,15 @@ a {
 }
 
 button {
+  cursor: pointer;
   border: none;
   background: none;
-  cursor: pointer;
 }
 
 input {
   border: none;
-  outline: none;
   background: none;
+  outline: none;
 
   &::placeholder {
     opacity: 1;

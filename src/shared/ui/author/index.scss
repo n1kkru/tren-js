@@ -1,19 +1,21 @@
 .author {
   display: flex;
-  align-items: center;
   gap: rem(8px);
+  align-items: center;
   width: fit-content;
+
   @apply text-16 uppercase;
 
   @media #{media('<',d)} {
     gap: 4px;
+
     @apply text-12;
   }
 
   &__logo {
     flex-shrink: 0;
-    height: 12px;
     width: fit-content;
+    height: 12px;
     transition: color $transition;
 
     @media #{media('<',d)} {
