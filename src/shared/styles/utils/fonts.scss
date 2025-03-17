@@ -4,8 +4,8 @@
   font-style: normal;
   font-display: swap;
   src:
-    url('./fonts/SuisseIntl-Light.woff2') format('woff2'),
-    url('./fonts/SuisseIntl-Light.woff') format('woff');
+    url('/main/fonts/SuisseIntl-Light.woff2') format('woff2'),
+    url('/main/fonts/SuisseIntl-Light.woff') format('woff');
 }
 
 @font-face {
@@ -14,6 +14,6 @@
   font-style: normal;
   font-display: swap;
   src:
-    url('./fonts/SuisseIntl-SemiBold.woff2') format('woff2'),
-    url('./fonts/SuisseIntl-SemiBold.woff') format('woff');
+    url('/main/fonts/SuisseIntl-SemiBold.woff2') format('woff2'),
+    url('/main/fonts/SuisseIntl-SemiBold.woff') format('woff');
 }
