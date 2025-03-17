@@ -1,6 +1,6 @@
 ---
 import Button from '@shared/ui/buttons/button/Button.astro'
-import Layout from '@widgets/Layout/Layout.astro'
+import Layout from '@widgets/layout/Layout.astro'
 
 const pages = [
   {
@@ -22,7 +22,6 @@ const pages = [
       pages.map(page => (
         <Button
           href={`/main/${page.href}`}
-          theme="spaced"
           class="w-fit"
         >
           {page.title}
