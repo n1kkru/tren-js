@@ -1,6 +1,7 @@
 ---
 interface Props extends astroHTML.JSX.InputHTMLAttributes {
   class?: string
+  'data-validate'?: string
 }
 
 const { class: className, ...props } = Astro.props as Props

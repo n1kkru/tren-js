@@ -2,112 +2,154 @@
 import type { ImageMetadata } from 'astro'
 import { getImage } from 'astro:assets'
 
-interface Props {
-  imgAttributes?: astroHTML.JSX.ImgHTMLAttributes
-  class?: string
-  desktopImage: ImageMetadata
-  mobileImage?: ImageMetadata
-  breakpoint?: number | string
-  alt?: string
-}
-
-const {
-  imgAttributes,
-  class: className,
-  desktopImage,
-  mobileImage,
-  breakpoint = 768,
-  alt = '',
-  ...props
-} = Astro.props as Props
-
-// Если изображение импортировано как модуль, предполагаем наличие метаданных (width/height)
-const imageWidth = desktopImage.width
-const imageHeight = desktopImage.height
-
-const fallbackFormat = desktopImage.format
-
-// Оптимизируем desktop-изображение
-const desktopWebp = await getImage({
-  src: desktopImage,
-  formats: ['webp'],
-  widths: [imageWidth]
-})
-const desktopFallback = await getImage({
-  src: desktopImage,
-  formats: [fallbackFormat],
-  widths: [imageWidth]
-})
-
-// Если включена мобильная версия, обрабатываем её
-let mobileWebp, mobileFallback, mobileFallbackFormat
-if (mobileImage) {
-  const mobileImageWidth = mobileImage.width
-
-  mobileFallbackFormat = mobileImage.format
-  mobileWebp = await getImage({
-    src: mobileImage,
-    formats: ['webp'],
-    widths: [mobileImageWidth]
-  })
-  mobileFallback = await getImage({
-    src: mobileImage,
-    formats: [mobileFallbackFormat],
-    widths: [mobileImageWidth]
-  })
+/**
+ * Тип описывает один вариант картинки и брейкпоинт,
+ * при котором она должна срабатывать.
+ */
+interface ResponsiveSource {
+  /** Метаданные импортированной картинки (import img from '~/assets/...') */
+  image: ImageMetadata
+  /** Брейкпоинт в пикселях (число или строка, например '768' / '768px') */
+  breakpoint: number | string
 }
 
 /**
- * Функция для извлечения числового значения из breakpoint.
- * Позволяет передавать breakpoint как число или строку (например, "768px" или "768").
- * @param bp Брейкпоинт (number или string)
- * @returns Числовое значение брейкпоинта
+ * Основные пропсы компонента
  */
-const getBreakpointValue = (bp: number | string): number => {
+interface Props {
+  /** Массив с перечислением картинок и брейкпоинтов */
+  sources?: ResponsiveSource[]
+  /** Картинка, которая будет fallback в случае отсутствия поддержки <picture> и основной по умолчанию */
+  image: ImageMetadata
+  /** Альтернативный текст (обязательно указывать для доступности) */
+  alt?: string
+  /** Доп. атрибуты для тега \<img\> */
+  imgAttributes?: astroHTML.JSX.ImgHTMLAttributes
+  /** CSS-класс для внешнего \<picture\> (обёртки) */
+  class?: string
+}
+
+const {
+  sources = [],
+  image,
+  alt = '',
+  imgAttributes,
+  class: className,
+  ...props
+} = Astro.props as Props
+
+/**
+ * Функция для извлечения числового значения из breakpoint
+ * Позволяет передавать breakpoint как число, так и строку, например "768px".
+ */
+function getBreakpointValue(bp: number | string): number {
   return typeof bp === 'number' ? bp : parseInt(bp, 10)
 }
 
-const breakpointStr = `(max-width: ${getBreakpointValue(breakpoint)}px)`
+/**
+ * Готовим массив источников (sources).
+ * 1. Сортируем по возрастанию, чтобы сначала шли мобильные (маленькие) брейкпоинты,
+ *    потом таблет, а в конце десктоп.
+ * 2. Для каждого источника заранее генерируем webp- и fallback-формат.
+ */
+const sortedSources = sources
+  // Сортируем по возрастанию, чтобы мелкие экраны были вверху
+  .sort((a, b) => getBreakpointValue(a.breakpoint) - getBreakpointValue(b.breakpoint))
+
+// Генерируем для каждого источника оптимизированные изображения
+const preparedSources = await Promise.all(
+  sortedSources.map(async entry => {
+    const { image, breakpoint } = entry
+
+    // Ширину берем из метаданных
+    const width = image.width
+    // Определяем формат исходника
+    const fallbackFormat = image.format
+
+    // Генерируем webp
+    const webpResult = await getImage({
+      src: image,
+      formats: ['webp'],
+      widths: [width]
+    })
+    // Генерируем fallback (исходный формат, например jpg/png/avif и т.д.)
+    const fallbackResult = await getImage({
+      src: image,
+      formats: [fallbackFormat],
+      widths: [width]
+    })
+
+    return {
+      breakpointValue: getBreakpointValue(breakpoint),
+      breakpointMedia: `(max-width: ${getBreakpointValue(breakpoint)}px)`,
+      webp: webpResult.srcSet.attribute,
+      fallback: fallbackResult.srcSet.attribute,
+      fallbackFormat
+    }
+  })
+)
+
+/**
+ * Аналогично обрабатываем fallbackImage — это наша "основная" картинка (без media).
+ */
+const fallbackImageWidth = image.width
+const fallbackImageHeight = image.height
+const fallbackImageFormat = image.format
+
+const fallbackWebp = await getImage({
+  src: image,
+  formats: ['webp'],
+  widths: [fallbackImageWidth]
+})
+const fallbackImg = await getImage({
+  src: image,
+  formats: [fallbackImageFormat],
+  widths: [fallbackImageWidth]
+})
+
+export { Picture }
 ---
 
 <picture
   class:list={['picture', className]}
   {...props}
 >
+  {/* Перебираем каждый источник и рендерим <source> для webp и fallback формата */}
   {
-    mobileWebp && mobileFallback && (
+    preparedSources.map(srcObj => (
       <>
-        {/* Мобильная версия с media-запросом */}
         <source
-          media={breakpointStr}
+          media={srcObj.breakpointMedia}
           type="image/webp"
-          srcset={mobileWebp.srcSet.attribute}
+          srcset={srcObj.webp}
         />
         <source
-          media={breakpointStr}
-          type={`image/${mobileFallbackFormat}`}
-          srcset={mobileFallback.srcSet.attribute}
+          media={srcObj.breakpointMedia}
+          type={`image/${srcObj.fallbackFormat}`}
+          srcset={srcObj.fallback}
         />
       </>
-    )
+    ))
   }
 
-  {/* Desktop-версия */}
+  {/* Без media-условия: "дефолтный" webp для всех устройств, если ничего не подошло выше */}
   <source
     type="image/webp"
-    srcset={desktopWebp.srcSet.attribute}
-  />
-  <source
-    type={`image/${fallbackFormat}`}
-    srcset={desktopFallback.srcSet.attribute}
+    srcset={fallbackWebp.srcSet.attribute}
   />
 
-  {/* Fallback для браузеров, не поддерживающих <picture> */}
+  {/* Дефолтный fallback (например jpg) */}
+  <source
+    type={`image/${fallbackImageFormat}`}
+    srcset={fallbackImg.srcSet.attribute}
+  />
+
+  {/* Fallback-картинка в <img> на случай, если браузер не поддерживает <picture> */}
   <img
-    src={desktopFallback.src}
+    src={fallbackImg.src}
     alt={alt}
-    {...imageWidth ? { width: imageWidth } : {}}
-    {...imageHeight ? { height: imageHeight } : {}}
+    width={fallbackImageWidth}
+    height={fallbackImageHeight}
     loading="lazy"
     decoding="async"
     class:list={['picture__img', imgAttributes?.class]}

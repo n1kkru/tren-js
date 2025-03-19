@@ -1,66 +1,26 @@
 .textarea {
-  $this: &;
-
-  resize: none;
-  // font-size: rem(20px);
-  // font-style: normal;
-  // font-weight: 300;
-  // line-height: rem(30px);
-  // letter-spacing: -0.2px;
-  display: block;
-
-  width: 100%;
-  height: 110px;
-  padding-bottom: rem(16px);
-
-  font-family: $font;
-
-  background: none;
+  cursor: text;
+  position: relative;
+  height: rem(110px);
 
   @media #{media('<',d)} {
-    height: 100px;
+    height: rem(100px);
   }
 
-  // @media #{media('<',d)} {
-  //   font-size: rem(14px);
-  // }
-
-  // &__row {
-  //   border-bottom: 3px solid;
-  //   width: 100%;
-  //   padding-bottom: rem(16px);
-  //   &::placeholder {
-  //     color: black;
-  //   }
-  //   &:focus::placeholder {
-  //     visibility: hidden;
-  //   }
-  // }
-
-  &__error {
-    will-change: height, opacity;
-
-    overflow: hidden;
-
-    height: fit-content;
-    max-height: 0;
-
-    transition: $transition;
-    transition-duration: 2s;
-
-    &:not(:empty),
-    &.visible {
-      max-height: 100px;
-    }
+  &:has(.textarea__error.visible) .textarea__field {
+    @apply border-primary;
   }
 
-  &__inner {
-    cursor: text;
-    display: block;
-    border-bottom: rem(3px) solid;
+  &__field {
+    padding-bottom: 13px;
+    border-bottom: 3px solid;
     transition: border-color $transition;
-
-    @apply border-gray-light;
+    display: block;
+    resize: none;
+    width: 100%;
+    height: 100%;
+    background: none;
+    @apply border-gray-light text-20;
 
     @media #{media('>',d)} and (hover: hover) and (pointer: fine) {
       &:hover {
@@ -69,19 +29,59 @@
     }
 
     @media #{media('<',d)} {
+      padding-bottom: 14px;
       border-bottom-width: 2px;
+      @apply text-14;
     }
 
-    &:focus-within {
+    &::placeholder {
+      user-select: none;
+      color: inherit;
+      transition: opacity $transition-timing-function 0.2s;
+    }
+
+    &:focus {
       @apply border-primary;
+
+      &::placeholder {
+        opacity: 0;
+      }
+    }
+
+    &[disabled] {
+      pointer-events: none;
+      cursor: auto;
+
+      @apply border-gray-light text-secondary;
     }
   }
-}
 
-[data-input-parent] {
-  &.error {
-    .textarea__inner {
-      @apply border-primary;
+  &__error {
+    pointer-events: none;
+    will-change: opacity, transform;
+
+    position: absolute;
+    top: calc(100% + 4px);
+    transform: translateY(-4px);
+
+    height: fit-content;
+
+    transition:
+      opacity,
+      transform $transition;
+
+    @apply text-12 text-red;
+
+    @media #{media('<',d)} {
+      top: calc(100% + 2px);
+      transform: translateY(-2px);
+    }
+
+    &:not(:empty),
+    &.visible {
+      pointer-events: auto;
+      transform: translateY(0);
+      opacity: 1;
     }
   }
 }

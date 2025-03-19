@@ -1,6 +1,7 @@
 ---
 interface Props extends astroHTML.JSX.TextareaHTMLAttributes {
   class?: string
+  'data-validate'?: string
 }
 
 const { class: className, ...props } = Astro.props as Props
@@ -8,15 +9,13 @@ const { class: className, ...props } = Astro.props as Props
 
 <div
   data-input-parent
-  class="textarea__wrapper"
+  class="textarea"
 >
-  <div class="textarea__inner">
-    <textarea
-      class:list={['textarea placeholder border-gray-light text-20 text-primary devices:text-14']}
-      data-input
-      {...props}
-    ></textarea>
-  </div>
+  <textarea
+    class:list={['textarea__field', className]}
+    data-input
+    {...props}
+  ></textarea>
   <span
     class="textarea__error text-red"
     data-error-container

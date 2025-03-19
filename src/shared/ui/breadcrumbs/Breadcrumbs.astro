@@ -1,10 +1,16 @@
 ---
 interface Props {
   class?: string
-  list?: Array<{ text: string; href: string }>
+  root?: { text: string; href: string }
+  list?: Array<{ text: string; href?: string }>
 }
 
-const { class: className, list = [], ...props } = Astro.props as Props
+const {
+  class: className,
+  root = { text: 'Главная', href: '/' },
+  list = [],
+  ...props
+} = Astro.props as Props
 
 export { Breadcrumbs }
 ---
@@ -16,9 +22,9 @@ export { Breadcrumbs }
   <ul class="breadcrumbs__list text-title-20 devices:text-title-16">
     <li class="breadcrumbs__item">
       <a
-        href="/"
+        href={root.href}
         class="breadcrumbs__item-text"
-        >Главная</a
+        >{root.text}</a
       >
     </li>
 
@@ -29,7 +35,7 @@ export { Breadcrumbs }
             <span class="breadcrumbs__item-text active">{item.text}</span>
           ) : (
             <a
-              href={item.href}
+              href={item.href ?? '#'}
               class="breadcrumbs__item-text"
             >
               {item.text}
