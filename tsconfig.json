@@ -1,16 +1,24 @@
 {
   "extends": "astro/tsconfigs/strict",
-  "include": [".astro/types.d.ts", "**/*"],
-  "exclude": ["dist"],
+  "include": [".astro/types.d.ts", "**/*.ts", "src/**/*.ts", "src/**/*.tsx", "src/**/*.astro"],
+  "exclude": ["dist", "node_modules"],
   "compilerOptions": {
+    "allowJs": true,
+    "jsx": "preserve",
     "baseUrl": ".",
+    "noEmit": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true,
+    "moduleResolution": "node",
+    "types": ["astro/env"],
     "paths": {
       "@shared/*": ["src/shared/*"],
       "@widgets/*": ["src/widgets/*"],
       "@entities/*": ["src/entities/*"],
       "@pages/*": ["src/pages/*"],
       "@features/*": ["src/features/*"],
-      "@components/*": ["src/components/*"],
       "@assets/*": ["src/shared/assets/*"],
       "@images/*": ["src/shared/assets/images/*"]
     }
