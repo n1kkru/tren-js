@@ -1,48 +1,89 @@
-# Astro Starter Kit: Basics
+# Документация по сборщику
 
-```sh
-npm create astro@latest -- --template basics
-```
+## 🚀 Структура проекта
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/basics)
-[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/withastro/astro/tree/latest/examples/basics)
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/withastro/astro?devcontainer_path=.devcontainer/basics/devcontainer.json)
-
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
-
-![just-the-basics](https://github.com/withastro/astro/assets/2244813/a0a5533c-a856-4198-8470-2d67b1d7c554)
-
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
+Внутри проекта вы увидите следующие папки и файлы:
 
 ```text
 /
 ├── public/
+│   └── images/
 │   └── favicon.svg
 ├── src/
-│   ├── layouts/
-│   │   └── Layout.astro
+│   ├── shared/
+│   │   └── scripts/
+│   │   └── styles/
+│   │   └── ui/
 │   └── pages/
 │       └── index.astro
+│   └── widgets/
+└── .gitignore
+└── .prettierignore
+└── .prettierrc
+└── .stylelintignore
+└── .stylelintrc.json
+└── astro.config.mjs
+└── createComponent.mjs
+└── createPage.mjs
 └── package.json
+└── tailwind.config.mjs
+└── tsconfig.json
 ```
 
-To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
+Используется архитектура Feature Sliced Design, подробнее - в [документации](https://feature-sliced.github.io/documentation/ru/docs/get-started/overview)
 
-## 🧞 Commands
 
-All commands are run from the root of the project, from a terminal:
+## 🧞 Команды
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+Все команды выполняются из корневого каталога проекта, из терминала:
 
-## 👀 Want to learn more?
+| Команда | Действие |
+|:---|:---|
+| `npm install` | Установка зависимостей |
+| `npm run dev` | Запускает локальный dev сервер |
+| `npm run build` | Собирает сайт для продакшена в папку `./dist/` |
+| `npm run preview` | Предварительный просмотр вашей сборки локально |
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+
+---
+
+| Команда | Действие |
+|----|----|
+| `npm run shared` | Добавление shared-компонента |
+| `npm run widgets` | Добавление widget-компонента |
+| `npm run pages` | Добавление новой страницы |
+| `npm run page-comp` | Добавление компонента для выбранной страницы |
+
+
+---
+
+| Команда | Действие |
+|----|----|
+| `npm run stylelint` | Проверка стилей на соответствие правилам \`stylelint\` |
+| `npm run stylelint:fix` | Автоматическое исправление нарушений \`stylelint\` |
+| `npm run prettier` | Проверка форматирования файлов с помощью \`prettier\` |
+| `npm run prettier:fix` | Форматирование файлов с помощью \`prettier\` |
+
+
+## 🛠 Генерация компонентов
+
+В сборщике есть команды для быстрой генерации компонентов и страниц.
+
+### Как использовать:
+
+
+1. `yarn shared <путь/до/компонента>`\nСоздаёт компонент в shared. Название последней папки — это имя компонента. Внутри автоматически создаются .astro и .scss файлы с шаблонным содержанием.
+2. `yarn widgets <путь/до/компонента>`\nРаботает так же, как shared, но кладёт компонент в папку widgets.
+3. `yarn pages <путь/до/страницы>`\nСоздаёт новую страницу. Структура и контент отличаются от shared/widgets.
+4. `yarn page-comp <путь/до/страницы> <путь/до/компонента>`\nСоздаёт компонент внутри папки _components выбранной страницы.
+
+> Если ты запустишь команду без нужных параметров, в консоли появится интерактивная инструкция.\nНапример, просто `yarn shared` — и в терминале будет предложено ввести путь.
+>
+> А при `yarn page-comp` будет предложено сначала выбрать страницу из списка
+
+Можно запускать команды из панели в VS Code — всё интерактивно, запоминать ничего не нужно.
+
+
+## 👀 Где искать ответы на вопросы?
+
+В первую очередь - в [официальной документации Astro](https://docs.astro.build).
