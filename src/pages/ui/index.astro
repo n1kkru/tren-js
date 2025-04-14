@@ -6,6 +6,7 @@ import Breadcrumbs from '@shared/ui/breadcrumbs/Breadcrumbs.astro'
 import Button from '@shared/ui/buttons/button/Button.astro'
 import Checkbox from '@shared/ui/checkbox/Checkbox.astro'
 import Input from '@shared/ui/input/Input.astro'
+import Form from '@shared/ui/form/form.astro'
 import Switch from '@shared/ui/switch/Switch.astro'
 import Textarea from '@shared/ui/textarea/Textarea.astro'
 import Layout from '@widgets/layout/Layout.astro'
@@ -14,6 +15,335 @@ import Layout from '@widgets/layout/Layout.astro'
 <Layout pageName="ui">
   <div class="flex flex-col gap-20">
     <h1 class="px-4 text-title-100 devices:text-title-40">Примеры UI компонентов проекта</h1>
+
+    <div class="border-gray-400 border border-solid p-5">
+      <h2 class="text-2xl mb-10 text-center font-bold">
+        Работа с формами
+        <br />
+        <span class="text-xl font-normal">window.frontApi.form</span>
+      </h2>
+
+      <div class="overflow-x-auto">
+        <table class="w-full border-collapse">
+          <thead class="bg-gray-100">
+            <tr>
+              <th class="border-gray-300 border p-3 text-left">Метод</th>
+              <th class="border-gray-300 border p-3 text-left">Описание</th>
+              <th class="border-gray-300 border p-3 text-left">Параметры</th>
+              <th class="border-gray-300 border p-3 text-left">Возвращаемое значение</th>
+              <th class="border-gray-300 border p-3 text-left">Пример</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Validate Form -->
+            <tr class="hover:bg-gray-50">
+              <td class="border-gray-300 border p-3 font-bold"
+                >window.frontApi.form.validateForm(target)</td
+              >
+              <td class="border-gray-300 border p-3">
+                Принудительная валидация всех полей формы. Показывает ошибки для невалидных полей.
+                <div class="text-red-500 mt-2 font-medium">
+                  Внимание: вызывает показ ошибок на форме!
+                </div>
+              </td>
+              <td class="border-gray-300 border p-3">
+                <code>target: string | HTMLFormElement</code> - селектор формы или DOM-элемент
+              </td>
+              <td class="border-gray-300 border p-3">
+                <code>boolean</code> - true если все поля валидны, иначе false
+              </td>
+              <td class="border-gray-300 border p-3">
+                <button
+                  onclick="alert(window.frontApi.form.validateForm('#main-form'))"
+                  class="border-gray-400 border-teal-800 text-teal-800 hover:bg-teal-50 w-full rounded-xl border border-solid px-4 py-2"
+                >
+                  Вызвать validateForm
+                </button>
+              </td>
+            </tr>
+
+            <!-- isValidForm -->
+            <tr class="hover:bg-gray-50">
+              <td class="border-gray-300 border p-3 font-bold"
+                >window.frontApi.form.isValidForm(target)</td
+              >
+              <td class="border-gray-300 border p-3">
+                Проверяет валидность всех полей формы без показа ошибок.
+                <div class="text-green-600 mt-2 font-medium">
+                  Без побочных эффектов - не показывает ошибки
+                </div>
+              </td>
+              <td class="border-gray-300 border p-3">
+                <code>target: string | HTMLFormElement</code> - селектор формы или DOM-элемент
+              </td>
+              <td class="border-gray-300 border p-3">
+                <code>boolean</code> - true если все поля валидны, иначе false
+              </td>
+              <td class="border-gray-300 border p-3">
+                <button
+                  onclick="alert(window.frontApi.form.isValidForm('#main-form'))"
+                  class="border-gray-400 border-teal-800 text-teal-800 hover:bg-teal-50 w-full rounded-xl border border-solid px-4 py-2"
+                >
+                  Вызвать isValidForm
+                </button>
+              </td>
+            </tr>
+
+            <!-- setFormError -->
+            <tr class="hover:bg-gray-50">
+              <td class="border-gray-300 border p-3 font-bold"
+                >window.frontApi.form.setFormError(target, message, errorEl?)</td
+              >
+              <td class="border-gray-300 border p-3"
+                >Устанавливает общую ошибку формы (не привязанную к конкретному полю)</td
+              >
+              <td class="border-gray-300 border p-3">
+                <ul class="list-disc pl-5">
+                  <li>
+                    <code>target: string | HTMLFormElement</code> - селектор формы или DOM-элемент
+                  </li>
+                  <li><code>message: string</code> - текст ошибки</li>
+                  <li>
+                    <code>errorEl?: HTMLElement</code> - (опционально) кастомный элемент для отображения
+                    ошибки
+                  </li>
+                </ul>
+              </td>
+              <td class="border-gray-300 border p-3">void</td>
+              <td class="border-gray-300 border p-3">
+                <button
+                  onclick="window.frontApi.form.setFormError('#main-form', 'Произошла ошибка')"
+                  class="border-gray-400 border-teal-800 text-teal-800 hover:bg-teal-50 w-full rounded-xl border border-solid px-4 py-2"
+                >
+                  Вызвать setFormError
+                </button>
+              </td>
+            </tr>
+
+            <!-- resetFormError -->
+            <tr class="hover:bg-gray-50">
+              <td class="border-gray-300 border p-3 font-bold"
+                >window.frontApi.form.resetFormError(target)</td
+              >
+              <td class="border-gray-300 border p-3"
+                >Сбрасывает общую ошибку формы (установленную через setFormError)</td
+              >
+              <td class="border-gray-300 border p-3">
+                <code>target: string | HTMLFormElement</code> - селектор формы или DOM-элемент
+              </td>
+              <td class="border-gray-300 border p-3">void</td>
+              <td class="border-gray-300 border p-3">
+                <button
+                  onclick="window.frontApi.form.resetFormError('#main-form')"
+                  class="border-gray-400 border-teal-800 text-teal-800 hover:bg-teal-50 w-full rounded-xl border border-solid px-4 py-2"
+                >
+                  Вызвать resetFormError
+                </button>
+              </td>
+            </tr>
+
+            <!-- resetFormFieldsErrors -->
+            <tr class="hover:bg-gray-50">
+              <td class="border-gray-300 border p-3 font-bold"
+                >window.frontApi.form.resetFormFieldsErrors(target)</td
+              >
+              <td class="border-gray-300 border p-3">Сбрасывает ВСЕ ошибки полей формы</td>
+              <td class="border-gray-300 border p-3">
+                <code>target: string | HTMLFormElement</code> - селектор формы или DOM-элемент
+              </td>
+              <td class="border-gray-300 border p-3">void</td>
+              <td class="border-gray-300 border p-3">
+                <button
+                  onclick="window.frontApi.form.resetFormFieldsErrors('#main-form')"
+                  class="border-gray-400 border-teal-800 text-teal-800 hover:bg-teal-50 w-full rounded-xl border border-solid px-4 py-2"
+                >
+                  Вызвать resetFormFieldsErrors
+                </button>
+              </td>
+            </tr>
+
+            <!-- validateField -->
+            <tr class="hover:bg-gray-50">
+              <td class="border-gray-300 border p-3 font-bold"
+                >window.frontApi.form.validateField(target)</td
+              >
+              <td class="border-gray-300 border p-3">
+                Принудительная валидация конкретного поля формы. Показывает ошибку, если поле
+                невалидно.
+                <div class="text-red-500 mt-2 font-medium">Показывает ошибку при невалидности</div>
+              </td>
+              <td class="border-gray-300 border p-3">
+                <code>target: string | HTMLInputElement</code> - селектор поля или DOM-элемент
+              </td>
+              <td class="border-gray-300 border p-3">
+                <code>boolean</code> - true если поле валидно, иначе false
+              </td>
+              <td class="border-gray-300 border p-3">
+                <button
+                  onclick="alert(window.frontApi.form.validateField('#contacts-form4'))"
+                  class="border-gray-400 border-teal-800 text-teal-800 hover:bg-teal-50 w-full rounded-xl border border-solid px-4 py-2"
+                >
+                  Вызвать validateField
+                </button>
+              </td>
+            </tr>
+
+            <!-- setFormFieldError -->
+            <tr class="hover:bg-gray-50">
+              <td class="border-gray-300 border p-3 font-bold"
+                >window.frontApi.form.setFormFieldError(target, message)</td
+              >
+              <td class="border-gray-300 border p-3"
+                >Устанавливает кастомное сообщение об ошибке для конкретного поля</td
+              >
+              <td class="border-gray-300 border p-3">
+                <ul class="list-disc pl-5">
+                  <li>
+                    <code>target: string | HTMLInputElement</code> - селектор поля или DOM-элемент
+                  </li>
+                  <li><code>message: string</code> - текст ошибки</li>
+                </ul>
+              </td>
+              <td class="border-gray-300 border p-3">void</td>
+              <td class="border-gray-300 border p-3">
+                <button
+                  onclick="window.frontApi.form.setFormFieldError('#contacts-form4', 'Неверный формат')"
+                  class="border-gray-400 border-teal-800 text-teal-800 hover:bg-teal-50 w-full rounded-xl border border-solid px-4 py-2"
+                >
+                  Вызвать setFormFieldError
+                </button>
+              </td>
+            </tr>
+
+            <!-- resetFormFieldErrors -->
+            <tr class="hover:bg-gray-50">
+              <td class="border-gray-300 border p-3 font-bold"
+                >window.frontApi.form.resetFormFieldErrors(target)</td
+              >
+              <td class="border-gray-300 border p-3">Сбрасывает ошибку для конкретного поля</td>
+              <td class="border-gray-300 border p-3">
+                <code>target: string | HTMLInputElement</code> - селектор поля или DOM-элемент
+              </td>
+              <td class="border-gray-300 border p-3">void</td>
+              <td class="border-gray-300 border p-3">
+                <button
+                  onclick="window.frontApi.form.resetFormFieldErrors('#contacts-form4')"
+                  class="border-gray-400 border-teal-800 text-teal-800 hover:bg-teal-50 w-full rounded-xl border border-solid px-4 py-2"
+                >
+                  Вызвать resetFormFieldErrors
+                </button>
+              </td>
+            </tr>
+
+            <!-- initAll -->
+            <tr class="hover:bg-gray-50">
+              <td class="border-gray-300 border p-3 font-bold">window.frontApi.form.initAll()</td>
+              <td class="border-gray-300 border p-3">
+                Инициализирует или переинициализирует все формы на странице. Полезно при
+                динамическом добавлении форм.
+              </td>
+              <td class="border-gray-300 border p-3">Нет параметров</td>
+              <td class="border-gray-300 border p-3">void</td>
+              <td class="border-gray-300 border p-3">
+                <button
+                  onclick="window.frontApi.form.initAll()"
+                  class="border-gray-400 border-teal-800 text-teal-800 hover:bg-teal-50 w-full rounded-xl border border-solid px-4 py-2"
+                >
+                  Вызвать initAll
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <Form
+        novalidate
+        id={'main-form'}
+        class="mt-12 flex flex-col gap-3"
+      >
+        <div class="flex flex-col gap-12">
+          <div class="flex flex-col gap-1">
+            <p class="font-bold">Только буквы</p>
+            <Input
+              id={'contacts-form1'}
+              placeholder={'Имя *'}
+              name={'fio'}
+              data-validate="text-only"
+              type={'text'}
+              required
+            />
+          </div>
+          <div class="flex flex-col gap-1">
+            <p class="font-bold">Только русские буквы</p>
+            <Input
+              id={'contacts-form2'}
+              placeholder={'Имя *'}
+              name={'fio'}
+              data-validate="text-cyrillic"
+              type={'text'}
+              required
+            />
+          </div>
+          <div class="flex flex-col gap-1">
+            <p class="font-bold">Буквы и цифры</p>
+            <Input
+              id={'contacts-form3'}
+              placeholder={'Никнейм *'}
+              name={'nickname'}
+              data-validate="text"
+              type={'text'}
+              required
+            />
+          </div>
+          <div class="flex flex-col gap-1">
+            <p class="font-bold">email</p>
+            <Input
+              id={'contacts-form4'}
+              placeholder={'Email *'}
+              name={'email'}
+              data-validate="email"
+              type={'email'}
+              required
+              minlength="3"
+              data-error-message="Неправильный email"
+            />
+          </div>
+          <div class="flex flex-col gap-1">
+            <p class="font-bold">Тут будет кастомный блок для ошибки (выделен верхним регистром)</p>
+            <Input
+              id={'contacts-form5'}
+              placeholder={'Телефон *'}
+              name={'tel'}
+              data-validate="tel"
+              type={'tel'}
+              required
+              data-error-container="tel-error-container"
+            />
+            <dir
+              class="uppercase text-red"
+              data-error-container="tel-error-container"
+            ></dir>
+          </div>
+          <div class="flex flex-col gap-1">
+            <p class="font-bold">Положительное число</p>
+            <Input
+              id={'contacts-form6'}
+              placeholder={'Положительное число'}
+              name={'positive-number'}
+              data-validate="positive-number"
+              type={'text'}
+            />
+          </div>
+        </div>
+
+        <button
+          class="border-gray-400 border-teal-800 text-teal-800 mx-auto w-fit rounded-xl border border-solid px-6 py-3"
+          type="submit"
+          >Submit</button
+        >
+      </Form>
+    </div>
 
     <div class="flex flex-col gap-16">
       <section>

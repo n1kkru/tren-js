@@ -18,6 +18,9 @@ export default defineConfig({
   integrations: [tailwind()],
 
   vite: {
+    build: {
+      cssCodeSplit: false
+    },
     css: {
       preprocessorOptions: {
         scss: {
