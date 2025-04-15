@@ -2,21 +2,33 @@
 import tailwind from '@astrojs/tailwind'
 import { defineConfig } from 'astro/config'
 import fs from 'fs/promises'
-import path from 'path'
+import path, { resolve } from 'node:path'
+import url from 'node:url'
 
 const timestamp = Date.now()
 
-const timestampIntegration = () => ({
+const outDir = resolve(path.dirname(url.fileURLToPath(import.meta.url)), 'dist')
+
+const updateBuildScripts = () => ({
   name: 'timestamp-integration',
   hooks: {
-    'astro:build:done': async ({ dir, pages }) => {
+    'astro:build:done': async ({ pages }) => {
       try {
-        for (const page of pages) {
-          const filePath = path
-            .join(dir.pathname, page.pathname, 'index.html')
-            .replace(/([^:])\/\//g, '$1/')
-            .slice(1)
+        const scriptsToKeep = ['main.js']
 
+        const scriptsDir = path.join(outDir, 'scripts')
+        const files = await fs.readdir(scriptsDir)
+
+        for (const file of files) {
+          if (!scriptsToKeep.includes(file)) {
+            await fs.rm(path.join(scriptsDir, file))
+            console.log(`Удален: scripts/${file}`)
+          }
+        }
+
+        for (const page of pages) {
+          const relativePagePath = path.join(page.pathname, 'index.html')
+          const filePath = path.join(outDir, relativePagePath)
           try {
             await fs.access(filePath)
           } catch {
@@ -25,6 +37,12 @@ const timestampIntegration = () => ({
           }
 
           let content = await fs.readFile(filePath, 'utf-8')
+
+          content = content.replace(
+            /<script[^>]*src="[^"]*main\d+\.js[^"]*"[^>]*><\/script>\n?/g,
+            ''
+          )
+
           const updatedContent = content.replace(
             /(<script\b[^>]*\bsrc=")([^"]*\.js)("[^>]*>)/g,
             `$1$2?${timestamp}$3`
@@ -32,7 +50,7 @@ const timestampIntegration = () => ({
 
           if (updatedContent !== content) {
             await fs.writeFile(filePath, updatedContent)
-            console.log(`Обновлен: ${path.join(page.pathname, 'index.html')}`)
+            console.log(`Обновлен: ${filePath}`)
           }
         }
       } catch (error) {
@@ -55,7 +73,7 @@ export default defineConfig({
 
   compressHTML: false,
 
-  integrations: [tailwind(), timestampIntegration()],
+  integrations: [tailwind(), updateBuildScripts()],
 
   vite: {
     build: {
