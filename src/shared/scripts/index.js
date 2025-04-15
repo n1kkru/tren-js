@@ -1,5 +1,7 @@
+import { toastTest } from '../ui/toast-test/toast-test'
 import { validateFormInit } from './components/custom-validator'
 import { hoverControlledSlider } from './components/hover-slider'
+import { initToastsFromDOM } from './components/init-toasts'
 import { initSliders } from './components/slider'
 import config from './config'
 import { frontApi } from './frontApi'
@@ -17,6 +19,8 @@ export const commonFunction = () => {
 
   // components
   initSliders()
+  initToastsFromDOM()
+  toastTest()
 
   validateFormInit()
   hoverControlledSlider()

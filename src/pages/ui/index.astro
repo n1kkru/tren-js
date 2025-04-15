@@ -10,6 +10,7 @@ import Form from '@shared/ui/form/form.astro'
 import Switch from '@shared/ui/switch/Switch.astro'
 import Textarea from '@shared/ui/textarea/Textarea.astro'
 import Layout from '@widgets/layout/Layout.astro'
+import ToastTest from '@shared/ui/toast-test/toast-test.astro'
 ---
 
 <Layout pageName="ui">
@@ -42,7 +43,7 @@ import Layout from '@widgets/layout/Layout.astro'
               >
               <td class="border-gray-300 border p-3">
                 Принудительная валидация всех полей формы. Показывает ошибки для невалидных полей.
-                <div class="text-red-500 mt-2 font-medium">
+                <div class="text-red mt-2 font-medium">
                   Внимание: вызывает показ ошибок на форме!
                 </div>
               </td>
@@ -170,7 +171,7 @@ import Layout from '@widgets/layout/Layout.astro'
               <td class="border-gray-300 border p-3">
                 Принудительная валидация конкретного поля формы. Показывает ошибку, если поле
                 невалидно.
-                <div class="text-red-500 mt-2 font-medium">Показывает ошибку при невалидности</div>
+                <div class="text-red mt-2 font-medium">Показывает ошибку при невалидности</div>
               </td>
               <td class="border-gray-300 border p-3">
                 <code>target: string | HTMLInputElement</code> - селектор поля или DOM-элемент
@@ -344,6 +345,8 @@ import Layout from '@widgets/layout/Layout.astro'
         >
       </Form>
     </div>
+
+    <ToastTest />
 
     <div class="flex flex-col gap-16">
       <section>

@@ -1,0 +1,39 @@
+:global(.toastify) {
+  cursor: pointer !important;
+
+  transform: translate(0, rem(89px)) !important;
+
+  display: unset !important;
+
+  width: 100%;
+  max-width: 350px !important;
+  padding: rem(18px) !important;
+  border-radius: unset !important;
+
+  color: #ffffff !important;
+  text-decoration: unset !important;
+
+  background: #000000 !important;
+  box-shadow: unset !important;
+
+  transition: $transition !important;
+
+  @apply text-title-16;
+
+  @media #{media('<',d)} {
+    transform: translate(0, rem(61px)) !important;
+  }
+
+  @media #{media('<',m)} {
+    max-width: calc(100% - rem(32px)) !important;
+    padding: rem(16px) !important;
+  }
+}
+
+:global(.toastify-right) {
+  right: rem(24px) !important;
+
+  @media #{media('<',d)} {
+    right: rem(16px) !important;
+  }
+}
