@@ -1,3 +1,4 @@
+import { tooltipInit } from '@shared/ui/tooltip/tooltip'
 import { toastTest } from '../ui/toast-test/toast-test'
 import { validateFormInit } from './components/custom-validator'
 import { hoverControlledSlider } from './components/hover-slider'
@@ -24,6 +25,8 @@ export const commonFunction = () => {
 
   validateFormInit()
   hoverControlledSlider()
+
+  tooltipInit()
 }
 
 console.info(import.meta.env)

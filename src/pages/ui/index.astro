@@ -11,6 +11,7 @@ import Switch from '@shared/ui/switch/Switch.astro'
 import Textarea from '@shared/ui/textarea/Textarea.astro'
 import Layout from '@widgets/layout/Layout.astro'
 import ToastTest from '@shared/ui/toast-test/toast-test.astro'
+import Tooltip from '@shared/ui/tooltip/Tooltip.astro'
 ---
 
 <Layout pageName="ui">
@@ -459,6 +460,13 @@ import ToastTest from '@shared/ui/toast-test/toast-test.astro'
       <section>
         <Textarea placeholder={'Textarea'} />
       </section>
+
+      <p>
+        Виртуальный процессор<Tooltip
+          content="Укажите количество виртуальных процессоров"
+          placement="right"
+        />
+      </p>
     </div>
-  </div></Layout
->
+  </div>
+</Layout>

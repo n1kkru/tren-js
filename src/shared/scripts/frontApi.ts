@@ -1,6 +1,7 @@
 import { toastApi } from '@shared/ui/toast/toast'
 
 import { formApi } from '../ui/form/form'
+import tooltipApi from '@shared/ui/tooltip/tooltip'
 
 export function frontApi() {
   if (!window.frontApi) {
@@ -9,4 +10,5 @@ export function frontApi() {
 
   window.frontApi.form = formApi
   window.frontApi.toast = toastApi
+  window.frontApi.tooltip = tooltipApi
 }
