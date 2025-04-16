@@ -1,0 +1,189 @@
+---
+export { ToastTest }
+---
+
+<div class="border border-solid border-gray p-5">
+  <h1 class="text-2xl mb-4 text-center font-bold">Toast API<br />window.frontApi.toast</h1>
+
+  <p class="text-lg text-sky mb-4 text-center font-bold">Смотри консоль</p>
+
+  <!-- Скрытый шаблонный контейнер -->
+  <div class="hidden">
+    <div
+      id="toast-success"
+      data-toast
+      data-toast-close
+    >
+      <div class="bg-green-500 flex items-center justify-between rounded-md px-4 py-2 text-white">
+        <span>Успешно сохранено</span>
+        <button
+          class="ml-4"
+          data-toast-close
+          >×</button
+        >
+      </div>
+    </div>
+
+    <div
+      id="toast-error"
+      data-toast
+      data-toast-close
+    >
+      <div class="bg-red-500 flex items-center justify-between rounded-md px-4 py-2 text-white">
+        <span>Произошла ошибка</span>
+        <button
+          class="ml-4"
+          data-toast-close
+          >×</button
+        >
+      </div>
+    </div>
+  </div>
+
+  <!-- Блоки с методами -->
+  <div class="space-y-6">
+    <div class="rounded bg-white p-4 shadow">
+      <h2 class="text-lg font-semibold">toast.init()</h2>
+      <p class="text-sm text-gray-600">Создаёт новый toast по node-элементу.</p>
+      <button
+        id="btn-show-success"
+        class="bg-blue-500 mt-2 rounded px-4 py-2 text-white"
+        >Пример вызова</button
+      >
+      <pre
+        class="bg-gray-100 text-sm text-gray-800 mt-2 rounded p-3">
+        <code>
+          const node = document.querySelector('#toast-success').cloneNode(true)
+          toast.init(&#123; node, duration: 3000, position: 'right' &#125;).show()
+        </code>
+      </pre>
+    </div>
+
+    <div class="rounded bg-white p-4 shadow">
+      <h2 class="text-lg font-semibold">toast.show()</h2>
+      <p class="text-sm text-gray-600">Показывает toast по селектору или создает временный.</p>
+      <div class="mt-2 flex gap-2">
+        <button
+          id="btn-show-error"
+          class="bg-rose-500 rounded px-4 py-2 text-white"
+          >Показать ошибку</button
+        >
+        <button
+          id="btn-show-temp"
+          class="bg-gray-600 rounded px-4 py-2 text-white"
+          >Временный toast</button
+        >
+      </div>
+      <pre
+        class="bg-gray-100 text-sm text-gray-800 mt-2 rounded p-3">
+        <code>
+          toast.show('#toast-error')
+          toast.show&#123; text: 'Временный toast', duration: 3000 &#125;)
+        </code>
+      </pre>
+    </div>
+
+    <div class="rounded bg-white p-4 shadow">
+      <h2 class="text-lg font-semibold">toast.hide()</h2>
+      <p class="text-sm text-gray-600">Программно скрывает toast по элементу или селектору.</p>
+      <button
+        id="btn-hide-success"
+        class="bg-yellow-500 mt-2 rounded px-4 py-2 text-white"
+        >Скрыть успех</button
+      >
+      <pre
+        class="bg-gray-100 text-sm text-gray-800 mt-2 rounded p-3">
+        <code>
+          toast.hide('#toast-success')
+        </code>
+      </pre>
+    </div>
+
+    <div class="rounded bg-white p-4 shadow">
+      <h2 class="text-lg font-semibold">toast.get()</h2>
+      <p class="text-sm text-gray-600">Получить экземпляр toast по DOM-элементу или селектору.</p>
+      <button
+        id="btn-get"
+        class="bg-indigo-500 mt-2 rounded px-4 py-2 text-white"
+        >Получить toast</button
+      >
+      <pre
+        class="bg-gray-100 text-sm text-gray-800 mt-2 rounded p-3">
+        <code>
+          const instance = toast.get('#toast-success')
+          console.log(instance)
+        </code>
+      </pre>
+    </div>
+
+    <div class="rounded bg-white p-4 shadow">
+      <h2 class="text-lg font-semibold">toast.reinit()</h2>
+      <p class="text-sm text-gray-600">
+        Переинициализация toast с сохранением или обновлением опций.
+      </p>
+      <button
+        id="btn-reinit"
+        class="bg-purple-600 mt-2 rounded px-4 py-2 text-white"
+        >Переинициализировать</button
+      >
+      <pre
+        class="bg-gray-100 text-sm text-gray-800 mt-2 rounded p-3">
+        <code>
+          toast.reinit('#toast-success', &#123;
+            duration: 4000,
+            gravity: 'bottom'
+          &#125;)
+        </code>
+      </pre>
+    </div>
+
+    <div class="rounded bg-white p-4 shadow">
+      <h2 class="text-lg font-semibold">toast.initAll()</h2>
+      <p class="text-sm text-gray-600">Инициализирует все элементы с data-toast в DOM.</p>
+      <button
+        id="btn-init-all"
+        class="bg-sky-600 mt-2 rounded px-4 py-2 text-white"
+        >Инициализировать все</button
+      >
+      <pre
+        class="bg-gray-100 text-sm text-gray-800 mt-2 rounded p-3">
+        <code>
+          toast.initAll()
+        </code>
+      </pre>
+    </div>
+
+    <div class="rounded bg-white p-4 shadow">
+      <h2 class="text-lg font-semibold">toast.onAnyInit()</h2>
+      <p class="text-sm text-gray-600">Подписка на инициализацию любого toast.</p>
+      <pre
+        class="bg-gray-100 text-sm text-gray-800 mt-2 rounded p-3">
+        <code>
+          toast.onAnyInit(t => console.log('[init]', t))
+        </code>
+      </pre>
+    </div>
+
+    <div class="rounded bg-white p-4 shadow">
+      <h2 class="text-lg font-semibold">toast.onAnyOpen()</h2>
+      <p class="text-sm text-gray-600">Подписка на открытие любого toast.</p>
+      <pre
+        class="bg-gray-100 text-sm text-gray-800 mt-2 rounded p-3">
+        <code>
+          toast.onAnyOpen(t => console.log('[open]', t))
+        </code>
+      </pre>
+    </div>
+
+    <div class="rounded bg-white p-4 shadow">
+      <h2 class="text-lg font-semibold">toast.onAnyClose()</h2>
+      <p class="text-sm text-gray-600">Подписка на закрытие любого toast.</p>
+      <pre
+        class="bg-gray-100 text-sm text-gray-800 mt-2 rounded p-3">
+        <code>
+          toast.onAnyClose(t => console.log('[close]', t))
+        </code>
+      </pre>
+    </div>
+  </div>
+</div>

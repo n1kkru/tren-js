@@ -1,0 +1,42 @@
+---
+import { SUPPORTED_KEYS, type ToastOptionsDOM } from '@shared/scripts/components/init-toasts'
+
+export interface IToastProps extends ToastOptionsDOM {
+  id: string
+  class?: string
+}
+
+const props = Astro.props as IToastProps & Record<string, any>
+
+const { id = '', class: className } = props
+
+// Формируем data-* атрибуты из SUPPORTED_KEYS
+const dataAttrs = Object.fromEntries(
+  SUPPORTED_KEYS.filter(key => key in props).map(key => [`data-${key.toLowerCase()}`, props[key]])
+)
+
+// Исключаем SUPPORTED_KEYS и id/class из rest
+const rest = Object.fromEntries(
+  Object.entries(props).filter(
+    ([key]) =>
+      key !== 'id' && key !== 'class' && !SUPPORTED_KEYS.includes(key as keyof ToastOptionsDOM)
+  )
+)
+
+export { Toast }
+---
+
+<div
+  class:list={['toast', className]}
+  data-toast={id}
+  data-gravity="top"
+  data-position="right"
+  {...dataAttrs}
+  {...rest}
+>
+  <slot />
+</div>
+
+<style>
+  @import './toast.scss';
+</style>
