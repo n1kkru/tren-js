@@ -1,4 +1,3 @@
-// @ts-check
 import tailwind from '@astrojs/tailwind'
 import { defineConfig } from 'astro/config'
 import fs from 'fs/promises'
@@ -63,9 +62,7 @@ const updateBuildScripts = () => ({
 // https://astro.build/config
 export default defineConfig({
   base: '/main',
-  experimental: {
-    svg: true
-  },
+  experimental: {},
 
   devToolbar: {
     enabled: false
@@ -84,6 +81,7 @@ export default defineConfig({
           entryFileNames: `scripts/main.js`,
           chunkFileNames: `scripts/[name].js`,
           assetFileNames: assetInfo => {
+            if (!assetInfo || !assetInfo.name) return ''
             let extType = assetInfo.name.split('.')[1]
 
             if (/png|jpe?g|svg|gif|tiff|bmp|ico/i.test(extType)) {
