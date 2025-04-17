@@ -21,7 +21,6 @@ export const commonFunction = () => {
   initSliders()
   initToastsFromDOM()
   toastTest()
-
   validateFormInit()
   hoverControlledSlider()
 }
