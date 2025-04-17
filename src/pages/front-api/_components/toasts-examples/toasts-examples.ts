@@ -78,4 +78,4 @@ export const toastsExamples = () => {
   })
 }
 
-window.addEventListener('load', toastsExamples)
+// window.addEventListener('load', toastsExamples)

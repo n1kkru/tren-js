@@ -1,4 +1,4 @@
-const tabsExamples = () => {
+export const tabsExamples = () => {
   const tabs = window.frontApi.tabs
 
   document.querySelector('#tabs-init')?.addEventListener('click', () => {
@@ -36,5 +36,3 @@ const tabsExamples = () => {
     console.log('[Change]', activeTab.id, 'from', prevTab?.id)
   })
 }
-
-window.addEventListener('load', tabsExamples)

@@ -7,6 +7,8 @@ import { accordionInitAll } from '@shared/ui/accordion/accordions'
 import { initSliders }     from './components/slider'
 import { initToastsFromDOM } from './components/init-toasts'
 import { hoverControlledSlider } from './components/hover-slider'
+import { tabsExamples } from '@pages/front-api/_components/tabs-examples/tabs-examples'
+import { toastsExamples } from '@pages/front-api/_components/toasts-examples/toasts-examples'
 // import { toastTest }       from '../ui/toast-test/toast-test'
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -24,6 +26,10 @@ export function commonFunction(): void {
 
   accordionInitAll()
   accordionExamples()
+
+  toastsExamples()
+
+  tabsExamples()
 
   // toastTest()
 
