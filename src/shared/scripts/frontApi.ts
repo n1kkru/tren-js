@@ -1,5 +1,6 @@
 import { toastApi } from '@shared/ui/toast/toast'
-
+import accordionApi from '@shared/ui/accordion/accordions'
+import { TabsApi } from '@shared/ui/tabs/tabs-manager'
 import { formApi } from '../ui/form/form'
 
 export function frontApi() {
@@ -9,4 +10,12 @@ export function frontApi() {
 
   window.frontApi.form = formApi
   window.frontApi.toast = toastApi
+  window.frontApi.tabs = TabsApi
+  window.frontApi.accordion = accordionApi
+
+  window.frontApi.initAll = () => {
+    toastApi.initAll()
+    TabsApi.initAll()
+    accordionApi.initAll()
+  }
 }
