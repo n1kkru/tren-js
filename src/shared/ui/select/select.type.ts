@@ -1,23 +1,11 @@
-/**
- * Элемент для инициализации TomSelect: селектор или сам select-элемент
- */
 export type TTomSelectElement = string | HTMLSelectElement;
 
-/**
- * Опция для TomSelect
- */
 export interface TTomSelectOption {
-  /** значение опции */
   value: string;
-  /** отображаемая метка */
   label: string;
-  /** дополнительные поля */
   [key: string]: any;
 }
 
-/**
- * Экземпляр TomSelect с нужными методами
- */
 export interface ITomSelectInstance {
   destroy(): void;
   getValue(): string | string[];
@@ -27,10 +15,13 @@ export interface ITomSelectInstance {
   refreshOptions(triggerDropdown?: boolean): this;
 
   addOption(data: TTomSelectOption, user_created?: boolean): string | false;
+  addOptions(data: TTomSelectOption[], user_created?: boolean): void;
   removeOption(value: string, silent?: boolean): this;
   getOption(value: string | number, create?: boolean): HTMLElement | null;
   addItem(value: string, silent?: boolean): void;
   removeItem(item?: string | TTomSelectOption, silent?: boolean): void;
+  
+  options: { [key: string]: TTomSelectOption };
 
   lock(): this;
   unlock(): this;
@@ -38,26 +29,20 @@ export interface ITomSelectInstance {
   disable(): this;
 }
 
-/**
- * Частичный рекурсивный тип для настроек
- */
-export type RecursivePartial<T> = {
-  [P in keyof T]?: RecursivePartial<T[P]>;
+type RecursivePartial<T> = {
+  [P in keyof T]?: T[P] extends object ? RecursivePartial<T[P]> : T[P];
 };
 
-/**
- * Конфигурация для инициализации TomSelect
- */
 export interface ITomSelectConfig extends RecursivePartial<{
-  valueField?: string;
-  labelField?: string;
+  valueField: string;
+  labelField: string;
   searchField?: string[];
-  allowEmptyOption?: boolean;
-  hidePlaceholder?: boolean;
-  placeholder?: string;
-  maxItems?: number | null;
-  onInitialize?: () => void;
-  onItemAdd?: (value: string | number, item: HTMLDivElement) => void;
+  allowEmptyOption: boolean;
+  hidePlaceholder: boolean;
+  placeholder: string;
+  maxItems: number | null;
+  onInitialize: () => void;
+  onItemAdd: (value: string | number, item: HTMLDivElement) => void;
   [key: string]: any;
 }> {
   placeholder?: string;
