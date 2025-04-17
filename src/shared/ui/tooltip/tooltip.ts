@@ -1,7 +1,7 @@
 import type { Instance, Props } from 'tippy.js'
 import 'tippy.js/dist/tippy.css'
 import tippy from 'tippy.js'
-import type { TooltipApi, TooltipInstanceMap } from './tooltip.types'
+import type { TooltipApi, TooltipInstanceMap } from './tooltip.type'
 
 const tooltipInstances: TooltipInstanceMap = new Map()
 

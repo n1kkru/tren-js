@@ -7,6 +7,9 @@ import { initSliders } from './components/slider'
 import config from './config'
 import { frontApi } from './frontApi'
 import { validateInit } from './libs/custom-validator'
+import { enableTooltipExamples } from '@shared/ui/tooltip/tooltip-examples'
+import { initAll, rangeInit } from '@shared/ui/range/range'
+import { rangeExamples } from '@shared/ui/range/range-examples'
 
 document.addEventListener('DOMContentLoaded', () => {
   frontApi()
@@ -27,6 +30,10 @@ export const commonFunction = () => {
   hoverControlledSlider()
 
   tooltipInit()
+  enableTooltipExamples()
+
+  rangeInit()
+  rangeExamples()
 }
 
 console.info(import.meta.env)
