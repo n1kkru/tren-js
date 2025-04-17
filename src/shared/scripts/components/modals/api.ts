@@ -1,7 +1,7 @@
 import { Modal } from './modal'
 import type { ModalOptions } from './types/modal'
 
-type ModalEvent = 'onAnyInit' | 'onAnyOpen' | 'onAnyClose'
+export type ModalEvent = 'onAnyInit' | 'onAnyOpen' | 'onAnyClose'
 
 class ModalManager {
   instances: Map<HTMLElement, Modal> = new Map()

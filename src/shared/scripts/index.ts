@@ -1,4 +1,5 @@
 import { accordionExamples } from '@pages/front-api/_components/accordion-examples/accordion-examples'
+import { modalExamples } from '@pages/front-api/_components/modal-examples/modal-examples'
 import { tabsExamples } from '@pages/front-api/_components/tabs-examples/tabs-examples'
 import { toastsExamples } from '@pages/front-api/_components/toasts-examples/toasts-examples'
 import { accordionInitAll } from '@shared/ui/accordion/accordions'
@@ -33,6 +34,7 @@ export function commonFunction(): void {
   accordionExamples()
   toastsExamples()
   tabsExamples()
+  modalExamples()
 }
 
 console.info(import.meta.env)
