@@ -6,7 +6,6 @@ import { initSliders } from './components/slider'
 import config from './config'
 import { frontApi } from './frontApi'
 import { validateInit } from './libs/custom-validator'
-import { modalsInit } from '../../shared/ui/modals/modals';
 
 document.addEventListener('DOMContentLoaded', () => {
   frontApi()
@@ -25,7 +24,6 @@ export const commonFunction = () => {
 
   validateFormInit()
   hoverControlledSlider()
-  modalsInit();
 
 }
 

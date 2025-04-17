@@ -4,7 +4,7 @@ import { isSafariFunction } from '../../utils/isSafari'
 
 const isSafari = isSafariFunction()
 
-let lenis
+let lenis: Lenis | null = null
 
 export const lenisInit = () => {
   if (window.screen.width > 1024 && !isSafari) {
@@ -33,8 +33,8 @@ export const lenisInit = () => {
       })
     }
 
-    function raf(time) {
-      lenis.raf(time)
+    function raf(time: number) {
+      lenis?.raf(time)
       window.requestAnimationFrame(raf)
     }
 
@@ -43,13 +43,15 @@ export const lenisInit = () => {
 }
 
 export function resumeLenis() {
+  if (typeof window === 'undefined') return
   if (window.screen.width > 1024 && !isSafari) {
-    lenis.start()
+    lenis?.start()
   }
 }
 export function stopLenis() {
+  if (typeof window === 'undefined') return
   if (window.screen.width > 1024 && !isSafari) {
-    lenis.stop()
+    lenis?.stop()
   }
 }
 
