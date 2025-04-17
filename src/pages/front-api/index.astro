@@ -1,0 +1,19 @@
+---
+import Layout from '@widgets/layout/Layout.astro'
+import TabsExamples from './_components/tabs-examples/TabsExamples.astro'
+import AccordionExamples from './_components/accordion-examples/AccordionExamples.astro'
+import ToastsExamples from './_components/toasts-examples/ToastsExamples.astro'
+import InitAllExample from './_components/init-all-example/InitAllExample.astro'
+---
+
+<Layout pageName="front-api">
+  <div class="my-45 flex flex-col gap-45 px-6 devices:my-10 devices:gap-10 devices:px-4">
+    <InitAllExample />
+
+    <TabsExamples />
+
+    <AccordionExamples />
+
+    <ToastsExamples />
+  </div>
+</Layout>
