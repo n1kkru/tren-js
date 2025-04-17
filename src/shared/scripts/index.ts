@@ -1,4 +1,8 @@
-import { toastTest } from '../ui/toast-test/toast-test'
+import { accordionExamples } from '@pages/front-api/_components/accordion-examples/accordion-examples'
+import { tabsExamples } from '@pages/front-api/_components/tabs-examples/tabs-examples'
+import { toastsExamples } from '@pages/front-api/_components/toasts-examples/toasts-examples'
+import { accordionInitAll } from '@shared/ui/accordion/accordions'
+
 import { validateFormInit } from './components/custom-validator'
 import { hoverControlledSlider } from './components/hover-slider'
 import { initToastsFromDOM } from './components/init-toasts'
@@ -12,19 +16,23 @@ document.addEventListener('DOMContentLoaded', () => {
   commonFunction()
 })
 
-export const commonFunction = () => {
-  // libs config
+export function commonFunction(): void {
   config()
   validateInit()
 
   // components
   initSliders()
   initToastsFromDOM()
-  toastTest()
+
+  accordionInitAll()
 
   validateFormInit()
   hoverControlledSlider()
 
+  // Примеры использования frontApi
+  accordionExamples()
+  toastsExamples()
+  tabsExamples()
 }
 
 console.info(import.meta.env)

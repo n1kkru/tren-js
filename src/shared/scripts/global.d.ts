@@ -1,3 +1,5 @@
+import type { AccordionApi } from '@shared/ui/accordion/accordion.type'
+import type { TabsApi } from '@shared/ui/tabs/tabs-manager'
 import type { ToastApi } from '@shared/ui/toast/toast'
 
 import type { FormApi } from '../ui/form/form.type'
@@ -10,7 +12,10 @@ declare global {
       form: FormApi
       toast: ToastApi
       modals: typeof ModalAPI
-      initAll(): void
+      tabs: TabsApi
+      accordion: AccordionApi
+      // modals: ModalsApi
+      initAll: () => void
     }
     customValidator: CustomValidatorApi
   }
