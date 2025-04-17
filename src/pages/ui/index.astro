@@ -463,8 +463,153 @@ import SideModal from '@shared/ui/modals/SideModal.astro'
       </section>
     </div>
 
-    <div class='flex gap-10 p-5'>
+    <!-- Modals -->
+    <div class='border border-solid border-gray-400 p-5'>
       <h2 class='text-center text-2xl font-bold'>Модальные окна</h2>
+
+      <div class='overflow-x-auto'>
+        <table class='w-full border-collapse'>
+          <thead class='bg-gray-100'>
+            <tr>
+              <th class='border border-gray-300 p-3 text-left'>Метод</th>
+              <th class='border border-gray-300 p-3 text-left'>Описание</th>
+              <th class='border border-gray-300 p-3 text-left'>Параметры</th>
+              <th class='border border-gray-300 p-3 text-left'>Возвращаемое значение</th>
+              <th class='border border-gray-300 p-3 text-left'>Пример</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- init -->
+            <tr class='hover:bg-gray-50'>
+              <td class='border border-gray-300 p-3 font-bold'
+                >window.frontApi.modals.init(selectorOrEl, options)</td
+              >
+              <td class='border border-gray-300 p-3'>
+                Инициализирует конкретное модальное окно.
+              </td>
+              <td class='border border-gray-300 p-3'>
+                <ul class='list-disc pl-5'>
+                  <li>
+                    <code>selectorOrEl: string | HTMLElement</code> - селектор или DOM-элемент модального
+                    окна
+                  </li>
+                  <li>
+                    <code>options: ModalOptions</code> - опции для инициализации (необязательный)
+                  </li>
+                </ul>
+              </td>
+              <td class='border border-gray-300 p-3'> void </td>
+              <td class='border border-gray-300 p-3'>
+                <button
+                  onclick='alert(window.frontApi.modals.init())'
+                  class='w-full rounded-xl border border-solid border-gray-400 border-teal-800 px-4 py-2 text-teal-800 hover:bg-teal-50'
+                >
+                  Вызвать
+                </button>
+              </td>
+            </tr>
+
+            <!-- initAll -->
+            <tr class='hover:bg-gray-50'>
+              <td class='border border-gray-300 p-3 font-bold'
+                >window.frontApi.modals.initAll(options)</td
+              >
+              <td class='border border-gray-300 p-3'
+                >Инициализирует все модальные окна на странице и привязывает к ним триггеры.</td
+              >
+              <td class='border border-gray-300 p-3'>
+                <code>options: ModalOptions</code> - опции для инициализации модальных окон (необязательный)
+              </td>
+              <td class='border border-gray-300 p-3'>void</td>
+              <td class='border border-gray-300 p-3'>
+                <button
+                  onclick='window.frontApi.modals.initAll()'
+                  class='w-full rounded-xl border border-solid border-gray-400 border-teal-800 px-4 py-2 text-teal-800 hover:bg-teal-50'
+                >
+                  Вызвать
+                </button>
+              </td>
+            </tr>
+
+            <!-- bindTriggers -->
+            <tr class='hover:bg-gray-50'>
+              <td class='border border-gray-300 p-3 font-bold'
+                >window.frontApi.modals.bindTriggers()</td
+              >
+              <td class='border border-gray-300 p-3'
+                >Привязывает кнопки-триггеры к соответствующим модальным окнам.</td
+              >
+              <td class='border border-gray-300 p-3'> </td>
+              <td class='border border-gray-300 p-3'>void</td>
+              <td class='border border-gray-300 p-3'>
+                <button
+                  onclick='window.frontApi.modals.bindTriggers()'
+                  class='w-full rounded-xl border border-solid border-gray-400 border-teal-800 px-4 py-2 text-teal-800 hover:bg-teal-50'
+                >
+                  Вызвать
+                </button>
+              </td>
+            </tr>
+
+            <!-- get -->
+            <tr class='hover:bg-gray-50'>
+              <td class='border border-gray-300 p-3 font-bold'
+                >window.frontApi.modals.get(selectorOrEl)</td
+              >
+              <td class='border border-gray-300 p-3'
+                >Возвращает экземпляр модального окна по селектору или DOM-элементу.</td
+              >
+              <td class='border border-gray-300 p-3'>
+                <code>get(selectorOrEl: string | HTMLElement)</code> - селектор или DOM-элемент модального
+                окна
+              </td>
+              <td class='border border-gray-300 p-3'>
+                <code>Modal | undefined</code> - экземпляр модального окна или undefined, если не найден
+              </td>
+              <td class='border border-gray-300 p-3'>
+                <button
+                  onclick="window.frontApi.modals.get('modal-1')"
+                  class='w-full rounded-xl border border-solid border-gray-400 border-teal-800 px-4 py-2 text-teal-800 hover:bg-teal-50'
+                >
+                  Вызвать
+                </button>
+              </td>
+            </tr>
+
+            <!-- onAny -->
+            <tr class='hover:bg-gray-50'>
+              <td class='border border-gray-300 p-3 font-bold'
+                >window.frontApi.modals.onAny(event, callback)</td
+              >
+              <td class='border border-gray-300 p-3'>
+                Подписывает на глобальные события модальных окон.
+              </td>
+              <td class='border border-gray-300 p-3'>
+                <ul class='list-disc pl-5'>
+                  <li>
+                    <code>event: ModalEvent</code> - тип события ('onAnyInit' | 'onAnyOpen' | 'onAnyClose')
+                  </li>
+                  <li>
+                    <code>callback: (modal: Modal) => void</code> - функция-обработчик
+                  </li>
+                </ul>
+              </td>
+              <td class='border border-gray-300 p-3'> void </td>
+              <td class='border border-gray-300 p-3'>
+                <button
+                  onclick='window.frontApi.modals.onAny(e, ()=>{})'
+                  class='w-full rounded-xl border border-solid border-gray-400 border-teal-800 px-4 py-2 text-teal-800 hover:bg-teal-50'
+                >
+                  Вызвать
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class='flex gap-10 p-5'>
       <button
         data-modal-trigger='modal-1'
         class='w-[30%] rounded-xl bg-rose-300 p-3'
