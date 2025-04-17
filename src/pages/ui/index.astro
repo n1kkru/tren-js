@@ -11,52 +11,54 @@ import Switch from '@shared/ui/switch/Switch.astro'
 import Textarea from '@shared/ui/textarea/Textarea.astro'
 import Layout from '@widgets/layout/Layout.astro'
 import ToastTest from '@shared/ui/toast-test/toast-test.astro'
+import StandartModal from '@shared/ui/modals/StandartModal.astro'
+import SideModal from '@shared/ui/modals/SideModal.astro'
 ---
 
-<Layout pageName="ui">
-  <div class="flex flex-col gap-20">
-    <h1 class="px-4 text-title-100 devices:text-title-40">Примеры UI компонентов проекта</h1>
+<Layout pageName='ui'>
+  <div class='flex flex-col gap-20'>
+    <h1 class='px-4 text-title-100 devices:text-title-40'>Примеры UI компонентов проекта</h1>
 
-    <div class="border border-solid border-gray-400 p-5">
-      <h2 class="mb-10 text-center text-2xl font-bold">
+    <div class='border border-solid border-gray-400 p-5'>
+      <h2 class='mb-10 text-center text-2xl font-bold'>
         Работа с формами
         <br />
-        <span class="text-xl font-normal">window.frontApi.form</span>
+        <span class='text-xl font-normal'>window.frontApi.form</span>
       </h2>
 
-      <div class="overflow-x-auto">
-        <table class="w-full border-collapse">
-          <thead class="bg-gray-100">
+      <div class='overflow-x-auto'>
+        <table class='w-full border-collapse'>
+          <thead class='bg-gray-100'>
             <tr>
-              <th class="border border-gray-300 p-3 text-left">Метод</th>
-              <th class="border border-gray-300 p-3 text-left">Описание</th>
-              <th class="border border-gray-300 p-3 text-left">Параметры</th>
-              <th class="border border-gray-300 p-3 text-left">Возвращаемое значение</th>
-              <th class="border border-gray-300 p-3 text-left">Пример</th>
+              <th class='border border-gray-300 p-3 text-left'>Метод</th>
+              <th class='border border-gray-300 p-3 text-left'>Описание</th>
+              <th class='border border-gray-300 p-3 text-left'>Параметры</th>
+              <th class='border border-gray-300 p-3 text-left'>Возвращаемое значение</th>
+              <th class='border border-gray-300 p-3 text-left'>Пример</th>
             </tr>
           </thead>
           <tbody>
             <!-- Validate Form -->
-            <tr class="hover:bg-gray-50">
-              <td class="border border-gray-300 p-3 font-bold"
+            <tr class='hover:bg-gray-50'>
+              <td class='border border-gray-300 p-3 font-bold'
                 >window.frontApi.form.validateForm(target)</td
               >
-              <td class="border border-gray-300 p-3">
+              <td class='border border-gray-300 p-3'>
                 Принудительная валидация всех полей формы. Показывает ошибки для невалидных полей.
-                <div class="mt-2 font-medium text-red">
+                <div class='mt-2 font-medium text-red'>
                   Внимание: вызывает показ ошибок на форме!
                 </div>
               </td>
-              <td class="border border-gray-300 p-3">
+              <td class='border border-gray-300 p-3'>
                 <code>target: string | HTMLFormElement</code> - селектор формы или DOM-элемент
               </td>
-              <td class="border border-gray-300 p-3">
+              <td class='border border-gray-300 p-3'>
                 <code>boolean</code> - true если все поля валидны, иначе false
               </td>
-              <td class="border border-gray-300 p-3">
+              <td class='border border-gray-300 p-3'>
                 <button
                   onclick="alert(window.frontApi.form.validateForm('#main-form'))"
-                  class="w-full rounded-xl border border-solid border-gray-400 border-teal-800 px-4 py-2 text-teal-800 hover:bg-teal-50"
+                  class='w-full rounded-xl border border-solid border-gray-400 border-teal-800 px-4 py-2 text-teal-800 hover:bg-teal-50'
                 >
                   Вызвать validateForm
                 </button>
@@ -64,26 +66,26 @@ import ToastTest from '@shared/ui/toast-test/toast-test.astro'
             </tr>
 
             <!-- isValidForm -->
-            <tr class="hover:bg-gray-50">
-              <td class="border border-gray-300 p-3 font-bold"
+            <tr class='hover:bg-gray-50'>
+              <td class='border border-gray-300 p-3 font-bold'
                 >window.frontApi.form.isValidForm(target)</td
               >
-              <td class="border border-gray-300 p-3">
+              <td class='border border-gray-300 p-3'>
                 Проверяет валидность всех полей формы без показа ошибок.
-                <div class="mt-2 font-medium text-green-600">
+                <div class='mt-2 font-medium text-green-600'>
                   Без побочных эффектов - не показывает ошибки
                 </div>
               </td>
-              <td class="border border-gray-300 p-3">
+              <td class='border border-gray-300 p-3'>
                 <code>target: string | HTMLFormElement</code> - селектор формы или DOM-элемент
               </td>
-              <td class="border border-gray-300 p-3">
+              <td class='border border-gray-300 p-3'>
                 <code>boolean</code> - true если все поля валидны, иначе false
               </td>
-              <td class="border border-gray-300 p-3">
+              <td class='border border-gray-300 p-3'>
                 <button
                   onclick="alert(window.frontApi.form.isValidForm('#main-form'))"
-                  class="w-full rounded-xl border border-solid border-gray-400 border-teal-800 px-4 py-2 text-teal-800 hover:bg-teal-50"
+                  class='w-full rounded-xl border border-solid border-gray-400 border-teal-800 px-4 py-2 text-teal-800 hover:bg-teal-50'
                 >
                   Вызвать isValidForm
                 </button>
@@ -91,15 +93,15 @@ import ToastTest from '@shared/ui/toast-test/toast-test.astro'
             </tr>
 
             <!-- setFormError -->
-            <tr class="hover:bg-gray-50">
-              <td class="border border-gray-300 p-3 font-bold"
+            <tr class='hover:bg-gray-50'>
+              <td class='border border-gray-300 p-3 font-bold'
                 >window.frontApi.form.setFormError(target, message, errorEl?)</td
               >
-              <td class="border border-gray-300 p-3"
+              <td class='border border-gray-300 p-3'
                 >Устанавливает общую ошибку формы (не привязанную к конкретному полю)</td
               >
-              <td class="border border-gray-300 p-3">
-                <ul class="list-disc pl-5">
+              <td class='border border-gray-300 p-3'>
+                <ul class='list-disc pl-5'>
                   <li>
                     <code>target: string | HTMLFormElement</code> - селектор формы или DOM-элемент
                   </li>
@@ -110,11 +112,11 @@ import ToastTest from '@shared/ui/toast-test/toast-test.astro'
                   </li>
                 </ul>
               </td>
-              <td class="border border-gray-300 p-3">void</td>
-              <td class="border border-gray-300 p-3">
+              <td class='border border-gray-300 p-3'>void</td>
+              <td class='border border-gray-300 p-3'>
                 <button
                   onclick="window.frontApi.form.setFormError('#main-form', 'Произошла ошибка')"
-                  class="w-full rounded-xl border border-solid border-gray-400 border-teal-800 px-4 py-2 text-teal-800 hover:bg-teal-50"
+                  class='w-full rounded-xl border border-solid border-gray-400 border-teal-800 px-4 py-2 text-teal-800 hover:bg-teal-50'
                 >
                   Вызвать setFormError
                 </button>
@@ -122,21 +124,21 @@ import ToastTest from '@shared/ui/toast-test/toast-test.astro'
             </tr>
 
             <!-- resetFormError -->
-            <tr class="hover:bg-gray-50">
-              <td class="border border-gray-300 p-3 font-bold"
+            <tr class='hover:bg-gray-50'>
+              <td class='border border-gray-300 p-3 font-bold'
                 >window.frontApi.form.resetFormError(target)</td
               >
-              <td class="border border-gray-300 p-3"
+              <td class='border border-gray-300 p-3'
                 >Сбрасывает общую ошибку формы (установленную через setFormError)</td
               >
-              <td class="border border-gray-300 p-3">
+              <td class='border border-gray-300 p-3'>
                 <code>target: string | HTMLFormElement</code> - селектор формы или DOM-элемент
               </td>
-              <td class="border border-gray-300 p-3">void</td>
-              <td class="border border-gray-300 p-3">
+              <td class='border border-gray-300 p-3'>void</td>
+              <td class='border border-gray-300 p-3'>
                 <button
                   onclick="window.frontApi.form.resetFormError('#main-form')"
-                  class="w-full rounded-xl border border-solid border-gray-400 border-teal-800 px-4 py-2 text-teal-800 hover:bg-teal-50"
+                  class='w-full rounded-xl border border-solid border-gray-400 border-teal-800 px-4 py-2 text-teal-800 hover:bg-teal-50'
                 >
                   Вызвать resetFormError
                 </button>
@@ -144,19 +146,19 @@ import ToastTest from '@shared/ui/toast-test/toast-test.astro'
             </tr>
 
             <!-- resetFormFieldsErrors -->
-            <tr class="hover:bg-gray-50">
-              <td class="border border-gray-300 p-3 font-bold"
+            <tr class='hover:bg-gray-50'>
+              <td class='border border-gray-300 p-3 font-bold'
                 >window.frontApi.form.resetFormFieldsErrors(target)</td
               >
-              <td class="border border-gray-300 p-3">Сбрасывает ВСЕ ошибки полей формы</td>
-              <td class="border border-gray-300 p-3">
+              <td class='border border-gray-300 p-3'>Сбрасывает ВСЕ ошибки полей формы</td>
+              <td class='border border-gray-300 p-3'>
                 <code>target: string | HTMLFormElement</code> - селектор формы или DOM-элемент
               </td>
-              <td class="border border-gray-300 p-3">void</td>
-              <td class="border border-gray-300 p-3">
+              <td class='border border-gray-300 p-3'>void</td>
+              <td class='border border-gray-300 p-3'>
                 <button
                   onclick="window.frontApi.form.resetFormFieldsErrors('#main-form')"
-                  class="w-full rounded-xl border border-solid border-gray-400 border-teal-800 px-4 py-2 text-teal-800 hover:bg-teal-50"
+                  class='w-full rounded-xl border border-solid border-gray-400 border-teal-800 px-4 py-2 text-teal-800 hover:bg-teal-50'
                 >
                   Вызвать resetFormFieldsErrors
                 </button>
@@ -164,25 +166,25 @@ import ToastTest from '@shared/ui/toast-test/toast-test.astro'
             </tr>
 
             <!-- validateField -->
-            <tr class="hover:bg-gray-50">
-              <td class="border border-gray-300 p-3 font-bold"
+            <tr class='hover:bg-gray-50'>
+              <td class='border border-gray-300 p-3 font-bold'
                 >window.frontApi.form.validateField(target)</td
               >
-              <td class="border border-gray-300 p-3">
+              <td class='border border-gray-300 p-3'>
                 Принудительная валидация конкретного поля формы. Показывает ошибку, если поле
                 невалидно.
-                <div class="mt-2 font-medium text-red">Показывает ошибку при невалидности</div>
+                <div class='mt-2 font-medium text-red'>Показывает ошибку при невалидности</div>
               </td>
-              <td class="border border-gray-300 p-3">
+              <td class='border border-gray-300 p-3'>
                 <code>target: string | HTMLInputElement</code> - селектор поля или DOM-элемент
               </td>
-              <td class="border border-gray-300 p-3">
+              <td class='border border-gray-300 p-3'>
                 <code>boolean</code> - true если поле валидно, иначе false
               </td>
-              <td class="border border-gray-300 p-3">
+              <td class='border border-gray-300 p-3'>
                 <button
                   onclick="alert(window.frontApi.form.validateField('#contacts-form4'))"
-                  class="w-full rounded-xl border border-solid border-gray-400 border-teal-800 px-4 py-2 text-teal-800 hover:bg-teal-50"
+                  class='w-full rounded-xl border border-solid border-gray-400 border-teal-800 px-4 py-2 text-teal-800 hover:bg-teal-50'
                 >
                   Вызвать validateField
                 </button>
@@ -190,26 +192,26 @@ import ToastTest from '@shared/ui/toast-test/toast-test.astro'
             </tr>
 
             <!-- setFormFieldError -->
-            <tr class="hover:bg-gray-50">
-              <td class="border border-gray-300 p-3 font-bold"
+            <tr class='hover:bg-gray-50'>
+              <td class='border border-gray-300 p-3 font-bold'
                 >window.frontApi.form.setFormFieldError(target, message)</td
               >
-              <td class="border border-gray-300 p-3"
+              <td class='border border-gray-300 p-3'
                 >Устанавливает кастомное сообщение об ошибке для конкретного поля</td
               >
-              <td class="border border-gray-300 p-3">
-                <ul class="list-disc pl-5">
+              <td class='border border-gray-300 p-3'>
+                <ul class='list-disc pl-5'>
                   <li>
                     <code>target: string | HTMLInputElement</code> - селектор поля или DOM-элемент
                   </li>
                   <li><code>message: string</code> - текст ошибки</li>
                 </ul>
               </td>
-              <td class="border border-gray-300 p-3">void</td>
-              <td class="border border-gray-300 p-3">
+              <td class='border border-gray-300 p-3'>void</td>
+              <td class='border border-gray-300 p-3'>
                 <button
                   onclick="window.frontApi.form.setFormFieldError('#contacts-form4', 'Неверный формат')"
-                  class="w-full rounded-xl border border-solid border-gray-400 border-teal-800 px-4 py-2 text-teal-800 hover:bg-teal-50"
+                  class='w-full rounded-xl border border-solid border-gray-400 border-teal-800 px-4 py-2 text-teal-800 hover:bg-teal-50'
                 >
                   Вызвать setFormFieldError
                 </button>
@@ -217,19 +219,19 @@ import ToastTest from '@shared/ui/toast-test/toast-test.astro'
             </tr>
 
             <!-- resetFormFieldErrors -->
-            <tr class="hover:bg-gray-50">
-              <td class="border border-gray-300 p-3 font-bold"
+            <tr class='hover:bg-gray-50'>
+              <td class='border border-gray-300 p-3 font-bold'
                 >window.frontApi.form.resetFormFieldErrors(target)</td
               >
-              <td class="border border-gray-300 p-3">Сбрасывает ошибку для конкретного поля</td>
-              <td class="border border-gray-300 p-3">
+              <td class='border border-gray-300 p-3'>Сбрасывает ошибку для конкретного поля</td>
+              <td class='border border-gray-300 p-3'>
                 <code>target: string | HTMLInputElement</code> - селектор поля или DOM-элемент
               </td>
-              <td class="border border-gray-300 p-3">void</td>
-              <td class="border border-gray-300 p-3">
+              <td class='border border-gray-300 p-3'>void</td>
+              <td class='border border-gray-300 p-3'>
                 <button
                   onclick="window.frontApi.form.resetFormFieldErrors('#contacts-form4')"
-                  class="w-full rounded-xl border border-solid border-gray-400 border-teal-800 px-4 py-2 text-teal-800 hover:bg-teal-50"
+                  class='w-full rounded-xl border border-solid border-gray-400 border-teal-800 px-4 py-2 text-teal-800 hover:bg-teal-50'
                 >
                   Вызвать resetFormFieldErrors
                 </button>
@@ -237,18 +239,18 @@ import ToastTest from '@shared/ui/toast-test/toast-test.astro'
             </tr>
 
             <!-- initAll -->
-            <tr class="hover:bg-gray-50">
-              <td class="border border-gray-300 p-3 font-bold">window.frontApi.form.initAll()</td>
-              <td class="border border-gray-300 p-3">
+            <tr class='hover:bg-gray-50'>
+              <td class='border border-gray-300 p-3 font-bold'>window.frontApi.form.initAll()</td>
+              <td class='border border-gray-300 p-3'>
                 Инициализирует или переинициализирует все формы на странице. Полезно при
                 динамическом добавлении форм.
               </td>
-              <td class="border border-gray-300 p-3">Нет параметров</td>
-              <td class="border border-gray-300 p-3">void</td>
-              <td class="border border-gray-300 p-3">
+              <td class='border border-gray-300 p-3'>Нет параметров</td>
+              <td class='border border-gray-300 p-3'>void</td>
+              <td class='border border-gray-300 p-3'>
                 <button
-                  onclick="window.frontApi.form.initAll()"
-                  class="w-full rounded-xl border border-solid border-gray-400 border-teal-800 px-4 py-2 text-teal-800 hover:bg-teal-50"
+                  onclick='window.frontApi.form.initAll()'
+                  class='w-full rounded-xl border border-solid border-gray-400 border-teal-800 px-4 py-2 text-teal-800 hover:bg-teal-50'
                 >
                   Вызвать initAll
                 </button>
@@ -261,86 +263,86 @@ import ToastTest from '@shared/ui/toast-test/toast-test.astro'
       <Form
         novalidate
         id={'main-form'}
-        class="mt-12 flex flex-col gap-3"
+        class='mt-12 flex flex-col gap-3'
       >
-        <div class="flex flex-col gap-12">
-          <div class="flex flex-col gap-1">
-            <p class="font-bold">Только буквы</p>
+        <div class='flex flex-col gap-12'>
+          <div class='flex flex-col gap-1'>
+            <p class='font-bold'>Только буквы</p>
             <Input
               id={'contacts-form1'}
               placeholder={'Имя *'}
               name={'fio'}
-              data-validate="text-only"
+              data-validate='text-only'
               type={'text'}
               required
             />
           </div>
-          <div class="flex flex-col gap-1">
-            <p class="font-bold">Только русские буквы</p>
+          <div class='flex flex-col gap-1'>
+            <p class='font-bold'>Только русские буквы</p>
             <Input
               id={'contacts-form2'}
               placeholder={'Имя *'}
               name={'fio'}
-              data-validate="text-cyrillic"
+              data-validate='text-cyrillic'
               type={'text'}
               required
             />
           </div>
-          <div class="flex flex-col gap-1">
-            <p class="font-bold">Буквы и цифры</p>
+          <div class='flex flex-col gap-1'>
+            <p class='font-bold'>Буквы и цифры</p>
             <Input
               id={'contacts-form3'}
               placeholder={'Никнейм *'}
               name={'nickname'}
-              data-validate="text"
+              data-validate='text'
               type={'text'}
               required
             />
           </div>
-          <div class="flex flex-col gap-1">
-            <p class="font-bold">email</p>
+          <div class='flex flex-col gap-1'>
+            <p class='font-bold'>email</p>
             <Input
               id={'contacts-form4'}
               placeholder={'Email *'}
               name={'email'}
-              data-validate="email"
+              data-validate='email'
               type={'email'}
               required
-              minlength="3"
-              data-error-message="Неправильный email"
+              minlength='3'
+              data-error-message='Неправильный email'
             />
           </div>
-          <div class="flex flex-col gap-1">
-            <p class="font-bold">Тут будет кастомный блок для ошибки (выделен верхним регистром)</p>
+          <div class='flex flex-col gap-1'>
+            <p class='font-bold'>Тут будет кастомный блок для ошибки (выделен верхним регистром)</p>
             <Input
               id={'contacts-form5'}
               placeholder={'Телефон *'}
               name={'tel'}
-              data-validate="tel"
+              data-validate='tel'
               type={'tel'}
               required
-              data-error-container="tel-error-container"
+              data-error-container='tel-error-container'
             />
             <dir
-              class="uppercase text-red"
-              data-error-container="tel-error-container"
+              class='uppercase text-red'
+              data-error-container='tel-error-container'
             ></dir>
           </div>
-          <div class="flex flex-col gap-1">
-            <p class="font-bold">Положительное число</p>
+          <div class='flex flex-col gap-1'>
+            <p class='font-bold'>Положительное число</p>
             <Input
               id={'contacts-form6'}
               placeholder={'Положительное число'}
               name={'positive-number'}
-              data-validate="positive-number"
+              data-validate='positive-number'
               type={'text'}
             />
           </div>
         </div>
 
         <button
-          class="mx-auto w-fit rounded-xl border border-solid border-gray-400 border-teal-800 px-6 py-3 text-teal-800"
-          type="submit"
+          class='mx-auto w-fit rounded-xl border border-solid border-gray-400 border-teal-800 px-6 py-3 text-teal-800'
+          type='submit'
           >Submit</button
         >
       </Form>
@@ -348,21 +350,21 @@ import ToastTest from '@shared/ui/toast-test/toast-test.astro'
 
     <ToastTest />
 
-    <div class="flex flex-col gap-16">
+    <div class='flex flex-col gap-16'>
       <section>
         <p>Multiple</p>
 
         <AccordionContainer multiple>
           <Accordion
-            title="Accordion 1"
+            title='Accordion 1'
             expanded
           >
             <p>Accordion content 1</p>
           </Accordion>
-          <Accordion title="Accordion 2">
+          <Accordion title='Accordion 2'>
             <p>Accordion content 2</p>
           </Accordion>
-          <Accordion title="Accordion 3">
+          <Accordion title='Accordion 3'>
             <p>Accordion content 3</p>
           </Accordion>
         </AccordionContainer>
@@ -372,16 +374,16 @@ import ToastTest from '@shared/ui/toast-test/toast-test.astro'
         <p>Not multiple</p>
 
         <AccordionContainer>
-          <Accordion title="Accordion 1">
+          <Accordion title='Accordion 1'>
             <p>Accordion content 1</p>
           </Accordion>
           <Accordion
-            title="Accordion 2"
+            title='Accordion 2'
             expanded
           >
             <p>Accordion content 2</p>
           </Accordion>
-          <Accordion title="Accordion 3">
+          <Accordion title='Accordion 3'>
             <p>Accordion content 3</p>
           </Accordion>
         </AccordionContainer>
@@ -404,48 +406,48 @@ import ToastTest from '@shared/ui/toast-test/toast-test.astro'
 
       <section>
         <Button
-          href="#"
-          variant="text"
+          href='#'
+          variant='text'
           >Ссылка text</Button
         >
-        <Button variant="contained">Кнопка contained</Button>
+        <Button variant='contained'>Кнопка contained</Button>
         <Button
-          variant="contained"
-          color="light"
+          variant='contained'
+          color='light'
           >Кнопка contained light</Button
         >
-        <Button variant="outlined">Кнопка outlined</Button>
+        <Button variant='outlined'>Кнопка outlined</Button>
       </section>
 
       <section>
-        <Checkbox label="Checkbox" />
+        <Checkbox label='Checkbox' />
         <Checkbox
           name={'checkbox'}
           checked={true}
           >Checkbox с вложенной <a
-            href="#"
-            class="text-blue hover:text-red"
+            href='#'
+            class='text-blue hover:text-red'
             >ссылкой</a
           ></Checkbox
         >
         <Checkbox
-          label="Checkbox disabled"
+          label='Checkbox disabled'
           disabled
         />
       </section>
 
-      <section class="w-1/4">
-        <Switch label="Switch" />
+      <section class='w-1/4'>
+        <Switch label='Switch' />
         <Switch
-          label="Switch"
+          label='Switch'
           checked
         />
         <Switch
-          label="Switch"
+          label='Switch'
           disabled
         />
         <Switch
-          label="Switch"
+          label='Switch'
           checked
           disabled
         />
@@ -459,6 +461,65 @@ import ToastTest from '@shared/ui/toast-test/toast-test.astro'
       <section>
         <Textarea placeholder={'Textarea'} />
       </section>
+    </div>
+
+    <div class='flex gap-10 p-5'>
+      <h2 class='text-center text-2xl font-bold'>Модальные окна</h2>
+      <button
+        data-modal-btn='modal-1'
+        class='w-[30%] rounded-xl bg-rose-300 p-3'
+        >Открыть модалку</button
+      >
+      <StandartModal id='modal-1'>
+        <div class='flex flex-col gap-5 rounded-md p-20'>
+          <h3 class='text-3xl'>Заголовок</h3>
+          <p>
+            Текст (от лат. textus — ткань; сплетение, сочетание) — зафиксированная на каком-либо
+            материальном носителе человеческая мысль; в общем плане связная и полная
+            последовательность символов. Существуют две основные трактовки понятия «текст»:
+            имманентная (расширенная, философски нагруженная) и репрезентативная (более частная).
+            Имманентный подход подразумевает отношение к тексту как к автономной реальности,
+            нацеленность на выявление его внутренней структуры. Репрезентативный — рассмотрение
+            текста как особой формы представления информации о внешней тексту действительности. В
+            лингвистике термин «текст» используется в широком значении, включая и образцы устной
+            речи. Восприятие текста изучается в рамках лингвистики текста и психолингвистики. Так,
+            например, И. Р. Гальперин определяет текст следующим образом: «Это письменное сообщение,
+            объективированное в виде письменного документа, состоящее из ряда высказываний,
+            объединённых разными типами лексической, грамматической и логической связи, имеющее
+            определённый модальный характер, прагматическую установку и соответственно литературно
+            обработанное»[1].
+          </p>
+          <button class='w-full rounded-xl bg-rose-300 p-3'>Кнопка модалки</button>
+        </div>
+      </StandartModal>
+
+      <button
+        data-modal-btn='modal-2'
+        class='w-[30%] rounded-xl bg-rose-300 p-3'
+        >Открыть боковую модалку</button
+      >
+      <SideModal id='modal-2'>
+        <div class='flex w-[40vw] flex-col gap-5 rounded-md p-20'>
+          <h3 class='text-3xl'>Заголовок</h3>
+          <p>
+            Текст (от лат. textus — ткань; сплетение, сочетание) — зафиксированная на каком-либо
+            материальном носителе человеческая мысль; в общем плане связная и полная
+            последовательность символов. Существуют две основные трактовки понятия «текст»:
+            имманентная (расширенная, философски нагруженная) и репрезентативная (более частная).
+            Имманентный подход подразумевает отношение к тексту как к автономной реальности,
+            нацеленность на выявление его внутренней структуры. Репрезентативный — рассмотрение
+            текста как особой формы представления информации о внешней тексту действительности. В
+            лингвистике термин «текст» используется в широком значении, включая и образцы устной
+            речи. Восприятие текста изучается в рамках лингвистики текста и психолингвистики. Так,
+            например, И. Р. Гальперин определяет текст следующим образом: «Это письменное сообщение,
+            объективированное в виде письменного документа, состоящее из ряда высказываний,
+            объединённых разными типами лексической, грамматической и логической связи, имеющее
+            определённый модальный характер, прагматическую установку и соответственно литературно
+            обработанное»[1].
+          </p>
+          <button class='w-full rounded-xl bg-rose-300 p-3'>Кнопка модалки</button>
+        </div>
+      </SideModal>
     </div>
   </div></Layout
 >
