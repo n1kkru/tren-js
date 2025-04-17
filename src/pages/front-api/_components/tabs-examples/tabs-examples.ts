@@ -1,4 +1,7 @@
 export const tabsExamples = () => {
+  const page = document.querySelector('#tabs-examples-page') as HTMLElement
+  if (!page) return
+
   const tabs = window.frontApi.tabs
 
   document.querySelector('#tabs-init')?.addEventListener('click', () => {

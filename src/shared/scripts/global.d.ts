@@ -11,7 +11,7 @@ declare global {
       toast: ToastApi
       tabs: TabsApi
       accordion: AccordionApi
-      modals: ModalsApi
+      // modals: ModalsApi
       initAll: () => void
     }
     customValidator: CustomValidatorApi

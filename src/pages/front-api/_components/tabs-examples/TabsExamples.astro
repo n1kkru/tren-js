@@ -8,6 +8,7 @@ const { class: className, ...props } = Astro.props as Props
 ---
 
 <section
+  id="tabs-examples-page"
   class:list={['tabs-examples', className]}
   {...props}
 >
@@ -182,5 +183,3 @@ const { class: className, ...props } = Astro.props as Props
 <style>
   @import './tabs-examples.scss';
 </style>
-
-<script src="./tabs-examples.ts"></script>

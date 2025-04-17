@@ -1,4 +1,7 @@
 export const toastsExamples = () => {
+  const page = document.querySelector('#toasts-examples-page') as HTMLElement
+  if (!page) return
+
   const toast = window.frontApi.toast
 
   toast.onAnyInit(t => console.log('[init]', t))
@@ -77,5 +80,3 @@ export const toastsExamples = () => {
     toast.initAll()
   })
 }
-
-// window.addEventListener('load', toastsExamples)

@@ -1,4 +1,7 @@
 export const accordionExamples = () => {
+  const page = document.querySelector('#accordion-examples-page') as HTMLElement
+  if (!page) return
+
   const accordion = window.frontApi.accordion
   console.log(`${accordion} is initialized`)
 
