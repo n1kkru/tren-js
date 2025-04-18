@@ -9,6 +9,9 @@ import { initToastsFromDOM } from './components/init-toasts'
 import { hoverControlledSlider } from './components/hover-slider'
 import { tabsExamples } from '@pages/front-api/_components/tabs-examples/tabs-examples'
 import { toastsExamples } from '@pages/front-api/_components/toasts-examples/toasts-examples'
+import { selectExamples } from '@pages/front-api/_components/select-examples/select-examples'
+
+  ; (window as any).process = { env: {} } // Фикс для совместимости с TomSelect
 
 document.addEventListener('DOMContentLoaded', () => {
   frontApi()
@@ -32,6 +35,7 @@ export function commonFunction(): void {
   accordionExamples()
   toastsExamples()
   tabsExamples()
+  selectExamples()
 }
 
 console.info(import.meta.env)

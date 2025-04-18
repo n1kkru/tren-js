@@ -1,3 +1,4 @@
+import type { selectApi } from '@shared/ui/select/select.type'
 import type { ToastApi } from '@shared/ui/toast/toast'
 import type { AccordionApi } from '@shared/ui/accordion/accordion.type'
 import type { TabsApi } from '@shared/ui/tabs/tabs-manager'
@@ -9,11 +10,13 @@ declare global {
     frontApi: {
       form: FormApi
       toast: ToastApi
+      select: selectApi
       tabs: TabsApi
       accordion: AccordionApi
       // modals: ModalsApi
       initAll: () => void
     }
     customValidator: CustomValidatorApi
+
   }
 }
