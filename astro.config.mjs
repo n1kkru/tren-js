@@ -62,12 +62,10 @@ const updateBuildScripts = () => ({
 // https://astro.build/config
 export default defineConfig({
   base: '/main',
-  experimental: {},
 
   devToolbar: {
     enabled: false
   },
-  
 
   compressHTML: false,
 

@@ -22,8 +22,10 @@ export function frontApi() {
   window.frontApi.initAll = () => {
     formApi.initAll()
     toastApi.initAll()
+    tooltipApi.initAll()
+    rangeApi.initAll()
+    selectApi.initAll()
     TabsApi.initAll()
     accordionApi.initAll()
-    selectApi.initAll()
   }
 }
