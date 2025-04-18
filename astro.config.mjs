@@ -73,7 +73,7 @@ export default defineConfig({
 
   vite: {
     optimizeDeps: {
-      include: ['tom-select'],
+      include: ['tom-select']
     },
     build: {
       cssCodeSplit: false,

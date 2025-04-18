@@ -12,153 +12,153 @@ export { ModalExamples }
 ---
 
 <section
-  id='modal-examples-page'
+  id="modal-examples-page"
   class:list={['modal-examples', className]}
   {...props}
 >
-  <div class='space-y-6 rounded-lg bg-gray-100 p-6'>
-    <h2 class='mb-4 text-2xl font-bold'>Модальные окна</h2>
-    <p class='mb-4 text-lg font-bold text-sky-600'>Смотри консоль</p>
+  <div class="space-y-6 rounded-lg bg-gray-100 p-6">
+    <h2 class="mb-4 text-2xl font-bold">Модальные окна</h2>
+    <p class="mb-4 text-lg font-bold text-sky-600">Смотри консоль</p>
 
     <div
-      class='tabs'
-      data-tabs='example-tabs'
+      class="tabs"
+      data-tabs="example-tabs"
     >
-      <div class='flex gap-10 p-5'>
+      <div class="flex gap-10 p-5">
         <button
-          data-modal-trigger='modal-1'
-          class='w-[30%] rounded-xl bg-rose-300 p-3'
+          data-modal-trigger="modal-1"
+          class="w-[30%] rounded-xl bg-rose-300 p-3"
           >Открыть модалку</button
         >
-        <StandartModal id='modal-1'>
-          <div class='flex flex-col gap-5 rounded-md p-20'>
-            <h3 class='text-3xl'>Заголовок</h3>
+        <StandartModal id="modal-1">
+          <div class="flex flex-col gap-5 rounded-md p-20">
+            <h3 class="text-3xl">Заголовок</h3>
             <p>
               Текст (от лат. textus — ткань; сплетение, сочетание) — зафиксированная на каком-либо
               материальном носителе человеческая мысль; в общем плане связная и полная
               последовательность символов. Существуют две основные трактовки понятия «текст»:
               имманентная (расширенная, философски нагруженная) и репрезентативная (более частная).
             </p>
-            <button class='w-full rounded-xl bg-rose-300 p-3'>Кнопка модалки</button>
+            <button class="w-full rounded-xl bg-rose-300 p-3">Кнопка модалки</button>
           </div>
         </StandartModal>
 
         <button
-          data-modal-trigger='modal-2'
-          class='w-[30%] rounded-xl bg-rose-300 p-3'
+          data-modal-trigger="modal-2"
+          class="w-[30%] rounded-xl bg-rose-300 p-3"
           >Открыть боковую модалку</button
         >
-        <SideModal id='modal-2'>
-          <div class='flex w-[40vw] flex-col gap-5 rounded-md p-20'>
-            <h3 class='text-3xl'>Заголовок</h3>
+        <SideModal id="modal-2">
+          <div class="flex w-[40vw] flex-col gap-5 rounded-md p-20">
+            <h3 class="text-3xl">Заголовок</h3>
             <p>
               Текст (от лат. textus — ткань; сплетение, сочетание) — зафиксированная на каком-либо
               материальном носителе человеческая мысль; в общем плане связная и полная
               последовательность символов. Существуют две основные трактовки понятия «текст»:
               имманентная (расширенная, философски нагруженная) и репрезентативная (более частная).
             </p>
-            <button class='w-full rounded-xl bg-rose-300 p-3'>Кнопка модалки</button>
+            <button class="w-full rounded-xl bg-rose-300 p-3">Кнопка модалки</button>
           </div>
         </SideModal>
       </div>
 
-      <div class='space-y-6'>
+      <div class="space-y-6">
         <!-- init -->
-        <div class='rounded bg-white p-4 shadow'>
-          <h2 class='text-lg font-semibold'>window.frontApi.modals.init(selectorOrEl, options)</h2>
-          <p class='text-sm text-gray-600'>Инициализирует конкретное модальное окно.</p>
+        <div class="rounded bg-white p-4 shadow">
+          <h2 class="text-lg font-semibold">window.frontApi.modals.init(selectorOrEl, options)</h2>
+          <p class="text-sm text-gray-600">Инициализирует конкретное модальное окно.</p>
           <button
-            id='modal-init'
-            data-modal-trigger='modal-1'
-            class='mt-2 rounded bg-cyan-500 px-4 py-2 text-white'
+            id="modal-init"
+            data-modal-trigger="modal-1"
+            class="mt-2 rounded bg-cyan-500 px-4 py-2 text-white"
             >Пример вызова</button
           >
           <pre
-            class='mt-2 rounded bg-gray-100 p-3 text-sm text-gray-800'><code>modal.init('[data-modal="modal-1"]')</code></pre>
+            class="mt-2 rounded bg-gray-100 p-3 text-sm text-gray-800"><code>modal.init('[data-modal="modal-1"]')</code></pre>
         </div>
 
         <!-- initAll -->
-        <div class='rounded bg-white p-4 shadow'>
-          <h2 class='text-lg font-semibold'>window.frontApi.modals.initAll(options)</h2>
-          <p class='text-sm text-gray-600'>
+        <div class="rounded bg-white p-4 shadow">
+          <h2 class="text-lg font-semibold">window.frontApi.modals.initAll(options)</h2>
+          <p class="text-sm text-gray-600">
             Инициализирует все модальные окна на странице и привязывает к ним триггеры.
           </p>
           <button
-            id='modal-init-all'
-            data-modal-trigger='modal-2'
-            class='mt-2 rounded bg-sky-600 px-4 py-2 text-white'
+            id="modal-init-all"
+            data-modal-trigger="modal-2"
+            class="mt-2 rounded bg-sky-600 px-4 py-2 text-white"
             >Инициализировать все</button
           >
           <pre
-            class='mt-2 rounded bg-gray-100 p-3 text-sm text-gray-800'><code>window.frontApi.modals.initAll()</code></pre>
+            class="mt-2 rounded bg-gray-100 p-3 text-sm text-gray-800"><code>window.frontApi.modals.initAll()</code></pre>
         </div>
 
         <!-- bindTriggers -->
-        <div class='rounded bg-white p-4 shadow'>
-          <h2 class='text-lg font-semibold'>window.frontApi.modals.bindTriggers()</h2>
-          <p class='text-sm text-gray-600'>
+        <div class="rounded bg-white p-4 shadow">
+          <h2 class="text-lg font-semibold">window.frontApi.modals.bindTriggers()</h2>
+          <p class="text-sm text-gray-600">
             Привязывает кнопки-триггеры к соответствующим модальным окнам.
           </p>
           <button
-            id='modal-bind-trig'
-            class='mt-2 rounded bg-purple-600 px-4 py-2 text-white'
+            id="modal-bind-trig"
+            class="mt-2 rounded bg-purple-600 px-4 py-2 text-white"
             >Бинд триггеры</button
           >
           <pre
-            class='mt-2 rounded bg-gray-100 p-3 text-sm text-gray-800'><code>window.frontApi.modals.bindTriggers()</code></pre>
+            class="mt-2 rounded bg-gray-100 p-3 text-sm text-gray-800"><code>window.frontApi.modals.bindTriggers()</code></pre>
         </div>
 
         <!-- get -->
-        <div class='rounded bg-white p-4 shadow'>
-          <h2 class='text-lg font-semibold'>window.frontApi.modals.get(selectorOrEl)</h2>
-          <p class='text-sm text-gray-600'>
+        <div class="rounded bg-white p-4 shadow">
+          <h2 class="text-lg font-semibold">window.frontApi.modals.get(selectorOrEl)</h2>
+          <p class="text-sm text-gray-600">
             Возвращает экземпляр модального окна по селектору или DOM-элементу.
           </p>
           <button
-            id='modal-get'
-            class='mt-2 rounded bg-indigo-600 px-4 py-2 text-white'
+            id="modal-get"
+            class="mt-2 rounded bg-indigo-600 px-4 py-2 text-white"
             >Получить модалку по id</button
           >
           <pre
-            class='mt-2 rounded bg-gray-100 p-3 text-sm text-gray-800'><code>window.frontApi.modals.get('[data-tabs="example-tabs"]')</code></pre>
+            class="mt-2 rounded bg-gray-100 p-3 text-sm text-gray-800"><code>window.frontApi.modals.get('[data-tabs="example-tabs"]')</code></pre>
         </div>
 
         <!-- instances -->
-        <div class='rounded bg-white p-4 shadow'>
-          <h2 class='text-lg font-semibold'>window.frontApi.modals.instances</h2>
-          <p class='text-sm text-gray-600'>Возвращает инстенсы</p>
+        <div class="rounded bg-white p-4 shadow">
+          <h2 class="text-lg font-semibold">window.frontApi.modals.instances</h2>
+          <p class="text-sm text-gray-600">Возвращает инстенсы</p>
           <button
-            id='modal-instances'
-            class='mt-2 rounded bg-indigo-600 px-4 py-2 text-white'
+            id="modal-instances"
+            class="mt-2 rounded bg-indigo-600 px-4 py-2 text-white"
             >Получить</button
           >
           <pre
-            class='mt-2 rounded bg-gray-100 p-3 text-sm text-gray-800'><code>window.frontApi.modals.instances</code></pre>
+            class="mt-2 rounded bg-gray-100 p-3 text-sm text-gray-800"><code>window.frontApi.modals.instances</code></pre>
         </div>
 
         <!-- onAny -->
-        <div class='rounded bg-white p-4 shadow'>
-          <h2 class='text-lg font-semibold'>window.frontApi.modals.onAny(event, callback)</h2>
-          <p class='text-sm text-gray-600'>Подписывает на глобальные события модальных окон.</p>
+        <div class="rounded bg-white p-4 shadow">
+          <h2 class="text-lg font-semibold">window.frontApi.modals.onAny(event, callback)</h2>
+          <p class="text-sm text-gray-600">Подписывает на глобальные события модальных окон.</p>
 
           <pre
-            class='mt-2 rounded bg-gray-100 p-3 text-sm text-gray-800'><code>window.frontApi.modals.onAny(event, callback)</code></pre>
+            class="mt-2 rounded bg-gray-100 p-3 text-sm text-gray-800"><code>window.frontApi.modals.onAny(event, callback)</code></pre>
         </div>
 
         <!-- window.frontApi.tabs.onAnyInit -->
-        <div class='rounded bg-white p-4 shadow'>
-          <h2 class='text-lg font-semibold'>window.frontApi.modals.onAnyInit()</h2>
-          <p class='text-sm text-gray-600'>Подписка на инициализацию любых табов.</p>
+        <div class="rounded bg-white p-4 shadow">
+          <h2 class="text-lg font-semibold">window.frontApi.modals.onAnyInit()</h2>
+          <p class="text-sm text-gray-600">Подписка на инициализацию любых табов.</p>
           <pre
-            class='mt-2 rounded bg-gray-100 p-3 text-sm text-gray-800'><code>window.frontApi.tabs.onAnyInit(t => console.log('[init]', t))</code></pre>
+            class="mt-2 rounded bg-gray-100 p-3 text-sm text-gray-800"><code>window.frontApi.tabs.onAnyInit(t => console.log('[init]', t))</code></pre>
         </div>
 
         <!-- window.frontApi.tabs.onAnyChange -->
-        <div class='rounded bg-white p-4 shadow'>
-          <h2 class='text-lg font-semibold'>window.frontApi.modals.onAnyChange()</h2>
-          <p class='text-sm text-gray-600'>Подписка на переключение любых табов.</p>
+        <div class="rounded bg-white p-4 shadow">
+          <h2 class="text-lg font-semibold">window.frontApi.modals.onAnyChange()</h2>
+          <p class="text-sm text-gray-600">Подписка на переключение любых табов.</p>
           <pre
-            class='mt-2 rounded bg-gray-100 p-3 text-sm text-gray-800'><code>{`window.frontApi.tabs.onAnyChange(({ activeTab }) => console.log('[change]', activeTab))`}</code></pre>
+            class="mt-2 rounded bg-gray-100 p-3 text-sm text-gray-800"><code>{`window.frontApi.tabs.onAnyChange(({ activeTab }) => console.log('[change]', activeTab))`}</code></pre>
         </div>
       </div>
     </div>

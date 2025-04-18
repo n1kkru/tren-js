@@ -1,12 +1,13 @@
-import TomSelect from 'tom-select';
-import type {
-  TTomSelectElement,
-  TTomSelectOption,
-  ITomSelectInstance,
-  ITomSelectConfig
-} from './select.type';
+import TomSelect from 'tom-select'
 
-const tomSelectInstances = new WeakMap<HTMLSelectElement, ITomSelectInstance>();
+import type {
+  ITomSelectConfig,
+  ITomSelectInstance,
+  TTomSelectElement,
+  TTomSelectOption
+} from './select.type'
+
+const tomSelectInstances = new WeakMap<HTMLSelectElement, ITomSelectInstance>()
 
 const getElement = (el: TTomSelectElement): HTMLSelectElement | null =>
   typeof el === 'string' ? document.querySelector(el) : el
@@ -20,45 +21,45 @@ const initTomSelect = (
   element: TTomSelectElement,
   config: ITomSelectConfig = {}
 ): ITomSelectInstance | null => {
-  const el = getElement(element);
-  if (!el) return null;
+  const el = getElement(element)
+  if (!el) return null
 
   if (isInit(el)) return tomSelectInstances.get(el) || null
 
   if (config.placeholder && !el.querySelector('option[value=""]')) {
-    const option = new Option('', '', false, false);
-    el.add(option, 0);
+    const option = new Option('', '', false, false)
+    el.add(option, 0)
   }
 
-  const userOnInitialize = config.onInitialize;
-  const userOnItemAdd = config.onItemAdd;
+  const userOnInitialize = config.onInitialize
+  const userOnItemAdd = config.onItemAdd
 
   const mergedOnInitialize = function (this: TomSelect) {
-    el.setAttribute('data-tomselect-init', 'true');
+    el.setAttribute('data-tomselect-init', 'true')
     if (config.placeholder) {
       setTimeout(() => {
-        this.settings.placeholder = config.placeholder!;
-        this.control_input.placeholder = config.placeholder!;
-        this.refreshOptions(false);
-      });
+        this.settings.placeholder = config.placeholder!
+        this.control_input.placeholder = config.placeholder!
+        this.refreshOptions(false)
+      })
     }
-    (userOnInitialize as (() => void) | undefined)?.call(this);
-  };
+    ;(userOnInitialize as (() => void) | undefined)?.call(this)
+  }
 
-  const mergedOnItemAdd = function (
-    this: TomSelect,
-    value: string | number,
-    item: HTMLDivElement
-  ) {
-    item.style.cursor = 'pointer';
-    item.addEventListener('click', (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      this.removeItem(value as string);
-    });
+  const mergedOnItemAdd = function (this: TomSelect, value: string | number, item: HTMLDivElement) {
+    item.style.cursor = 'pointer'
+    item.addEventListener('click', e => {
+      e.preventDefault()
+      e.stopPropagation()
+      this.removeItem(value as string)
+    })
 
-    (userOnItemAdd as ((value: string | number, item: HTMLDivElement) => void) | undefined)?.call(this, value, item);
-  };
+    ;(userOnItemAdd as ((value: string | number, item: HTMLDivElement) => void) | undefined)?.call(
+      this,
+      value,
+      item
+    )
+  }
 
   const instance = new TomSelect(el, {
     valueField: 'value',
@@ -68,12 +69,12 @@ const initTomSelect = (
     hidePlaceholder: false,
     ...config,
     onInitialize: mergedOnInitialize,
-    onItemAdd: mergedOnItemAdd,
-  }) as unknown as ITomSelectInstance;
+    onItemAdd: mergedOnItemAdd
+  }) as unknown as ITomSelectInstance
 
-  tomSelectInstances.set(el, instance);
-  return instance;
-};
+  tomSelectInstances.set(el, instance)
+  return instance
+}
 
 const reInitTomSelect = (
   element: TTomSelectElement,
@@ -203,13 +204,13 @@ const tomSelectModule = {
   },
 
   removeAllOptions(element: TTomSelectElement): void {
-    const el = getElement(element);
-    const instance = el ? tomSelectInstances.get(el) : null;
+    const el = getElement(element)
+    const instance = el ? tomSelectInstances.get(el) : null
 
     if (instance) {
-      instance.clear(true);
-      instance.clearOptions();
-      instance.refreshOptions(false);
+      instance.clear(true)
+      instance.clearOptions()
+      instance.refreshOptions(false)
     }
   },
 
@@ -248,7 +249,9 @@ const tomSelectModule = {
       return instance.getValue()
     }
     if (el) {
-      return el.multiple ? Array.from(el.selectedOptions).map((opt: HTMLOptionElement) => opt.value) : el.value
+      return el.multiple
+        ? Array.from(el.selectedOptions).map((opt: HTMLOptionElement) => opt.value)
+        : el.value
     }
     return null
   },
@@ -261,7 +264,10 @@ const tomSelectModule = {
       instance.setValue(value, true)
     } else if (el) {
       if (Array.isArray(value)) {
-        Array.from(el.options).forEach((opt: HTMLOptionElement) => (opt.selected = Array.isArray(value) && value.includes(opt.value)))
+        Array.from(el.options).forEach(
+          (opt: HTMLOptionElement) =>
+            (opt.selected = Array.isArray(value) && value.includes(opt.value))
+        )
       } else {
         el.value = value
       }
@@ -291,6 +297,6 @@ export const selectApi = {
 }
 
 if (typeof window !== 'undefined') {
-  (window as any).frontApi = (window as any).frontApi || {};
-  (window as any).frontApi.select = selectApi;
+  ;(window as any).frontApi = (window as any).frontApi || {}
+  ;(window as any).frontApi.select = selectApi
 }

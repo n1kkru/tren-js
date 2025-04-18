@@ -2,12 +2,12 @@
   position: static;
 
   & code {
-    text-wrap: wrap;
     font-family: monospace;
+    text-wrap: wrap;
 
     &::selection {
-      background: #663399;
       color: white;
+      background: #663399;
     }
   }
 }

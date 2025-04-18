@@ -1,12 +1,12 @@
 import accordionApi from '@shared/ui/accordion/accordions'
+import rangeApi from '@shared/ui/range/range'
+import { selectApi } from '@shared/ui/select/select'
 import { TabsApi } from '@shared/ui/tabs/tabs-manager'
 import { toastApi } from '@shared/ui/toast/toast'
+import tooltipApi from '@shared/ui/tooltip/tooltip'
 
 import { formApi } from '../ui/form/form'
 import { ModalAPI } from './components/modals/api'
-import tooltipApi from '@shared/ui/tooltip/tooltip'
-import rangeApi from '@shared/ui/range/range'
-import { selectApi } from '@shared/ui/select/select'
 
 export function frontApi() {
   if (!window.frontApi) {

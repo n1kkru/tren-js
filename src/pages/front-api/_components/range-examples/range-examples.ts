@@ -80,8 +80,6 @@ export function rangeExamples(): void {
     })
   }
 
-
-
   // 2. Проверка на то, что слайдер инициализирован
   const rangeIsInit = document.querySelector<HTMLElement>('[data-range-isinit]')
   if (rangeIsInit) {
@@ -141,9 +139,7 @@ export function rangeExamples(): void {
       window.frontApi.range.setBorderMinRangeValue('#range1', 120)
       console.info('Результат: смотреть на самом элементе или в верстке')
       console.info('Функция:')
-      console.info(
-        `window.frontApi.range.setBorderMinRangeValue('#range1', 120)`
-      )
+      console.info(`window.frontApi.range.setBorderMinRangeValue('#range1', 120)`)
     })
   }
 
@@ -151,21 +147,17 @@ export function rangeExamples(): void {
   const setCurMin = document.querySelectorAll<HTMLElement>('[data-range-set-current-min]')
   if (setCurMin.length > 0) {
     setCurMin.forEach(elem => {
-      elem.addEventListener('click', (e) => {
+      elem.addEventListener('click', e => {
         if (elem.getAttribute('data-range-set-current-min') === '1') {
           window.frontApi.range.setCurrentMinRangeValue('#range1', 3000)
           console.info('Результат: смотреть на самом элементе или в верстке')
           console.info('Функция:')
-          console.info(
-            `window.frontApi.range.setCurrentMinRangeValue('#range1', 3000)`
-          )
+          console.info(`window.frontApi.range.setCurrentMinRangeValue('#range1', 3000)`)
         } else {
           window.frontApi.range.setCurrentMinRangeValue('#range2', 3000)
           console.info('Результат: смотреть на самом элементе или в верстке')
           console.info('Функция:')
-          console.info(
-            `window.frontApi.range.setCurrentMinRangeValue('#range2', 3000)`
-          )
+          console.info(`window.frontApi.range.setCurrentMinRangeValue('#range2', 3000)`)
         }
       })
     })
@@ -178,9 +170,7 @@ export function rangeExamples(): void {
       window.frontApi.range.setCurrentMaxRangeValue('#range1', 4000)
       console.info('Результат: смотреть на самом элементе или в верстке')
       console.info('Функция:')
-      console.info(
-        `window.frontApi.range.setCurrentMaxRangeValue('#range1', 4000)`
-      )
+      console.info(`window.frontApi.range.setCurrentMaxRangeValue('#range1', 4000)`)
     })
   }
 
@@ -201,9 +191,7 @@ export function rangeExamples(): void {
       console.info('Результат: смотреть на самом элементе или в верстке')
       window.frontApi.range.setBorderMaxRangeValue('#range1', 8000)
       console.info('Функция:')
-      console.info(
-        `window.frontApi.range.setBorderMaxRangeValue('#range1', 8000)`
-      )
+      console.info(`window.frontApi.range.setBorderMaxRangeValue('#range1', 8000)`)
     })
   }
 

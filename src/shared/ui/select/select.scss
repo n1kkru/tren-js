@@ -55,10 +55,10 @@
 
   .ts-control {
     padding: 15px 20px;
-    font-size: 16px;
     // border-color: $primary1;
-    border-color: blueviolet ;
+    border-color: blueviolet;
     border-radius: 6px;
+    font-size: 16px;
 
     input {
       font-size: inherit;
@@ -67,9 +67,9 @@
 
   .ts-dropdown {
     margin: 0;
-    font-size: 16px;
     // border-color: $primary1;
     border-color: blueviolet;
+    font-size: 16px;
 
     .option {
       padding: 15px 20px;

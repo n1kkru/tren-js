@@ -10,25 +10,25 @@ export { SideModal }
 ---
 
 <div
-  class='modal-wrapper'
+  class="modal-wrapper"
   data-modal={id}
 >
   <div
-    class='modal-wrapper__overlay'
+    class="modal-wrapper__overlay"
     data-modal-backdrop
   >
   </div>
-  <div class='modal-wrapper__content side-modal'>
+  <div class="modal-wrapper__content side-modal">
     <div
-      class='side-modal__close'
+      class="side-modal__close"
       data-modal-close={id}
     >
       <Icon />
     </div>
 
     <div
-      class='side-modal__wrapper'
-      data-lenis-prevent='true'
+      class="side-modal__wrapper"
+      data-lenis-prevent="true"
     >
       <slot />
     </div>

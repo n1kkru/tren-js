@@ -98,11 +98,11 @@
   left: 50%;
   transform: translate(-50%, -50%);
 
+  border-radius: rem(20px);
+
   opacity: 0;
 
   transition: $transition;
-
-  border-radius: rem(20px);
 
   &__wrapper {
     overflow: hidden scroll;
@@ -137,6 +137,7 @@
 
   &__close {
     cursor: pointer;
+
     position: absolute;
     z-index: 5;
     top: rem(20px);
@@ -173,14 +174,14 @@
       width: rem(80px);
       height: rem(80px);
       padding: 0;
+      border: rem(1px) solid #e7e7e7;
+      border-radius: 50%;
 
       -webkit-backface-visibility: hidden;
       -moz-backface-visibility: hidden;
       -ms-backface-visibility: hidden;
       backface-visibility: hidden;
       background-clip: padding-box;
-      border: rem(1px) solid #e7e7e7;
-      border-radius: 50%;
 
       transition: $transition;
 

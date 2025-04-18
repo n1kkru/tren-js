@@ -5,40 +5,40 @@ export const selectExamples = () => {
   const select = window.frontApi.select
 
   page.querySelector('#select-init')?.addEventListener('click', () => {
-    select.init('#tomSelect1');
+    select.init('#tomSelect1')
   })
 
   page.querySelector('#select-init-all')?.addEventListener('click', () => {
-    select.initAll();
+    select.initAll()
   })
 
   page.querySelector('#select-reinit')?.addEventListener('click', () => {
-    select.reInit('#tomSelect1');
+    select.reInit('#tomSelect1')
   })
 
   page.querySelector('#select-reinit-all')?.addEventListener('click', () => {
-    select.reInitAll();
+    select.reInitAll()
   })
 
   page.querySelector('#select-destroy')?.addEventListener('click', () => {
-    select.destroy('#tomSelect1');
+    select.destroy('#tomSelect1')
   })
 
   page.querySelector('#select-get-current-option')?.addEventListener('click', () => {
-    console.log(select.getCurrentOption('#tomSelect1'));
+    console.log(select.getCurrentOption('#tomSelect1'))
   })
 
   page.querySelector('#select-add-option')?.addEventListener('click', () => {
-    const instance = select.getInstance('#tomSelect1');
-    instance?.addOption({ value: '4', label: 'New 4' });
+    const instance = select.getInstance('#tomSelect1')
+    instance?.addOption({ value: '4', label: 'New 4' })
   })
 
   page.querySelector('#select-remove-option')?.addEventListener('click', () => {
-    select.getInstance('#tomSelect1')?.removeOption('2');
+    select.getInstance('#tomSelect1')?.removeOption('2')
   })
 
   page.querySelector('#select-remove-all-options')?.addEventListener('click', () => {
-    select.removeAllOptions('#tomSelect2');
+    select.removeAllOptions('#tomSelect2')
   })
 
   page.querySelector('#select-reset')?.addEventListener('click', () => {

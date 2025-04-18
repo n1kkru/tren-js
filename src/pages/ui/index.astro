@@ -9,11 +9,11 @@ import Textarea from '@shared/ui/textarea/Textarea.astro'
 import Layout from '@widgets/layout/Layout.astro'
 ---
 
-<Layout pageName='ui'>
-  <div class='flex flex-col gap-20'>
-    <h1 class='px-4 text-title-100 devices:text-title-40'>Примеры UI компонентов проекта</h1>
+<Layout pageName="ui">
+  <div class="flex flex-col gap-20">
+    <h1 class="px-4 text-title-100 devices:text-title-40">Примеры UI компонентов проекта</h1>
 
-    <div class='flex flex-col gap-16'>
+    <div class="flex flex-col gap-16">
       <section>
         <Author />
       </section>
@@ -31,48 +31,48 @@ import Layout from '@widgets/layout/Layout.astro'
 
       <section>
         <Button
-          href='#'
-          variant='text'
+          href="#"
+          variant="text"
           >Ссылка text</Button
         >
-        <Button variant='contained'>Кнопка contained</Button>
+        <Button variant="contained">Кнопка contained</Button>
         <Button
-          variant='contained'
-          color='light'
+          variant="contained"
+          color="light"
           >Кнопка contained light</Button
         >
-        <Button variant='outlined'>Кнопка outlined</Button>
+        <Button variant="outlined">Кнопка outlined</Button>
       </section>
 
       <section>
-        <Checkbox label='Checkbox' />
+        <Checkbox label="Checkbox" />
         <Checkbox
           name={'checkbox'}
           checked={true}
           >Checkbox с вложенной <a
-            href='#'
-            class='text-blue hover:text-red'
+            href="#"
+            class="text-blue hover:text-red"
             >ссылкой</a
           ></Checkbox
         >
         <Checkbox
-          label='Checkbox disabled'
+          label="Checkbox disabled"
           disabled
         />
       </section>
 
-      <section class='w-1/4'>
-        <Switch label='Switch' />
+      <section class="w-1/4">
+        <Switch label="Switch" />
         <Switch
-          label='Switch'
+          label="Switch"
           checked
         />
         <Switch
-          label='Switch'
+          label="Switch"
           disabled
         />
         <Switch
-          label='Switch'
+          label="Switch"
           checked
           disabled
         />
