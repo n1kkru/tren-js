@@ -1,4 +1,4 @@
-export const selectsExamples = () => {
+export const selectExamples = () => {
   const page = document.querySelector('.select-examples') as HTMLElement
   if (!page) return
 

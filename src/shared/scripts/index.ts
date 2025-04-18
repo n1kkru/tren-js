@@ -9,7 +9,7 @@ import { initToastsFromDOM } from './components/init-toasts'
 import { hoverControlledSlider } from './components/hover-slider'
 import { tabsExamples } from '@pages/front-api/_components/tabs-examples/tabs-examples'
 import { toastsExamples } from '@pages/front-api/_components/toasts-examples/toasts-examples'
-import { selectsExamples } from '@pages/front-api/_components/select-examples/slect-examples'
+import { selectExamples } from '@pages/front-api/_components/select-examples/select-examples'
 
 document.addEventListener('DOMContentLoaded', () => {
   frontApi()
@@ -33,7 +33,7 @@ export function commonFunction(): void {
   accordionExamples()
   toastsExamples()
   tabsExamples()
-  selectsExamples()
+  selectExamples()
 }
 
 console.info(import.meta.env)

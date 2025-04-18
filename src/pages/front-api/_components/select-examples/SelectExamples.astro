@@ -10,251 +10,242 @@ const { class: className, ...props } = Astro.props as Props
 export { SelectExamples }
 ---
 
-<div
+<section
+  id="select-examples-page"
   class:list={['select-examples', className]}
   {...props}
 >
-  <div class="mb-10 border border-solid border-gray-400 p-5">
-    <h2 class="mb-10 text-center text-2xl font-bold">
-      Работа с select
-      <br />
-      <span class="text-xl font-normal">window.frontApi.select</span>
-    </h2>
+  <div class="space-y-6 rounded-lg bg-gray-100 p-6">
+    <h1 class="mb-4 text-2xl font-bold">Select API</h1>
+    <p class="mb-4 text-lg font-bold text-teal-600">Смотри консоль</p>
 
-    <div class="overflow-x-auto">
-      <table class="w-full table-auto border-collapse">
-        <thead class="bg-gray-100">
-          <tr>
-            <th class="p-2 text-left font-semibold">Метод</th>
-            <th class="p-2 text-left font-semibold">Описание</th>
-            <th class="p-2 text-left font-semibold">Параметры</th>
-            <th class="p-2 text-left font-semibold">Пример</th>
-          </tr>
-        </thead>
-        <tbody>
-          {/** init(selector) **/}
-          <tr class="border-b">
-            <td class="p-2 font-mono text-sm">init(selector)</td>
-            <td class="p-2 text-sm">Инициализация select</td>
-            <td class="p-2 text-sm">
-              <code>CSS-селектор</code>
-            </td>
-            <td class="p-2 text-sm">
-              <button
-                class="rounded-xl border border-solid border-gray-400 border-teal-800 px-2 py-1 text-xs text-teal-800 hover:bg-teal-50 active:bg-teal-100 active:shadow-inner"
-                id="select-init"
-              >
-                init("#tomSelect1")
-              </button>
-            </td>
-          </tr>
-          {/** initAll() **/}
-          <tr class="border-b">
-            <td class="p-2 font-mono text-sm">initAll()</td>
-            <td class="p-2 text-sm">Инициализация всех select</td>
-            <td class="p-2 text-sm">-</td>
-            <td class="p-2 text-sm">
-              <button
-                class="rounded-xl border border-solid border-gray-400 border-teal-800 px-2 py-1 text-xs text-teal-800 hover:bg-teal-50 active:bg-teal-100 active:shadow-inner"
-                id="select-init-all"
-              >
-                initAll()
-              </button>
-            </td>
-          </tr>
-          {/** reInit(selector) **/}
-          <tr class="border-b">
-            <td class="p-2 font-mono text-sm">reInit(selector)</td>
-            <td class="p-2 text-sm">Переинициализация select</td>
-            <td class="p-2 text-sm">
-              <code>CSS-селектор</code>
-            </td>
-            <td class="p-2 text-sm">
-              <button
-                class="rounded-xl border border-solid border-gray-400 border-teal-800 px-2 py-1 text-xs text-teal-800 hover:bg-teal-50 active:bg-teal-100 active:shadow-inner"
-                id="select-reinit"
-                onclick="window.frontApi.select.reInit('#tomSelect1')"
-              >
-                reInit("#tomSelect1")
-              </button>
-            </td>
-          </tr>
-          {/** reInitAll() **/}
-          <tr class="border-b">
-            <td class="p-2 font-mono text-sm">reInitAll()</td>
-            <td class="p-2 text-sm">Переинициализация всех select</td>
-            <td class="p-2 text-sm">-</td>
-            <td class="p-2 text-sm">
-              <button
-                class="rounded-xl border border-solid border-gray-400 border-teal-800 px-2 py-1 text-xs text-teal-800 hover:bg-teal-50 active:bg-teal-100 active:shadow-inner"
-                id="select-reinit-all"
-              >
-                reInitAll()
-              </button>
-            </td>
-          </tr>
-          {/** destroy(selector) **/}
-          <tr class="border-b">
-            <td class="p-2 font-mono text-sm">destroy(selector)</td>
-            <td class="p-2 text-sm">Уничтожение экземпляра</td>
-            <td class="p-2 text-sm">
-              <code>CSS-селектор</code>
-            </td>
-            <td class="p-2 text-sm">
-              <button
-                class="rounded-xl border border-solid border-gray-400 border-teal-800 px-2 py-1 text-xs text-teal-800 hover:bg-teal-50 active:bg-teal-100 active:shadow-inner"
-                id="select-destroy"
-              >
-                destroy("#tomSelect1")
-              </button>
-            </td>
-          </tr>
-          {/** getCurrentOption(selector) **/}
-          <tr class="border-b">
-            <td class="p-2 font-mono text-sm">getCurrentOption(selector)</td>
-            <td class="p-2 text-sm">Получить выбранные опции</td>
-            <td class="p-2 text-sm">
-              <code>CSS-селектор</code>
-            </td>
-            <td class="p-2 text-sm">
-              <button
-                class="rounded-xl border border-solid border-gray-400 border-teal-800 px-2 py-1 text-xs text-teal-800 hover:bg-teal-50 active:bg-teal-100 active:shadow-inner"
-                id="select-get-current-option"
-              >
-                getCurrentOption("#tomSelect1")
-              </button>
-            </td>
-          </tr>
-          {/** addOption(selector, option) **/}
-          <tr class="border-b">
-            <td class="p-2 font-mono text-sm">addOption(selector, option)</td>
-            <td class="p-2 text-sm">Добавить новую опцию</td>
-            <td class="p-2 text-sm">
-              <code>Object &#123;value, label&#125;</code>
-            </td>
-            <td class="p-2 text-sm">
-              <button
-                class="rounded-xl border border-solid border-teal-800 px-2 py-1 text-xs text-teal-800 hover:bg-teal-50 active:bg-teal-100 active:shadow-inner"
-                id="select-add-option"
-              >
-                addOption({'value: 4, label: New 4'})
-              </button>
-            </td>
-          </tr>
-          {/** removeOption(selector, value) **/}
-          <tr class="border-b">
-            <td class="p-2 font-mono text-sm">removeOption(selector, value)</td>
-            <td class="p-2 text-sm">Удалить опцию</td>
-            <td class="p-2 text-sm">
-              <code>String</code>
-            </td>
-            <td class="p-2 text-sm">
-              <button
-                class="rounded-xl border border-solid border-gray-400 border-teal-800 px-2 py-1 text-xs text-teal-800 hover:bg-teal-50 active:bg-teal-100 active:shadow-inner"
-                id="select-remove-option"
-              >
-                removeOption("2")
-              </button>
-            </td>
-          </tr>
-          {/** removeAllOptions(selector) **/}
-          <tr class="border-b">
-            <td class="p-2 font-mono text-sm">removeAllOptions(selector)</td>
-            <td class="p-2 text-sm">Удалить все опции</td>
-            <td class="p-2 text-sm">-</td>
-            <td class="p-2 text-sm">
-              <button
-                class="rounded-xl border border-solid border-gray-400 border-teal-800 px-2 py-1 text-xs text-teal-800 hover:bg-teal-50 active:bg-teal-100 active:shadow-inner"
-              >
-                removeAllOptions()
-              </button>
-            </td>
-          </tr>
-          {/** resetOptions(selector, options, defaultValue) **/}
-          <tr class="border-b">
-            <td class="p-2 font-mono text-sm">resetOptions(selector, options, defaultValue)</td>
-            <td class="p-2 text-sm">Полная замена опций</td>
-            <td class="p-2 text-sm">
-              <code>Array, String</code>
-            </td>
-            <td class="p-2 text-sm">
-              <button
-                class="border-red-800 text-red-800 rounded-xl border border-solid px-2 py-1 text-xs hover:bg-teal-50 active:bg-teal-100 active:shadow-inner"
-                id="select-reset"
-              >
-                resetOptions()
-              </button>
-            </td>
-          </tr>
-          {/** getValue(selector) **/}
-          <tr class="border-b">
-            <td class="p-2 font-mono text-sm">getValue(selector)</td>
-            <td class="p-2 text-sm">Получить текущее значение</td>
-            <td class="p-2 text-sm">
-              <code>CSS-селектор</code>
-            </td>
-            <td class="p-2 text-sm">
-              <button
-                class="rounded-xl border border-solid border-gray-400 border-teal-800 px-2 py-1 text-xs text-teal-800 hover:bg-teal-50 active:bg-teal-100 active:shadow-inner"
-                id="select-get-value"
-              >
-                getValue()
-              </button>
-            </td>
-          </tr>
-          {/** setValue(selector, value) **/}
-          <tr class="border-b">
-            <td class="p-2 font-mono text-sm">setValue(selector, value)</td>
-            <td class="p-2 text-sm">Установить значение</td>
-            <td class="p-2 text-sm">
-              <code>String &#124; Array</code>
-            </td>
-            <td class="p-2 text-sm">
-              <button
-                class="rounded-xl border border-solid border-blue-800 border-gray-400 px-2 py-1 text-xs text-teal-800 hover:bg-teal-50 active:bg-teal-100 active:shadow-inner"
-                id="select-set-value"
-              >
-                setValue()
-              </button>
-            </td>
-          </tr>
-          {/** isInitialized(selector) **/}
-          <tr class="border-b">
-            <td class="p-2 font-mono text-sm">isInit(selector)</td>
-            <td class="p-2 text-sm">Проверить инициализацию</td>
-            <td class="p-2 text-sm">
-              <code>CSS-селектор</code>
-            </td>
-            <td class="p-2 text-sm">
-              <button
-                class="rounded-xl border border-solid border-gray-400 border-teal-800 px-2 py-1 text-xs text-teal-800 hover:bg-teal-50 active:bg-teal-100 active:shadow-inner"
-                id="select-is-init"
-              >
-                isInit()
-              </button>
-            </td>
-          </tr>
-          {/** getInstance(selector) **/}
-          <tr>
-            <td class="p-2 font-mono text-sm">getInstance(selector)</td>
-            <td class="p-2 text-sm">Получить экземпляр TomSelect</td>
-            <td class="p-2 text-sm">
-              <code>CSS-селектор</code>
-            </td>
-            <td class="p-2 text-sm">
-              <button
-                class="rounded-xl border border-solid border-gray-400 border-teal-800 px-2 py-1 text-xs text-teal-800 hover:bg-teal-50 active:bg-teal-100 active:shadow-inner"
-                id="select-get-instance"
-              >
-                getInstance()
-              </button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+    <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+      <!-- init -->
+      <div class="rounded bg-white p-4 shadow">
+        <h2 class="text-lg font-semibold">window.frontApi.select.init()</h2>
+        <p class="text-sm text-gray-600">Инициализация select по селектору.</p>
+        <button
+          id="select-init"
+          class="mt-2 rounded bg-teal-500 px-4 py-2 text-white"
+        >
+          init("#tomSelect1")
+        </button>
+        <pre
+          class="mt-2 rounded bg-gray-100 p-3 text-sm text-gray-800">
+<code>window.frontApi.select.init('#tomSelect1')</code>
+        </pre>
+      </div>
+
+      <!-- initAll -->
+      <div class="rounded bg-white p-4 shadow">
+        <h2 class="text-lg font-semibold">window.frontApi.select.initAll()</h2>
+        <p class="text-sm text-gray-600">Инициализация всех select на странице.</p>
+        <button
+          id="select-init-all"
+          class="mt-2 rounded bg-teal-500 px-4 py-2 text-white"
+        >
+          initAll()
+        </button>
+        <pre
+          class="mt-2 rounded bg-gray-100 p-3 text-sm text-gray-800">
+<code>window.frontApi.select.initAll()</code>
+        </pre>
+      </div>
+
+      <!-- reInit -->
+      <div class="rounded bg-white p-4 shadow">
+        <h2 class="text-lg font-semibold">window.frontApi.select.reInit()</h2>
+        <p class="text-sm text-gray-600">Переинициализация select с новыми опциями.</p>
+        <button
+          id="select-reinit"
+          class="mt-2 rounded bg-teal-500 px-4 py-2 text-white"
+        >
+          reInit("#tomSelect1")
+        </button>
+        <pre
+          class="mt-2 rounded bg-gray-100 p-3 text-sm text-gray-800">
+<code>window.frontApi.select.reInit('#tomSelect1')</code>
+        </pre>
+      </div>
+
+      <!-- reInitAll -->
+      <div class="rounded bg-white p-4 shadow">
+        <h2 class="text-lg font-semibold">window.frontApi.select.reInitAll()</h2>
+        <p class="text-sm text-gray-600">Переинициализация всех select на странице.</p>
+        <button
+          id="select-reinit-all"
+          class="mt-2 rounded bg-teal-500 px-4 py-2 text-white"
+        >
+          reInitAll()
+        </button>
+        <pre
+          class="mt-2 rounded bg-gray-100 p-3 text-sm text-gray-800">
+<code>window.frontApi.select.reInitAll()</code>
+        </pre>
+      </div>
+
+      <!-- destroy -->
+      <div class="rounded bg-white p-4 shadow">
+        <h2 class="text-lg font-semibold">window.frontApi.select.destroy()</h2>
+        <p class="text-sm text-gray-600">Удаление экземпляра select.</p>
+        <button
+          id="select-destroy"
+          class="mt-2 rounded bg-teal-500 px-4 py-2 text-white"
+        >
+          destroy("#tomSelect1")
+        </button>
+        <pre
+          class="mt-2 rounded bg-gray-100 p-3 text-sm text-gray-800">
+<code>window.frontApi.select.destroy('#tomSelect1')</code>
+        </pre>
+      </div>
+
+      <!-- getCurrentOption -->
+      <div class="rounded bg-white p-4 shadow">
+        <h2 class="text-lg font-semibold">window.frontApi.select.getCurrentOption()</h2>
+        <p class="text-sm text-gray-600">Получить выбранные опции.</p>
+        <button
+          id="select-get-current-option"
+          class="mt-2 rounded bg-teal-500 px-4 py-2 text-white"
+        >
+          getCurrentOption("#tomSelect1")
+        </button>
+        <pre
+          class="mt-2 rounded bg-gray-100 p-3 text-sm text-gray-800">
+<code>console.log(window.frontApi.select.getCurrentOption('#tomSelect1'))</code>
+        </pre>
+      </div>
+
+      <!-- addOption -->
+      <div class="rounded bg-white p-4 shadow">
+        <h2 class="text-lg font-semibold">window.frontApi.select.addOption()</h2>
+        <p class="text-sm text-gray-600">Добавить новую опцию.</p>
+        <button
+          id="select-add-option"
+          class="mt-2 rounded bg-teal-500 px-4 py-2 text-white"
+        >
+          addOption(&#123; value: '4', label: 'New 4' &#125;)
+        </button>
+        <pre
+          class="mt-2 rounded bg-gray-100 p-3 text-sm text-gray-800">
+<code>window.frontApi.select.getInstance('#tomSelect1')?.addOption(&#123; value: '4', label: 'New 4' &#125;)</code>
+        </pre>
+      </div>
+
+      <!-- removeOption -->
+      <div class="rounded bg-white p-4 shadow">
+        <h2 class="text-lg font-semibold">window.frontApi.select.removeOption()</h2>
+        <p class="text-sm text-gray-600">Удалить опцию по значению.</p>
+        <button
+          id="select-remove-option"
+          class="mt-2 rounded bg-teal-500 px-4 py-2 text-white"
+        >
+          removeOption('2')
+        </button>
+        <pre
+          class="mt-2 rounded bg-gray-100 p-3 text-sm text-gray-800">
+<code>window.frontApi.select.getInstance('#tomSelect1')?.removeOption('2')</code>
+        </pre>
+      </div>
+
+      <!-- removeAllOptions -->
+      <div class="rounded bg-white p-4 shadow">
+        <h2 class="text-lg font-semibold">window.frontApi.select.removeAllOptions()</h2>
+        <p class="text-sm text-gray-600">Удалить все опции.</p>
+        <button
+          id="select-remove-all-options"
+          class="mt-2 rounded bg-teal-500 px-4 py-2 text-white"
+        >
+          removeAllOptions()
+        </button>
+        <pre
+          class="mt-2 rounded bg-gray-100 p-3 text-sm text-gray-800">
+<code>window.frontApi.select.removeAllOptions('#tomSelect2')</code>
+        </pre>
+      </div>
+
+      <!-- resetOptions -->
+      <div class="rounded bg-white p-4 shadow">
+        <h2 class="text-lg font-semibold">window.frontApi.select.resetOptions()</h2>
+        <p class="text-sm text-gray-600">Полная замена опций.</p>
+        <button
+          id="select-reset"
+          class="mt-2 rounded bg-teal-500 px-4 py-2 text-white"
+        >
+          resetOptions()
+        </button>
+        <pre
+          class="mt-2 rounded bg-gray-100 p-3 text-sm text-gray-800">
+<code>window.frontApi.select.resetOptions('#tomSelect1', [&#123; value: 'new1', label: 'New 1' &#125;, &#123; value: 'new2', label: 'New 2' &#125;], 'new1')</code>
+        </pre>
+      </div>
+
+      <!-- getValue -->
+      <div class="rounded bg-white p-4 shadow">
+        <h2 class="text-lg font-semibold">window.frontApi.select.getValue()</h2>
+        <p class="text-sm text-gray-600">Получить текущее значение.</p>
+        <button
+          id="select-get-value"
+          class="mt-2 rounded bg-teal-500 px-4 py-2 text-white"
+        >
+          getValue()
+        </button>
+        <pre
+          class="mt-2 rounded bg-gray-100 p-3 text-sm text-gray-800">
+<code>console.log(window.frontApi.select.getValue('#tomSelect1'))</code>
+        </pre>
+      </div>
+
+      <!-- setValue -->
+      <div class="rounded bg-white p-4 shadow">
+        <h2 class="text-lg font-semibold">window.frontApi.select.setValue()</h2>
+        <p class="text-sm text-gray-600">Установить значение select.</p>
+        <button
+          id="select-set-value"
+          class="mt-2 rounded bg-teal-500 px-4 py-2 text-white"
+        >
+          setValue()
+        </button>
+        <pre
+          class="mt-2 rounded bg-gray-100 p-3 text-sm text-gray-800">
+<code>window.frontApi.select.setValue('#tomSelect2', ['a', 'c'])</code>
+        </pre>
+      </div>
+
+      <!-- isInit -->
+      <div class="rounded bg-white p-4 shadow">
+        <h2 class="text-lg font-semibold">window.frontApi.select.isInit()</h2>
+        <p class="text-sm text-gray-600">Проверить, инициализирован ли select.</p>
+        <button
+          id="select-is-init"
+          class="mt-2 rounded bg-teal-500 px-4 py-2 text-white"
+        >
+          isInit()
+        </button>
+        <pre
+          class="mt-2 rounded bg-gray-100 p-3 text-sm text-gray-800">
+<code>console.log(window.frontApi.select.isInit('#tomSelect1'))</code>
+        </pre>
+      </div>
+
+      <!-- getInstance -->
+      <div class="rounded bg-white p-4 shadow">
+        <h2 class="text-lg font-semibold">window.frontApi.select.getInstance()</h2>
+        <p class="text-sm text-gray-600">Получить инстанс TomSelect.</p>
+        <button
+          id="select-get-instance"
+          class="mt-2 rounded bg-teal-500 px-4 py-2 text-white"
+        >
+          getInstance()
+        </button>
+        <pre
+          class="mt-2 rounded bg-gray-100 p-3 text-sm text-gray-800">
+<code>console.log(window.frontApi.select.getInstance('#tomSelect1'))</code>
+        </pre>
+      </div>
     </div>
 
-    <div class="mt-10 grid grid-cols-2 gap-5">
+    <div class="mt-6 grid grid-cols-1 gap-5 md:grid-cols-2">
       <Select>
         <select
           id="tomSelect1"
@@ -278,7 +269,7 @@ export { SelectExamples }
       </Select>
     </div>
   </div>
-</div>
+</section>
 
 <style>
   @import './select-examples.scss';
