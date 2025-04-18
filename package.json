@@ -18,9 +18,9 @@
     "disable toolbar": "astro preferences disable devToolbar"
   },
   "dependencies": {
-    "@astrojs/tailwind": "^6.0.0",
+    "@astrojs/tailwind": "6.0.2",
     "accordion-js": "^3.4.0",
-    "astro": "^5.4.2",
+    "astro": "5.7.2",
     "gsap": "^3.12.7",
     "infinite-marquee": "^1.0.7",
     "inputmask": "^5.0.9",
