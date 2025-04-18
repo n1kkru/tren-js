@@ -62,7 +62,6 @@ const updateBuildScripts = () => ({
 // https://astro.build/config
 export default defineConfig({
   base: '/main',
-  experimental: {},
 
   devToolbar: {
     enabled: false
@@ -73,6 +72,9 @@ export default defineConfig({
   integrations: [tailwind(), updateBuildScripts()],
 
   vite: {
+    optimizeDeps: {
+      include: ['tom-select']
+    },
     build: {
       cssCodeSplit: false,
       rollupOptions: {

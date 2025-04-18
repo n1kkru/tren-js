@@ -12,14 +12,19 @@
   }
 
   &__field {
-    padding-bottom: 13px;
-    border-bottom: 3px solid;
-    transition: border-color $transition;
-    display: block;
     resize: none;
+
+    display: block;
+
     width: 100%;
     height: 100%;
+    padding-bottom: 13px;
+    border-bottom: 3px solid;
+
     background: none;
+
+    transition: border-color $transition;
+
     @apply border-gray-light text-20;
 
     @media #{media('>',d)} and (hover: hover) and (pointer: fine) {
@@ -31,6 +36,7 @@
     @media #{media('<',d)} {
       padding-bottom: 14px;
       border-bottom-width: 2px;
+
       @apply text-14;
     }
 
