@@ -11,22 +11,6 @@ body {
   }
 }
 
-picture {
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-
-  width: 100%;
-  height: 100%;
-
-  img {
-    display: block;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-}
-
 .crop-text {
   overflow: hidden;
   display: -moz-box;
@@ -47,29 +31,26 @@ svg {
   width: 100%;
   height: 100%;
 
-  * {
-    transform-box: fill-box;
+  &:not(.initial) {
+    * {
+      transform-box: fill-box;
 
-    &[fill] {
-      fill: currentColor;
-    }
+      &[fill] {
+        fill: currentColor;
+      }
 
-    &[stroke] {
-      stroke: currentColor;
+      &[stroke] {
+        stroke: currentColor;
+      }
     }
   }
 }
 
 input {
+  outline: none !important;
+  caret-color: currentColor;
+
   &:is(:-webkit-autofill, :autofill) {
     transition-delay: 9999999999s;
   }
-}
-
-code {
-  padding-inline: rem(4px);
-  border-radius: rem(4px);
-  font-family: monospace;
-
-  @apply bg-gray text-white;
 }

@@ -1,0 +1,48 @@
+---
+interface Props {
+  mods?: string;
+  data?: string[];
+  placeholder?: string;
+  config?: any;
+}
+const { mods = '', data = [], placeholder = '', config = {} } = Astro.props;
+
+const baseName = 'ui-select';
+const allMods = mods
+  .split(',')
+  .map(m => m.trim())
+  .filter(Boolean)
+  .map(m => (m.startsWith('_') ? `${baseName}${m}` : `${m}__${baseName}`))
+  .join(' ');
+
+const wrapperId = `ui-select-${Math.random().toString(36).slice(2, 11)}`;
+const serializedConfig = JSON.stringify(config);
+---
+
+<div id={wrapperId} class={`ui-select ${allMods}`}>
+  {Astro.slots.default
+    ? <slot />
+    : (
+      <select class="js-tomselect">
+        {placeholder && <option value="">{placeholder}</option>}
+        {data.map(item => <option value={item}>{item}</option>)}
+      </select>
+    )}
+</div>
+
+<script is:inline>
+document.addEventListener('DOMContentLoaded', () => {
+  const wrapper = document.getElementById('{wrapperId}');
+  if (!wrapper) return;
+
+  const el = wrapper.querySelector('select');
+  if (!el) return;
+
+  // Проверяем глобальную доступность API
+  if (!window.frontApi) window.frontApi = {};
+  if (!window.frontApi.select) window.frontApi.select = {};
+
+  // Инициализация через глобальный API
+  window.frontApi.select.init(el, JSON.parse(serializedConfig));
+});
+</script>

@@ -67,12 +67,16 @@ export default defineConfig({
   devToolbar: {
     enabled: false
   },
+  
 
   compressHTML: false,
 
   integrations: [tailwind(), updateBuildScripts()],
 
   vite: {
+    optimizeDeps: {
+      include: ['tom-select'],
+    },
     build: {
       cssCodeSplit: false,
       rollupOptions: {

@@ -1,4 +1,7 @@
-export const toastTest = () => {
+export const toastsExamples = () => {
+  const page = document.querySelector('#toasts-examples-page') as HTMLElement
+  if (!page) return
+
   const toast = window.frontApi.toast
 
   toast.onAnyInit(t => console.log('[init]', t))
@@ -15,9 +18,7 @@ export const toastTest = () => {
   }
 
   const successNode = successTemplate.cloneNode(true) as HTMLElement
-  console.log('🚀 ~ toastTest ~ successNode:', successNode)
   const errorNode = errorTemplate.cloneNode(true) as HTMLElement
-  console.log('🚀 ~ toastTest ~ errorNode:', errorNode)
 
   if (!successNode || !errorNode) {
     console.warn('Toast templates not cloned')
