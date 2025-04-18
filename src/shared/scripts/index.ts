@@ -42,7 +42,6 @@ export const commonFunction = (): void => {
   selectExamples()
 
   tooltipInit()
-  // enableTooltipExamples()
   tooltipExamples()
 
   rangeInit()
