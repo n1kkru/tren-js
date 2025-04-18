@@ -25,6 +25,7 @@
     "infinite-marquee": "^1.0.7",
     "inputmask": "^5.0.9",
     "inquirer": "^12.5.0",
+    "lenis": "^1.2.3",
     "node": "^18.20.7",
     "sass": "^1.83.4",
     "swiper": "^11.2.1",

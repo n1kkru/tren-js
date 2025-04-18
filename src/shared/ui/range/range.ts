@@ -38,7 +38,6 @@ function observeMinMaxChanges(element: string | HTMLElement): void {
   })
 }
 
-
 /**
  * (6) Нахождение конкретного:
  * Функция для получения HTMLElement по селектору или, если передан уже сам элемент.
@@ -119,8 +118,7 @@ function updateRange(element: string | HTMLElement): void {
   lowerValue = Math.max(min, Math.min(lowerValue, upperValue - step))
   upperValue = Math.min(max, Math.max(upperValue, lowerValue + step))
 
-  const rangeInst = (rangeBody as HTMLElement & { range?: RangeInstance })
-    .range as RangeInstance
+  const rangeInst = (rangeBody as HTMLElement & { range?: RangeInstance }).range as RangeInstance
   rangeInst.updateOptions({ range: { min, max } })
   rangeInst.set([lowerValue, upperValue])
 
@@ -204,7 +202,7 @@ function initAllInstance(element: string | HTMLElement): void {
       from: (value: string): number | false => myFormatter.from!(value)
     }
   }) as RangeInstance
-    ; (rangeBody as HTMLElement & { range?: RangeInstance }).range = rangeInstance
+  ;(rangeBody as HTMLElement & { range?: RangeInstance }).range = rangeInstance
 
   // Устанавливаем атрибут data-range-init
   setInitializedAttribute(el)
@@ -296,14 +294,8 @@ const rangeApi = {
     const el = getElement(element)
     if (!el) return
     const rangeBody = el.querySelector<HTMLElement>('.range__body')
-    if (
-      rangeBody &&
-      (rangeBody as HTMLElement & { range?: RangeInstance }).range
-    ) {
-      ; (
-        (rangeBody as HTMLElement & { range?: RangeInstance })
-          .range as RangeInstance
-      ).destroy()
+    if (rangeBody && (rangeBody as HTMLElement & { range?: RangeInstance }).range) {
+      ;((rangeBody as HTMLElement & { range?: RangeInstance }).range as RangeInstance).destroy()
     }
     el.removeAttribute('data-range-init')
     initAllInstance(el)
@@ -338,7 +330,7 @@ const rangeApi = {
     if (!rangeBody || !(rangeBody as any).range) return
     const current = (rangeBody as any).range.get()
     const newStart = Array.isArray(current) ? [value, current[1]] : value
-      ; (rangeBody as any).range.set(newStart)
+    ;(rangeBody as any).range.set(newStart)
     element.setAttribute(
       'data-start',
       Array.isArray(newStart) ? `[${newStart[0]},${newStart[1]}]` : String(newStart)
@@ -364,7 +356,7 @@ const rangeApi = {
     if (!rangeBody || !(rangeBody as any).range) return
     const current = (rangeBody as any).range.get()
     const newStart = Array.isArray(current) ? [current[0], value] : value
-      ; (rangeBody as any).range.set(newStart)
+    ;(rangeBody as any).range.set(newStart)
     element.setAttribute(
       'data-start',
       Array.isArray(newStart) ? `[${newStart[0]},${newStart[1]}]` : String(newStart)

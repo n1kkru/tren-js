@@ -1,0 +1,38 @@
+---
+import Icon from '@assets/images/svg/close.svg'
+interface Props {
+  id: string
+}
+
+const { id } = Astro.props
+---
+
+<div
+  class="modal-wrapper"
+  data-modal={id}
+>
+  <div
+    class="modal-wrapper__overlay"
+    data-modal-backdrop
+  >
+  </div>
+  <div class="modal-wrapper__content standart-modal">
+    <div
+      class="standart-modal__close"
+      data-modal-close={id}
+    >
+      <Icon />
+    </div>
+
+    <div
+      class="standart-modal__wrapper"
+      data-lenis-prevent="true"
+    >
+      <slot />
+    </div>
+  </div>
+</div>
+
+<style lang="scss">
+  @import './modals.scss';
+</style>

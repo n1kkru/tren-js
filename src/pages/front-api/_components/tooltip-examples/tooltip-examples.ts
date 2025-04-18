@@ -12,7 +12,7 @@ export function tooltipExamples() {
   }
 
   on('init', () => {
-    console.info("tooltip-examples")
+    console.info('tooltip-examples')
     tooltip.init(target)
   })
 
@@ -58,5 +58,4 @@ export function tooltipExamples() {
     const element = tooltip.getElement(target)
     console.info(element)
   })
-
 }
