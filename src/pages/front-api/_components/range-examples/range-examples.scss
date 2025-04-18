@@ -1,0 +1,13 @@
+.range-examples {
+  position: static;
+
+  & code {
+    text-wrap: wrap;
+    font-family: monospace;
+
+    &::selection {
+      background-color: #663399;
+      color: #fff;
+    }
+  }
+}

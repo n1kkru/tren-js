@@ -1,0 +1,62 @@
+---
+import type { Props as TippyCoreProps } from 'tippy.js'
+import 'tippy.js/dist/tippy.css'
+import Picture from '../picture/Picture.astro'
+import img from '@assets/images/svg/tooltip.svg'
+
+interface TooltipAstroProps {
+  content: string
+  placement?: TippyCoreProps['placement']
+  class?: string
+  id?: string
+
+  // Названия глобальных функций
+  onShow?: string
+  onHide?: string
+  onMount?: string
+  onTrigger?: string
+  onUntrigger?: string
+
+  // Всё остальное — пойдёт прямо в tippy, кроме конфликтных событий
+  tippyOptions?: Partial<
+    Omit<TippyCoreProps, 'onShow' | 'onHide' | 'onMount' | 'onTrigger' | 'onUntrigger'>
+  >
+}
+
+const {
+  content,
+  placement = 'top',
+  class: className = '',
+  id = `tooltip-${Math.random().toString(36).slice(2)}`,
+  onShow,
+  onHide,
+  onMount,
+  onTrigger,
+  onUntrigger,
+  tippyOptions = {}
+} = Astro.props as TooltipAstroProps
+
+const tippyConfig = {
+  content,
+  placement,
+  ...tippyOptions
+}
+---
+
+<span
+  class:list={['tooltip', className]}
+  id={id}
+  data-tooltip
+  data-tooltip-config={JSON.stringify(tippyConfig)}
+  data-tooltip-events={JSON.stringify({ onShow, onHide, onMount, onTrigger, onUntrigger })}
+>
+  <Picture
+    image={img}
+    alt=""
+    class="tooltip__img"
+  />
+</span>
+
+<style>
+  @import './tooltip.scss';
+</style>

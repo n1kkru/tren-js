@@ -2,6 +2,8 @@ import { toastApi } from '@shared/ui/toast/toast'
 import accordionApi from '@shared/ui/accordion/accordions'
 import { TabsApi } from '@shared/ui/tabs/tabs-manager'
 import { formApi } from '../ui/form/form'
+import tooltipApi from '@shared/ui/tooltip/tooltip'
+import rangeApi from '@shared/ui/range/range'
 import { selectApi } from '@shared/ui/select/select'
 
 export function frontApi() {
@@ -11,6 +13,8 @@ export function frontApi() {
 
   window.frontApi.form = formApi
   window.frontApi.toast = toastApi
+  window.frontApi.tooltip = tooltipApi
+  window.frontApi.range = rangeApi
   window.frontApi.select = selectApi
   window.frontApi.tabs = TabsApi
   window.frontApi.accordion = accordionApi
@@ -18,8 +22,10 @@ export function frontApi() {
   window.frontApi.initAll = () => {
     formApi.initAll()
     toastApi.initAll()
+    tooltipApi.initAll()
+    rangeApi.initAll()
+    selectApi.initAll()
     TabsApi.initAll()
     accordionApi.initAll()
-    selectApi.initAll()
   }
 }
