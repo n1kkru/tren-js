@@ -11,9 +11,8 @@ import { tabsExamples } from '@pages/front-api/_components/tabs-examples/tabs-ex
 import { toastsExamples } from '@pages/front-api/_components/toasts-examples/toasts-examples'
 import { selectExamples } from '@pages/front-api/_components/select-examples/select-examples'
 import { tooltipInit } from '@shared/ui/tooltip/tooltip'
-import { enableTooltipExamples } from '@shared/ui/tooltip/tooltip-examples'
 import { initAll, rangeInit } from '@shared/ui/range/range'
-import { rangeExamples } from '@shared/ui/range/range-examples'
+import { rangeExamples } from '@pages/front-api/_components/range-examples/range-examples'
 import { tooltipExamples } from '@pages/front-api/_components/tooltip-examples/tooltip-examples'
 
 ;(window as any).process = { env: {} } // Фикс для совместимости с TomSelect
