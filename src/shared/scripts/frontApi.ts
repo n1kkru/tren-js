@@ -16,6 +16,7 @@ export function frontApi() {
   window.frontApi.accordion = accordionApi
 
   window.frontApi.initAll = () => {
+    formApi.initAll()
     toastApi.initAll()
     TabsApi.initAll()
     accordionApi.initAll()
