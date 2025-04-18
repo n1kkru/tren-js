@@ -14,6 +14,7 @@ import { tooltipInit } from '@shared/ui/tooltip/tooltip'
 import { enableTooltipExamples } from '@shared/ui/tooltip/tooltip-examples'
 import { initAll, rangeInit } from '@shared/ui/range/range'
 import { rangeExamples } from '@shared/ui/range/range-examples'
+import { tooltipExamples } from '@pages/front-api/_components/tooltip-examples/tooltip-examples'
 
 ;(window as any).process = { env: {} } // Фикс для совместимости с TomSelect
 
@@ -41,7 +42,8 @@ export const commonFunction = (): void => {
   selectExamples()
 
   tooltipInit()
-  enableTooltipExamples()
+  // enableTooltipExamples()
+  tooltipExamples()
 
   rangeInit()
   rangeExamples()
