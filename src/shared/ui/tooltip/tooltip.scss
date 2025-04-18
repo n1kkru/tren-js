@@ -1,0 +1,45 @@
+.tooltip {
+  display: inline-block;
+
+  width: rem(14px);
+  height: rem(14px);
+  margin-left: rem(5px);
+
+  vertical-align: middle;
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  &__content {
+    display: none;
+  }
+
+  &__img {
+    width: rem(14px);
+    height: rem(14px);
+  }
+}
+
+:global(.tippy-box[data-theme~='custom']) {
+  border-radius: rem(12px);
+  background-color: var(--tooltip-bg, #1d1a3e);
+  padding: rem(8px) rem(12px);
+  max-width: rem(170px) !important;
+}
+
+:global(.tippy-box[data-theme~='custom'] > .tippy-arrow:before) {
+  border-top-color: #1d1a3e;
+}
+
+:global(.tippy-content) {
+  color: #fff;
+  text-align: center;
+
+  font-family: Rubik;
+  font-size: rem(14px);
+  font-style: normal;
+  font-weight: 300;
+  line-height: 150%;
+  padding: 0;
+}

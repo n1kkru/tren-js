@@ -1,0 +1,13 @@
+.select-examples {
+  position: static;
+
+  & code {
+    text-wrap: wrap;
+    font-family: monospace;
+
+    &::selection {
+      background: #663399;
+      color: white;
+    }
+  }
+}
