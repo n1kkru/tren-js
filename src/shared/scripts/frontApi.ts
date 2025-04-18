@@ -19,5 +19,6 @@ export function frontApi() {
     toastApi.initAll()
     TabsApi.initAll()
     accordionApi.initAll()
+    selectApi.initAll()
   }
 }

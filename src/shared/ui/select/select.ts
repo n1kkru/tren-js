@@ -270,10 +270,6 @@ const tomSelectModule = {
   }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-  tomSelectModule.initAll()
-})
-
 export const selectApi = {
   init: tomSelectModule.init.bind(tomSelectModule),
   initAll: tomSelectModule.initAll.bind(tomSelectModule),
