@@ -12,12 +12,13 @@ import { tooltipInit } from '@shared/ui/tooltip/tooltip'
 import { validateFormInit } from './components/custom-validator'
 import { hoverControlledSlider } from './components/hover-slider'
 import { initToastsFromDOM } from './components/init-toasts'
-import { initSliders } from './components/slider'
 import config from './config'
 import { frontApi } from './frontApi'
 import { validateInit } from './libs/custom-validator'
 
-;(window as any).process = { env: {} } // Фикс для совместимости с TomSelect
+  ; import { swiperApi } from './libs/swiper/swiper-manager'
+import { swiperExamples } from '@pages/front-api/_components/swiper-examples/swiper-examples'
+(window as any).process = { env: {} } // Фикс для совместимости с TomSelect
 
 document.addEventListener('DOMContentLoaded', () => {
   frontApi()
@@ -30,7 +31,7 @@ export const commonFunction = (): void => {
   validateInit()
 
   // components
-  initSliders()
+  swiperApi.initAll()
   initToastsFromDOM()
   validateFormInit()
   hoverControlledSlider()
@@ -48,6 +49,7 @@ export const commonFunction = (): void => {
 
   rangeInit()
   rangeExamples()
+  swiperExamples()
 }
 
 console.info(import.meta.env)
