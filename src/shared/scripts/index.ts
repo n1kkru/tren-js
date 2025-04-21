@@ -18,6 +18,8 @@ import { validateInit } from './libs/custom-validator'
 
   ; import { swiperApi } from './libs/swiper/swiper-manager'
 import { swiperExamples } from '@pages/front-api/_components/swiper-examples/swiper-examples'
+import { inputmaskApi } from './libs/inputmask/inputmask'
+import { inputmaskExamples } from '@pages/front-api/_components/inputmask-examples/inputmask-examples'
 (window as any).process = { env: {} } // Фикс для совместимости с TomSelect
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -49,7 +51,11 @@ export const commonFunction = (): void => {
 
   rangeInit()
   rangeExamples()
+
   swiperExamples()
+
+  inputmaskApi.reinitAll()
+  inputmaskExamples()
 }
 
 console.info(import.meta.env)
