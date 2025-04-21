@@ -8,6 +8,7 @@ import tooltipApi from '@shared/ui/tooltip/tooltip'
 import { formApi } from '../ui/form/form'
 import { ModalAPI } from './components/modals/api'
 import { swiperApi } from './libs/swiper/swiper-manager'
+import { inputmaskApi } from './libs/inputmask/inputmask'
 
 export function frontApi() {
   if (!window.frontApi) {
@@ -23,6 +24,7 @@ export function frontApi() {
   window.frontApi.accordion = accordionApi
   window.frontApi.modals = ModalAPI
   window.frontApi.swiper = swiperApi
+  window.frontApi.inputmask = inputmaskApi
 
   window.frontApi.initAll = () => {
     formApi.initAll()
@@ -34,5 +36,6 @@ export function frontApi() {
     accordionApi.initAll()
     ModalAPI.initAll()
     swiperApi.initAll()
+    inputmaskApi.reinitAll()
   }
 }

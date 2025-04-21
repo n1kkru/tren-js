@@ -9,6 +9,7 @@ import type { swiperApi } from './libs/swiper/swiper-manager'
 import type { FormApi } from '../ui/form/form.type'
 import type { ModalAPI } from './components/modals'
 import type { CustomValidatorApi } from './libs/custom-validator/CustomValidator.type'
+import type { inputmaskApi } from './libs/inputmask/inputmask'
 
 declare global {
   interface Window {
@@ -22,6 +23,7 @@ declare global {
       tabs: TabsApi
       accordion: AccordionApi
       swiper: typeof swiperApi
+      inputmask: typeof inputmaskApi
       initAll: () => void
     }
     customValidator: CustomValidatorApi

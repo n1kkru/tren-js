@@ -1,6 +1,6 @@
 import validator from 'validator'
+import { inputmaskInit } from '../libs/inputmask/inputmask'
 
-import { inputmaskInit } from '../libs/inputmask'
 
 //Вывод сообщений об ошибке, тут можно добавить свой текст
 const errorMessages = {
@@ -55,7 +55,7 @@ class InputValidator {
         const phoneValue = this.value.replace(/\D/g, '')
 
         switch (
-          this.type // Тут добавляем нужную нам валидацию, если строк много то выносим в отдельную функцию
+        this.type // Тут добавляем нужную нам валидацию, если строк много то выносим в отдельную функцию
         ) {
           case 'email':
             this.isValid = validator.isEmail(this.value)
