@@ -26,4 +26,16 @@ export const modalExamples = () => {
   document.querySelector('#modal-instances')?.addEventListener('click', () => {
     console.log(`modal.instances`, modal.instances)
   })
+
+  window.frontApi.modals.onAny('onAnyInit', (instance) => {
+    console.log('[onAnyInit]', instance);
+  })
+
+  window.frontApi.modals.onAny('onAnyOpen', (instance) => {
+    console.log('[onAnyOpen]', instance);
+  })
+
+  window.frontApi.modals.onAny('onAnyClose', (instance) => {
+    console.log('[onAnyClose]', instance);
+  })
 }
