@@ -20,6 +20,7 @@ import { validateInit } from './libs/custom-validator'
 import { swiperExamples } from '@pages/front-api/_components/swiper-examples/swiper-examples'
 import { inputmaskApi } from './libs/inputmask/inputmask'
 import { inputmaskExamples } from '@pages/front-api/_components/inputmask-examples/inputmask-examples'
+import { tabsInit } from '@shared/ui/tabs/tabs-manager'
 (window as any).process = { env: {} } // Фикс для совместимости с TomSelect
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -37,13 +38,18 @@ export const commonFunction = (): void => {
   initToastsFromDOM()
   validateFormInit()
   hoverControlledSlider()
-  accordionInitAll()
 
   // Примеры использования
+  accordionInitAll()
   accordionExamples()
+
   toastsExamples()
+
+  tabsInit()
   tabsExamples()
+
   modalExamples()
+
   selectExamples()
 
   tooltipInit()
