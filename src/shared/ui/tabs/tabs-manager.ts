@@ -104,6 +104,10 @@ class TabsManager {
 
 export const TabsManagerApi = new TabsManager()
 
+export function tabsInit() {
+  TabsApi.initAll()
+}
+
 export const TabsApi = {
   getActive: TabsManagerApi.getActive.bind(TabsManagerApi),
   init: TabsManagerApi.init.bind(TabsManagerApi),
