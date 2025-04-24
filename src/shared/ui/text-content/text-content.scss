@@ -1,0 +1,149 @@
+$accent: #3267d3;
+$text-color: #80828b;
+
+.text-content {
+  p,
+  li,
+  span {
+    font-size: rem(20px);
+    font-weight: 300;
+    line-height: 150%;
+    color: $text-color;
+
+    @media #{media('<',d)} {
+      font-size: rem(14px);
+    }
+  }
+
+  a {
+    color: $accent;
+    cursor: pointer;
+    transition: $transition;
+    font-size: rem(20px);
+
+    @media #{media('<',d)} {
+      font-size: rem(14px);
+    }
+
+    @media #{media('>',d)} and (hover: hover) and (pointer: fine) {
+      &:hover {
+        opacity: 0.7;
+      }
+    }
+  }
+
+  /* Заголовки */
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    color: $accent;
+  }
+
+  h1 {
+    font-size: rem(48px);
+    font-weight: 400;
+    line-height: 140%;
+    letter-spacing: -0.02em;
+
+    @media #{media('<',d)} {
+      font-size: 32px;
+    }
+  }
+
+  h2 {
+    font-size: rem(32px);
+    font-weight: 400;
+    line-height: 140%;
+    letter-spacing: -0.02em;
+
+    @media #{media('<',d)} {
+      font-size: 20px;
+    }
+  }
+
+  h3 {
+    font-size: rem(24px);
+    font-weight: 400;
+    line-height: 140%;
+    letter-spacing: -0.02em;
+
+    @media #{media('<',d)} {
+      font-size: rem(16px);
+    }
+  }
+
+  /* Маркированные списки */
+
+  ul {
+    padding-right: rem(30px);
+
+    li {
+      position: relative;
+      padding-left: rem(40px);
+
+      &:not(:first-child) {
+        margin-top: rem(12px);
+      }
+
+      &::before {
+        content: '';
+
+        position: absolute;
+        left: 0;
+
+        width: rem(28px);
+        height: rem(28px);
+
+        background-image: url("data:image/svg+xml,%3Csvg width='28' height='28' viewBox='0 0 28 28' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Crect x='9' y='9' width='10' height='10' rx='3' fill='%233267D3'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+
+        @media (max-width: 1570px) and (min-width: 1201px) {
+          left: rem(-10px);
+        }
+
+        @media #{media('<',d)} {
+          width: rem(20px);
+          height: rem(20px);
+          // top: rem(-10px);
+        }
+      }
+    }
+  }
+
+  /* Нумерованные списки */
+
+  ol {
+    counter-reset: num;
+
+    display: flex;
+    flex-direction: column;
+    gap: rem(12px);
+
+    padding-right: rem(30px);
+
+    li {
+      position: relative;
+      padding-left: rem(40px);
+
+      &::before {
+        content: counter(num);
+        counter-increment: num;
+
+        position: absolute;
+        left: rem(10px);
+
+        font-size: rem(20px);
+        line-height: 150%;
+        color: $accent;
+
+        @media #{media('<',d)} {
+          font-size: rem(14px);
+        }
+      }
+    }
+  }
+}
