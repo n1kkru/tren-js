@@ -1,0 +1,15 @@
+---
+import './text-content.scss'
+
+interface Props {
+  class?: string
+}
+
+const { class: className, ...props } = Astro.props as Props
+
+export { TextContent }
+---
+
+<div class="text-content">
+  <slot />
+</div>
