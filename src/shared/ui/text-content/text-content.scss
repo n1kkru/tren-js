@@ -36,13 +36,13 @@ $text-color: #80828b;
   h5,
   h6 {
     color: $accent;
-    font-weight: 600;
-    line-height: 140%;
-    letter-spacing: -0.02em;
   }
 
   h1 {
-    font-size: rem(64px);
+    font-size: rem(48px);
+    font-weight: 400;
+    line-height: 140%;
+    letter-spacing: -0.02em;
 
     @media #{media('<',d)} {
       font-size: 32px;
@@ -51,6 +51,9 @@ $text-color: #80828b;
 
   h2 {
     font-size: rem(32px);
+    font-weight: 400;
+    line-height: 140%;
+    letter-spacing: -0.02em;
 
     @media #{media('<',d)} {
       font-size: 20px;
@@ -59,16 +62,13 @@ $text-color: #80828b;
 
   h3 {
     font-size: rem(24px);
+    font-weight: 400;
+    line-height: 140%;
+    letter-spacing: -0.02em;
 
     @media #{media('<',d)} {
       font-size: 16px;
     }
-  }
-
-  h4,
-  h5,
-  h6 {
-    font-weight: normal;
   }
 
   /* Маркированные списки */
