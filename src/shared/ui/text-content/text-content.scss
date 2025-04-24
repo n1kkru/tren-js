@@ -5,13 +5,13 @@ $text-color: #80828b;
   p,
   li,
   span {
-    font-size: 20px;
+    font-size: rem(20px);
     font-weight: 300;
     line-height: 150%;
     color: $text-color;
 
     @media #{media('<',d)} {
-      font-size: 14px;
+      font-size: rem(14px);
     }
   }
 
@@ -19,6 +19,11 @@ $text-color: #80828b;
     color: $accent;
     cursor: pointer;
     transition: $transition;
+    font-size: rem(20px);
+
+    @media #{media('<',d)} {
+      font-size: rem(14px);
+    }
 
     @media #{media('>',d)} and (hover: hover) and (pointer: fine) {
       &:hover {
@@ -67,7 +72,7 @@ $text-color: #80828b;
     letter-spacing: -0.02em;
 
     @media #{media('<',d)} {
-      font-size: 16px;
+      font-size: rem(16px);
     }
   }
 
@@ -131,12 +136,12 @@ $text-color: #80828b;
         position: absolute;
         left: rem(10px);
 
-        font-size: 20px;
+        font-size: rem(20px);
         line-height: 150%;
         color: $accent;
 
         @media #{media('<',d)} {
-          font-size: 14px;
+          font-size: rem(14px);
         }
       }
     }
