@@ -1,4 +1,4 @@
-import accordionApi from '@shared/ui/accordion/accordions'
+import { accordionApi } from '@shared/ui/accordion/accordion'
 import rangeApi from '@shared/ui/range/range'
 import { selectApi } from '@shared/ui/select/select'
 import { TabsApi } from '@shared/ui/tabs/tabs-manager'

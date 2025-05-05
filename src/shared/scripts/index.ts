@@ -5,7 +5,7 @@ import { selectExamples } from '@pages/front-api/_components/select-examples/sel
 import { tabsExamples } from '@pages/front-api/_components/tabs-examples/tabs-examples'
 import { toastsExamples } from '@pages/front-api/_components/toasts-examples/toasts-examples'
 import { tooltipExamples } from '@pages/front-api/_components/tooltip-examples/tooltip-examples'
-import { accordionInitAll } from '@shared/ui/accordion/accordions'
+import { accordionApi } from '@shared/ui/accordion/accordion'
 import { initAll, rangeInit } from '@shared/ui/range/range'
 import { tooltipInit } from '@shared/ui/tooltip/tooltip'
 
@@ -39,7 +39,7 @@ export const commonFunction = (): void => {
   hoverControlledSlider()
 
   // Примеры использования
-  accordionInitAll()
+  accordionApi.initAll()
   accordionExamples()
 
   toastsExamples()
@@ -68,7 +68,7 @@ console.info(import.meta.env)
 export const commonDestroy = () => {
   toastApi.destroyAll()
   swiperApi.destroyAll()
-  // accordionApi.destroyAll()
+  accordionApi.destroyAll()
   // TabsApi.destroyAll()
   // ModalApi.destroyAll()
 }

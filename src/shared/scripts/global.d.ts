@@ -21,7 +21,7 @@ declare global {
       range: RanngeApi
       select: selectApi
       tabs: TabsApi
-      accordion: AccordionApi
+      accordion: typeof AccordionApi
       swiper: typeof swiperApi
       inputmask: typeof inputmaskApi
       initAll: () => void
