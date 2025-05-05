@@ -1,5 +1,5 @@
 import { Modal } from './modal'
-import type { ModalOptions } from './types/modal'
+import type { ModalOptions } from './modal.type'
 
 export type ModalEvent = 'onAnyInit' | 'onAnyOpen' | 'onAnyClose'
 
@@ -63,7 +63,7 @@ class ModalManager {
       const modal = modalEl && this.get(modalEl)
 
       if (modal) {
-        trigger.addEventListener('click', () => modal.open())
+        trigger.addEventListener('click', () => modal.openModal())
         this.boundTriggers.add(trigger)
       }
     })

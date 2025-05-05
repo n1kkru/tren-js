@@ -22,6 +22,7 @@ import { inputmaskExamples } from '@pages/front-api/_components/inputmask-exampl
 
 import { toastApi } from '@shared/ui/toast/toasts-manager'
 import { TabsApi } from '@shared/ui/tabs/tabs-manager'
+import { ModalApi } from './components/modals'
 (window as any).process = { env: {} } // Фикс для совместимости с TomSelect
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -71,7 +72,7 @@ export const commonDestroy = () => {
   swiperApi.destroyAll()
   accordionApi.destroyAll()
   TabsApi.destroyAll()
-  // ModalApi.destroyAll()
+  ModalApi.destroyAll()
 }
 
 document.addEventListener('DOMContentLoaded', () => {

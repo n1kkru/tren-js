@@ -7,7 +7,7 @@ import type { TooltipApi } from '@shared/ui/tooltip/tooltip.type'
 import type { swiperApi } from './libs/swiper/swiper-manager'
 
 import type { FormApi } from '../ui/form/form.type'
-import type { ModalAPI } from './components/modals'
+import type { ModalApi } from './components/modals'
 import type { CustomValidatorApi } from './libs/custom-validator/CustomValidator.type'
 import type { inputmaskApi } from './libs/inputmask/inputmask'
 
@@ -16,7 +16,7 @@ declare global {
     frontApi: {
       form: FormApi
       toast: ToastApi
-      modals: typeof ModalAPI
+      modals: typeof ModalApi
       tooltip: TooltipApi
       range: RanngeApi
       select: selectApi

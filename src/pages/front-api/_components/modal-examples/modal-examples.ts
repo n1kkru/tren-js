@@ -24,18 +24,18 @@ export const modalExamples = () => {
   })
 
   document.querySelector('#modal-instances')?.addEventListener('click', () => {
-    console.log(`modal.instances`, modal.instances)
+    console.log('modal.instances', modal.getAllInstances())
   })
 
-  window.frontApi.modals.onAny('onAnyInit', (instance) => {
+  window.frontApi.modals.onAnyInit((instance) => {
     console.log('[onAnyInit]', instance);
   })
 
-  window.frontApi.modals.onAny('onAnyOpen', (instance) => {
+  window.frontApi.modals.onAnyOpen((instance) => {
     console.log('[onAnyOpen]', instance);
   })
 
-  window.frontApi.modals.onAny('onAnyClose', (instance) => {
+  window.frontApi.modals.onAnyClose((instance) => {
     console.log('[onAnyClose]', instance);
   })
 }
