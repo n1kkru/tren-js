@@ -1,6 +1,7 @@
 ---
 import Footer from '@widgets/footer/Footer.astro'
 import Header from '@widgets/header/Header.astro'
+import { ClientRouter } from 'astro:transitions'
 
 interface Props {
   pageName?: string
@@ -61,6 +62,7 @@ export { Layout }
     </slot>
 
     <title>{pageName}</title>
+    <ClientRouter />
   </head>
   <body>
     <div class="wrapper">

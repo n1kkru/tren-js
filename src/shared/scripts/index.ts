@@ -11,7 +11,6 @@ import { tooltipInit } from '@shared/ui/tooltip/tooltip'
 
 import { validateFormInit } from './components/custom-validator'
 import { hoverControlledSlider } from './components/hover-slider'
-import { initToastsFromDOM } from './components/init-toasts'
 import config from './config'
 import { frontApi } from './frontApi'
 import { validateInit } from './libs/custom-validator'
@@ -21,6 +20,7 @@ import { swiperExamples } from '@pages/front-api/_components/swiper-examples/swi
 import { inputmaskApi } from './libs/inputmask/inputmask'
 import { inputmaskExamples } from '@pages/front-api/_components/inputmask-examples/inputmask-examples'
 import { tabsInit } from '@shared/ui/tabs/tabs-manager'
+import { toastApi } from '@shared/ui/toast/toasts-manager'
 (window as any).process = { env: {} } // Фикс для совместимости с TomSelect
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -35,7 +35,6 @@ export const commonFunction = (): void => {
 
   // components
   swiperApi.initAll()
-  initToastsFromDOM()
   validateFormInit()
   hoverControlledSlider()
 
@@ -65,3 +64,32 @@ export const commonFunction = (): void => {
 }
 
 console.info(import.meta.env)
+
+export const commonDestroy = () => {
+  toastApi.destroyAll()
+  // swiperApi.destroyAll()
+  // accordionApi.destroyAll()
+  // TabsApi.destroyAll()
+  // ModalApi.destroyAll()
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  config()
+  frontApi()
+  // initHeader()
+  commonFunction()
+})
+
+document.addEventListener('astro:before-swap', () => {
+  commonDestroy()
+})
+
+document.addEventListener('astro:after-swap', () => {
+  requestAnimationFrame(() => {
+    commonFunction()
+  })
+})
+
+// document.addEventListener('astro:page-load', () => {
+//   // initMaps()
+// })

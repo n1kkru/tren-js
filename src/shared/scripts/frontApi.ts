@@ -2,13 +2,13 @@ import accordionApi from '@shared/ui/accordion/accordions'
 import rangeApi from '@shared/ui/range/range'
 import { selectApi } from '@shared/ui/select/select'
 import { TabsApi } from '@shared/ui/tabs/tabs-manager'
-import { toastApi } from '@shared/ui/toast/toast'
 import tooltipApi from '@shared/ui/tooltip/tooltip'
 
 import { formApi } from '../ui/form/form'
 import { ModalAPI } from './components/modals/api'
 import { swiperApi } from './libs/swiper/swiper-manager'
 import { inputmaskApi } from './libs/inputmask/inputmask'
+import { toastApi } from '@shared/ui/toast/toasts-manager'
 
 export function frontApi() {
   if (!window.frontApi) {
