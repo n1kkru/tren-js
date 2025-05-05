@@ -1,9 +1,18 @@
 import Swiper from 'swiper'
-import { EffectFade, Keyboard, Navigation, Pagination, Thumbs } from 'swiper/modules'
+import {
+  Autoplay,
+  Controller,
+  EffectFade,
+  FreeMode,
+  Keyboard,
+  Navigation,
+  Pagination,
+  Thumbs
+} from 'swiper/modules'
 import type { NavigationOptions, PaginationOptions, SwiperOptions } from 'swiper/types'
 
 const defaultConfig: SwiperOptions = {
-  modules: [EffectFade, Navigation, Pagination, Thumbs, Keyboard],
+  modules: [EffectFade, Navigation, Pagination, Thumbs, Keyboard, Autoplay, FreeMode, Controller],
   slidesPerView: 'auto',
   speed: 800,
   keyboard: {
@@ -17,6 +26,9 @@ const readySliders: Record<string, Swiper> = {}
 const getCustomParams = (slider: HTMLElement): SwiperOptions => {
   const params: string = slider.dataset.swiperParams as string
   const options: SwiperOptions = params ? JSON.parse(params) : {}
+
+  slider.dataset.swiperParams && delete slider.dataset.swiperParams
+
   return options
 }
 
@@ -80,4 +92,17 @@ const init = (slider: HTMLElement): void => {
   slider.dataset.swiperInit = 'true'
 }
 
-export { getSlider, init, reinit, readySliders }
+const destroy = (slider: HTMLElement): void => {
+  const sliderID = slider.dataset.swiper as string
+  const current = getSlider(sliderID)
+
+  if (current) {
+    current.destroy(true, true)
+    delete readySliders[sliderID]
+  }
+
+  delete slider.dataset.swiper
+  delete slider.dataset.swiperInit
+}
+
+export { getSlider, init, reinit, destroy, readySliders }

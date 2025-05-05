@@ -67,7 +67,7 @@ console.info(import.meta.env)
 
 export const commonDestroy = () => {
   toastApi.destroyAll()
-  // swiperApi.destroyAll()
+  swiperApi.destroyAll()
   // accordionApi.destroyAll()
   // TabsApi.destroyAll()
   // ModalApi.destroyAll()
