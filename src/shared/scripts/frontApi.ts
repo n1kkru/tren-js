@@ -43,7 +43,7 @@ export function frontApi() {
     formApi.destroyAll()
     toastApi.destroyAll()
     tooltipApi.destroyAll()
-    // rangeApi.destroyAll()
+    rangeApi.destroyAll()
     selectApi.destroyAll()
     TabsApi.destroyAll()
     accordionApi.destroyAll()

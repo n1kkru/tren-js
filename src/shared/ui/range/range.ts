@@ -202,7 +202,7 @@ function initAllInstance(element: string | HTMLElement): void {
       from: (value: string): number | false => myFormatter.from!(value)
     }
   }) as RangeInstance
-  ;(rangeBody as HTMLElement & { range?: RangeInstance }).range = rangeInstance
+    ; (rangeBody as HTMLElement & { range?: RangeInstance }).range = rangeInstance
 
   // Устанавливаем атрибут data-range-init
   setInitializedAttribute(el)
@@ -289,13 +289,14 @@ const rangeApi = {
     const elements = document.querySelectorAll<HTMLElement>('.range')
     elements.forEach(el => initAllInstance(el))
   },
+
   // (5) Переинициализация конкретного слайдера
   reInit: function (element: string | HTMLElement): void {
     const el = getElement(element)
     if (!el) return
     const rangeBody = el.querySelector<HTMLElement>('.range__body')
     if (rangeBody && (rangeBody as HTMLElement & { range?: RangeInstance }).range) {
-      ;((rangeBody as HTMLElement & { range?: RangeInstance }).range as RangeInstance).destroy()
+      ; ((rangeBody as HTMLElement & { range?: RangeInstance }).range as RangeInstance).destroy()
     }
     el.removeAttribute('data-range-init')
     initAllInstance(el)
@@ -309,6 +310,8 @@ const rangeApi = {
   },
   // (2) Проверка и (3) получение/установка атрибута data-range-init
   isInit: isInit,
+  destroy: destroyInstance,
+  destroyAll: destroyAllInstances,
   getInitializedAttribute: getInitializedAttribute,
   setInitializedAttribute: setInitializedAttribute,
   // (4) Генерация события инициализации
@@ -330,7 +333,7 @@ const rangeApi = {
     if (!rangeBody || !(rangeBody as any).range) return
     const current = (rangeBody as any).range.get()
     const newStart = Array.isArray(current) ? [value, current[1]] : value
-    ;(rangeBody as any).range.set(newStart)
+      ; (rangeBody as any).range.set(newStart)
     element.setAttribute(
       'data-start',
       Array.isArray(newStart) ? `[${newStart[0]},${newStart[1]}]` : String(newStart)
@@ -356,7 +359,7 @@ const rangeApi = {
     if (!rangeBody || !(rangeBody as any).range) return
     const current = (rangeBody as any).range.get()
     const newStart = Array.isArray(current) ? [current[0], value] : value
-    ;(rangeBody as any).range.set(newStart)
+      ; (rangeBody as any).range.set(newStart)
     element.setAttribute(
       'data-start',
       Array.isArray(newStart) ? `[${newStart[0]},${newStart[1]}]` : String(newStart)
@@ -379,6 +382,23 @@ const rangeApi = {
     if (!rangeBody || !(rangeBody as any).range) return
     return (rangeBody as any).range.get()
   }
+}
+
+function destroyInstance(element: string | HTMLElement): void {
+  const el = getElement(element);
+  if (!el) return;
+  const rangeBody = el.querySelector<HTMLElement>('.range__body');
+  if (!rangeBody) return;
+  const inst = (rangeBody as any).range;
+  if (inst && typeof inst.destroy === 'function') {
+    inst.destroy();
+    delete (rangeBody as any).range;
+  }
+  el.removeAttribute('data-range-init');
+}
+
+function destroyAllInstances(): void {
+  document.querySelectorAll<HTMLElement>('.range').forEach(el => destroyInstance(el));
 }
 
 export function rangeInit() {

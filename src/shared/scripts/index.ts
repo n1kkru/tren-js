@@ -84,8 +84,8 @@ export const commonDestroy = () => {
   formApi.destroyAll()
   selectApi.destroyAll()
   tooltipApi.destroyAll()
-  // rangeApi.destroyAll()
-
+  rangeApi.destroyAll()
+  inputmaskApi.destroyAll()
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -103,7 +103,3 @@ document.addEventListener('astro:after-swap', () => {
     commonFunction()
   })
 })
-
-// document.addEventListener('astro:page-load', () => {
-//   // initMaps()
-// })
