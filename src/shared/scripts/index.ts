@@ -19,8 +19,9 @@ import { validateInit } from './libs/custom-validator'
 import { swiperExamples } from '@pages/front-api/_components/swiper-examples/swiper-examples'
 import { inputmaskApi } from './libs/inputmask/inputmask'
 import { inputmaskExamples } from '@pages/front-api/_components/inputmask-examples/inputmask-examples'
-import { tabsInit } from '@shared/ui/tabs/tabs-manager'
+
 import { toastApi } from '@shared/ui/toast/toasts-manager'
+import { TabsApi } from '@shared/ui/tabs/tabs-manager'
 (window as any).process = { env: {} } // Фикс для совместимости с TomSelect
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -44,7 +45,7 @@ export const commonFunction = (): void => {
 
   toastsExamples()
 
-  tabsInit()
+  TabsApi.initAll()
   tabsExamples()
 
   modalExamples()
@@ -69,7 +70,7 @@ export const commonDestroy = () => {
   toastApi.destroyAll()
   swiperApi.destroyAll()
   accordionApi.destroyAll()
-  // TabsApi.destroyAll()
+  TabsApi.destroyAll()
   // ModalApi.destroyAll()
 }
 
