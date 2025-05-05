@@ -38,4 +38,16 @@ export function frontApi() {
     swiperApi.initAll()
     inputmaskApi.reinitAll()
   }
+
+  window.frontApi.destroyAll = () => {
+    formApi.destroyAll()
+    toastApi.destroyAll()
+    tooltipApi.destroyAll()
+    // rangeApi.destroyAll()
+    // selectApi.destroyAll()
+    TabsApi.destroyAll()
+    accordionApi.destroyAll()
+    ModalApi.destroyAll()
+    swiperApi.destroyAll()
+  }
 }

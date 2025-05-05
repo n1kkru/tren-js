@@ -25,6 +25,7 @@ declare global {
       swiper: typeof swiperApi
       inputmask: typeof inputmaskApi
       initAll: () => void
+      destroyAll: () => void
     }
     customValidator: CustomValidatorApi
   }

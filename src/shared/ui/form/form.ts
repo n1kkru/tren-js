@@ -1,4 +1,5 @@
-import { validatorInitFunction } from '../../../shared/scripts/libs/custom-validator'
+import { validatorDestroyFunction, validatorInitFunction, } from '../../../shared/scripts/libs/custom-validator'
+
 import {
   isValidForm,
   resetFormError,
@@ -7,7 +8,8 @@ import {
   setFormError,
   setFormFieldError,
   validateField,
-  validateForm
+  validateForm,
+
 } from '../../../shared/scripts/libs/custom-validator/utils/ValidatorUtils'
 
 export const formApi = {
@@ -19,5 +21,6 @@ export const formApi = {
   resetFormFieldErrors,
   setFormFieldError,
   setFormError,
-  initAll: validatorInitFunction
+  initAll: validatorInitFunction,
+  destroyAll: validatorDestroyFunction,
 }

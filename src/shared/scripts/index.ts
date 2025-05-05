@@ -6,8 +6,8 @@ import { tabsExamples } from '@pages/front-api/_components/tabs-examples/tabs-ex
 import { toastsExamples } from '@pages/front-api/_components/toasts-examples/toasts-examples'
 import { tooltipExamples } from '@pages/front-api/_components/tooltip-examples/tooltip-examples'
 import { accordionApi } from '@shared/ui/accordion/accordion'
-import { initAll, rangeInit } from '@shared/ui/range/range'
-import { tooltipInit } from '@shared/ui/tooltip/tooltip'
+import rangeApi, { initAll, rangeInit } from '@shared/ui/range/range'
+import tooltipApi, { tooltipInit } from '@shared/ui/tooltip/tooltip'
 
 import { validateFormInit } from './components/custom-validator'
 import { hoverControlledSlider } from './components/hover-slider'
@@ -23,6 +23,8 @@ import { inputmaskExamples } from '@pages/front-api/_components/inputmask-exampl
 import { toastApi } from '@shared/ui/toast/toasts-manager'
 import { TabsApi } from '@shared/ui/tabs/tabs-manager'
 import { ModalApi } from './components/modals'
+import { selectApi } from '@shared/ui/select/select'
+import { formApi } from '@shared/ui/form/form'
 (window as any).process = { env: {} } // Фикс для совместимости с TomSelect
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -44,21 +46,27 @@ export const commonFunction = (): void => {
   accordionApi.initAll()
   accordionExamples()
 
+  toastApi.initAll()
   toastsExamples()
 
   TabsApi.initAll()
   tabsExamples()
 
+  ModalApi.initAll()
   modalExamples()
 
+  selectApi.initAll()
   selectExamples()
 
+  tooltipApi.initAll()
   tooltipInit()
   tooltipExamples()
 
+  rangeApi.initAll()
   rangeInit()
   rangeExamples()
 
+  swiperApi.initAll()
   swiperExamples()
 
   inputmaskApi.reinitAll()
@@ -73,12 +81,16 @@ export const commonDestroy = () => {
   accordionApi.destroyAll()
   TabsApi.destroyAll()
   ModalApi.destroyAll()
+  formApi.destroyAll()
+  selectApi.destroyAll()
+  tooltipApi.destroyAll()
+  // rangeApi.destroyAll()
+
 }
 
 document.addEventListener('DOMContentLoaded', () => {
   config()
   frontApi()
-  // initHeader()
   commonFunction()
 })
 
