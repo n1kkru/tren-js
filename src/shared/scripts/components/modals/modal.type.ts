@@ -1,8 +1,10 @@
+import type { Modal } from "./modal"
+
 export interface ModalOptions {
-  renderToBody?: true | false
-  trapFocus?: true | false
-  closeOnEsc?: true | false
-  closeOnBackdrop?: true | false
+  renderToBody?: boolean
+  trapFocus?: boolean
+  closeOnEsc?: boolean
+  closeOnBackdrop?: boolean
 
   onInit?: (modal: Modal) => void
   onOpen?: (modal: Modal) => void

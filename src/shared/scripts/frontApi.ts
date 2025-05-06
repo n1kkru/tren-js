@@ -1,14 +1,14 @@
-import accordionApi from '@shared/ui/accordion/accordions'
+import { accordionApi } from '@shared/ui/accordion/accordion'
 import rangeApi from '@shared/ui/range/range'
 import { selectApi } from '@shared/ui/select/select'
 import { TabsApi } from '@shared/ui/tabs/tabs-manager'
-import { toastApi } from '@shared/ui/toast/toast'
 import tooltipApi from '@shared/ui/tooltip/tooltip'
 
 import { formApi } from '../ui/form/form'
-import { ModalAPI } from './components/modals/api'
 import { swiperApi } from './libs/swiper/swiper-manager'
 import { inputmaskApi } from './libs/inputmask/inputmask'
+import { toastApi } from '@shared/ui/toast/toasts-manager'
+import { ModalApi } from './components/modals'
 
 export function frontApi() {
   if (!window.frontApi) {
@@ -22,7 +22,7 @@ export function frontApi() {
   window.frontApi.select = selectApi
   window.frontApi.tabs = TabsApi
   window.frontApi.accordion = accordionApi
-  window.frontApi.modals = ModalAPI
+  window.frontApi.modals = ModalApi
   window.frontApi.swiper = swiperApi
   window.frontApi.inputmask = inputmaskApi
 
@@ -34,8 +34,20 @@ export function frontApi() {
     selectApi.initAll()
     TabsApi.initAll()
     accordionApi.initAll()
-    ModalAPI.initAll()
+    ModalApi.initAll()
     swiperApi.initAll()
     inputmaskApi.reinitAll()
+  }
+
+  window.frontApi.destroyAll = () => {
+    formApi.destroyAll()
+    toastApi.destroyAll()
+    tooltipApi.destroyAll()
+    rangeApi.destroyAll()
+    selectApi.destroyAll()
+    TabsApi.destroyAll()
+    accordionApi.destroyAll()
+    ModalApi.destroyAll()
+    swiperApi.destroyAll()
   }
 }

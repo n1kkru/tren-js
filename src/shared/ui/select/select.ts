@@ -132,6 +132,18 @@ const tomSelectModule = {
     }
   },
 
+  destroyAll(): void {
+    document.querySelectorAll<HTMLSelectElement>('.ui-select select').forEach(el => {
+      const instance = tomSelectInstances.get(el)
+      if (instance) {
+        instance.destroy()
+        tomSelectInstances.delete(el)
+        el.removeAttribute('data-tomselect-init')
+      }
+    })
+  },
+
+
   resetOptions(
     element: TTomSelectElement,
     options: TTomSelectOption[],
@@ -291,6 +303,7 @@ export const selectApi = {
   reInit: tomSelectModule.reInit.bind(tomSelectModule),
   reInitAll: tomSelectModule.reInitAll.bind(tomSelectModule),
   destroy: tomSelectModule.destroy.bind(tomSelectModule),
+  destroyAll: tomSelectModule.destroyAll.bind(tomSelectModule),
   resetOptions: tomSelectModule.resetOptions.bind(tomSelectModule),
   addOption: tomSelectModule.addOption.bind(tomSelectModule),
   removeOption: tomSelectModule.removeOption.bind(tomSelectModule),

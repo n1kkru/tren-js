@@ -73,8 +73,41 @@ export function reinitAll(): void {
   inputmaskInit()
 }
 
+
+function destroy(input: string | HTMLInputElement): void {
+  const inputElement =
+    typeof input === 'string'
+      ? document.querySelector<HTMLInputElement>(input)
+      : input;
+  if (!inputElement) {
+    console.warn(`Input not found: ${input}`);
+    return;
+  }
+
+  inputElement.removeAttribute(INITIALIZED_ATTR);
+
+  if ((inputElement as any).inputmask) {
+    (inputElement as any).inputmask.remove();
+  }
+}
+
+
+function destroyAll(): void {
+  const inputs = document.querySelectorAll<HTMLInputElement>(
+    `[${INITIALIZED_ATTR}]`
+  );
+  inputs.forEach(input => {
+    input.removeAttribute(INITIALIZED_ATTR);
+    if ((input as any).inputmask) {
+      (input as any).inputmask.remove();
+    }
+  });
+}
+
 export const inputmaskApi = {
   init: inputmaskInit,
   reinit,
-  reinitAll
+  reinitAll,
+  destroy,
+  destroyAll,
 }

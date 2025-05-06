@@ -1,11 +1,11 @@
 ---
-import SideModal from '@shared/ui/modals/SideModal.astro'
-import StandartModal from '@shared/ui/modals/StandartModal.astro'
+// src/components/ModalExamples.astro
+import Drawer from '@shared/ui/drawer/Drawer.astro'
+import Modal from '@shared/ui/modal/Modal.astro'
 
 interface Props {
   class?: string
 }
-
 const { class: className, ...props } = Astro.props as Props
 
 export { ModalExamples }
@@ -13,161 +13,151 @@ export { ModalExamples }
 
 <section
   id="modal-examples-page"
-  class:list={['modal-examples', className]}
+  class={`modal-examples ${className}`}
   {...props}
 >
-  <div class="space-y-6 rounded-lg bg-gray-100 p-6">
-    <h2 class="mb-4 text-2xl font-bold">Модальные окна</h2>
-    <p class="mb-4 text-lg font-bold text-sky-600">Смотри консоль</p>
+  <div class="space-y-8 rounded-lg bg-gray-50 p-6 shadow">
+    <h2 class="text-2xl font-semibold">Примеры ModalApi</h2>
+    <p class="text-sky-600">Смотрите консоль при клике на кнопки</p>
 
-    <div class="flex gap-10 p-5">
+    <!-- Триггеры и сами модалки -->
+    <div class="flex flex-wrap gap-4">
       <button
         data-modal-trigger="modal-1"
-        class="w-[30%] rounded-xl bg-rose-300 p-3"
-        >Открыть модалку</button
+        class="rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
       >
-      <StandartModal id="modal-1">
-        <div class="flex flex-col gap-5 rounded-md p-20">
-          <h3 class="text-3xl">Заголовок</h3>
-          <p>
-            Текст (от лат. textus — ткань; сплетение, сочетание) — зафиксированная на каком-либо
-            материальном носителе человеческая мысль; в общем плане связная и полная
-            последовательность символов. Существуют две основные трактовки понятия «текст»:
-            имманентная (расширенная, философски нагруженная) и репрезентативная (более частная).
-          </p>
-          <button class="w-full rounded-xl bg-rose-300 p-3">Кнопка модалки</button>
+        Открыть центральную
+      </button>
+      <Modal id="modal-1">
+        <div
+          slot="content"
+          class="p-6"
+        >
+          <h3 class="text-lg font-medium">Центральная модалка</h3>
+          <p class="mt-2">Это контент вашего модального окна.</p>
         </div>
-      </StandartModal>
+        <div
+          slot="footer"
+          class="flex justify-end space-x-2 border-t p-4"
+        >
+          <button
+            data-modal-close
+            class="px-3 py-1"
+            >Закрыть</button
+          >
+        </div>
+      </Modal>
 
       <button
         data-modal-trigger="modal-2"
-        class="w-[30%] rounded-xl bg-rose-300 p-3"
-        >Открыть боковую модалку</button
+        class="rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
       >
-      <SideModal id="modal-2">
-        <div class="flex w-[40vw] flex-col gap-5 rounded-md p-20">
-          <h3 class="text-3xl">Заголовок</h3>
-          <p>
-            Текст (от лат. textus — ткань; сплетение, сочетание) — зафиксированная на каком-либо
-            материальном носителе человеческая мысль; в общем плане связная и полная
-            последовательность символов. Существуют две основные трактовки понятия «текст»:
-            имманентная (расширенная, философски нагруженная) и репрезентативная (более частная).
-          </p>
-          <button class="w-full rounded-xl bg-rose-300 p-3">Кнопка модалки</button>
+        Открыть боковую
+      </button>
+      <Drawer
+        id="modal-2"
+        title="Боковая панель"
+      >
+        <div class="p-6">
+          <h3 class="text-lg font-medium">Фильтры</h3>
+          <p class="mt-2">Содержимое бокового меню.</p>
         </div>
-      </SideModal>
+        <div
+          slot="footer"
+          class="flex justify-end space-x-2 border-t p-4"
+        >
+          <button
+            data-modal-close
+            class="px-3 py-1"
+            >Закрыть</button
+          >
+        </div>
+      </Drawer>
     </div>
 
-    <div class="space-y-6">
-      <!-- init -->
-      <div class="rounded bg-white p-4 shadow">
-        <h2 class="text-lg font-semibold">window.frontApi.modals.init(selectorOrEl, options)</h2>
-        <p class="text-sm text-gray-600">Инициализирует конкретное модальное окно.</p>
+    <!-- Блоки с примерами вызова API -->
+    <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+      <div>
+        <h4 class="font-medium">modals.init(selector)</h4>
         <button
-          id="modal-init"
-          data-modal-trigger="modal-1"
-          class="mt-2 rounded bg-cyan-500 px-4 py-2 text-white"
-          >Пример вызова</button
+          id="btn-init"
+          class="mt-2 rounded bg-indigo-500 px-4 py-2 text-white hover:bg-indigo-600"
         >
+          Init modal-1
+        </button>
         <pre
-          class="mt-2 rounded bg-gray-100 p-3 text-sm text-gray-800"><code>window.frontApi.modals.init('[data-modal="modal-1"]')</code></pre>
+          class="mt-2 rounded bg-gray-100 p-2 text-sm"><code>modal.init('[data-modal="modal-1"]')</code></pre>
       </div>
 
-      <!-- initAll -->
-      <div class="rounded bg-white p-4 shadow">
-        <h2 class="text-lg font-semibold">window.frontApi.modals.initAll(options)</h2>
-        <p class="text-sm text-gray-600">
-          Инициализирует все модальные окна на странице и привязывает к ним триггеры.
-        </p>
+      <div>
+        <h4 class="font-medium">modals.initAll()</h4>
         <button
-          id="modal-init-all"
-          data-modal-trigger="modal-2"
-          class="mt-2 rounded bg-sky-600 px-4 py-2 text-white"
-          >Инициализировать все</button
+          id="btn-init-all"
+          class="mt-2 rounded bg-indigo-500 px-4 py-2 text-white hover:bg-indigo-600"
         >
-        <pre
-          class="mt-2 rounded bg-gray-100 p-3 text-sm text-gray-800"><code>window.frontApi.modals.initAll()</code></pre>
+          Init All
+        </button>
+        <pre class="mt-2 rounded bg-gray-100 p-2 text-sm"><code>modal.initAll()</code></pre>
       </div>
 
-      <!-- bindTriggers -->
-      <div class="rounded bg-white p-4 shadow">
-        <h2 class="text-lg font-semibold">window.frontApi.modals.bindTriggers()</h2>
-        <p class="text-sm text-gray-600">
-          Привязывает кнопки-триггеры к соответствующим модальным окнам.
-        </p>
+      <div>
+        <h4 class="font-medium">modals.show(selector)</h4>
         <button
-          id="modal-bind-trig"
-          class="mt-2 rounded bg-purple-600 px-4 py-2 text-white"
-          >Бинд триггеры</button
+          id="btn-show"
+          class="mt-2 rounded bg-indigo-500 px-4 py-2 text-white hover:bg-indigo-600"
         >
+          Show modal-1
+        </button>
         <pre
-          class="mt-2 rounded bg-gray-100 p-3 text-sm text-gray-800"><code>window.frontApi.modals.bindTriggers()</code></pre>
+          class="mt-2 rounded bg-gray-100 p-2 text-sm"><code>modal.show('[data-modal="modal-1"]')</code></pre>
       </div>
 
-      <!-- get -->
-      <div class="rounded bg-white p-4 shadow">
-        <h2 class="text-lg font-semibold">window.frontApi.modals.get(selectorOrEl)</h2>
-        <p class="text-sm text-gray-600">
-          Возвращает экземпляр модального окна по селектору или DOM-элементу.
-        </p>
+      <div>
+        <h4 class="font-medium">modals.hide(selector)</h4>
         <button
-          id="modal-get"
-          class="mt-2 rounded bg-indigo-600 px-4 py-2 text-white"
-          >Получить модалку по id</button
+          id="btn-hide"
+          class="mt-2 rounded bg-indigo-500 px-4 py-2 text-white hover:bg-indigo-600"
         >
+          Hide modal-1
+        </button>
         <pre
-          class="mt-2 rounded bg-gray-100 p-3 text-sm text-gray-800"><code>window.frontApi.modals.get('[data-modal="modal-1"]')</code></pre>
+          class="mt-2 rounded bg-gray-100 p-2 text-sm"><code>modal.hide('[data-modal="modal-1"]')</code></pre>
       </div>
 
-      <!-- instances -->
-      <div class="rounded bg-white p-4 shadow">
-        <h2 class="text-lg font-semibold">window.frontApi.modals.instances</h2>
-        <p class="text-sm text-gray-600">Возвращает инстенсы</p>
+      <div>
+        <h4 class="font-medium">modals.destroy(selector)</h4>
         <button
-          id="modal-instances"
-          class="mt-2 rounded bg-indigo-600 px-4 py-2 text-white"
-          >Получить</button
+          id="btn-destroy"
+          class="mt-2 rounded bg-rose-600 px-4 py-2 text-white hover:bg-rose-700"
         >
+          Destroy modal-1
+        </button>
         <pre
-          class="mt-2 rounded bg-gray-100 p-3 text-sm text-gray-800"><code>window.frontApi.modals.instances</code></pre>
+          class="mt-2 rounded bg-gray-100 p-2 text-sm"><code>modal.destroy('[data-modal="modal-1"]')</code></pre>
       </div>
 
-      <!-- onAny -->
-      <div class="rounded bg-white p-4 shadow">
-        <h2 class="text-lg font-semibold">window.frontApi.modals.onAny(event, callback)</h2>
-        <p class="text-sm text-gray-600">Подписывает на глобальные события модальных окон.</p>
-
-        <pre
-          class="mt-2 rounded bg-gray-100 p-3 text-sm text-gray-800"><code>window.frontApi.modals.onAny(event, callback)</code></pre>
+      <div>
+        <h4 class="font-medium">modals.destroyAll()</h4>
+        <button
+          id="btn-destroy-all"
+          class="mt-2 rounded bg-rose-600 px-4 py-2 text-white hover:bg-rose-700"
+        >
+          Destroy All
+        </button>
+        <pre class="mt-2 rounded bg-gray-100 p-2 text-sm"><code>modal.destroyAll()</code></pre>
       </div>
 
-      <!-- window.frontApi.modals.onAnyInit -->
-      <div class="rounded bg-white p-4 shadow">
-        <h2 class="text-lg font-semibold">window.frontApi.modals.onAny('onAnyInit', (instance)</h2>
-        <p class="text-sm text-gray-600">Подписка на инициализацию любых модальных окон.</p>
+      <div class="md:col-span-2">
+        <h4 class="font-medium">modals.get(selector)</h4>
+        <button
+          id="btn-get"
+          class="mt-2 rounded bg-green-500 px-4 py-2 text-white hover:bg-green-600"
+        >
+          Get modal-1
+        </button>
         <pre
-          class="mt-2 rounded bg-gray-100 p-3 text-sm text-gray-800"><code>window.frontApi.modals.onAny('onAnyInit', (instance) => console.log('[init]', instance))</code></pre>
-      </div>
-
-      <!-- window.frontApi.modals.onAnyOpen -->
-      <div class="rounded bg-white p-4 shadow">
-        <h2 class="text-lg font-semibold">window.frontApi.modals.onAny('onAnyOpen', (instance)</h2>
-        <p class="text-sm text-gray-600">Подписка на открытие любых модальных окон.</p>
-        <pre
-          class="mt-2 rounded bg-gray-100 p-3 text-sm text-gray-800"><code>window.frontApi.modals.onAny('onAnyOpen', (instance) => console.log('[init]', instance))</code></pre>
-      </div>
-
-      <!-- window.frontApi.modals.onAnyClose -->
-      <div class="rounded bg-white p-4 shadow">
-        <h2 class="text-lg font-semibold">window.frontApi.modals.onAny('onAnyClose', (instance)</h2>
-        <p class="text-sm text-gray-600">Подписка на закрытие любых модальных окон.</p>
-        <pre
-          class="mt-2 rounded bg-gray-100 p-3 text-sm text-gray-800"><code>window.frontApi.modals.onAny('onAnyClose', (instance) => console.log('[init]', instance))</code></pre>
+          class="mt-2 rounded bg-gray-100 p-2 text-sm"><code>console.log(modal.get('[data-modal="modal-1"]'))</code></pre>
       </div>
     </div>
   </div>
 </section>
-
-<style>
-  @import './modal-examples.scss';
-</style>

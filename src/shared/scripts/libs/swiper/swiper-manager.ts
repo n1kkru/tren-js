@@ -1,5 +1,6 @@
 import type Swiper from 'swiper'
-import { init, reinit, getSlider, readySliders } from './swiper'
+
+import { destroy as destroySlider, getSlider, init, readySliders, reinit } from './swiper'
 
 class SwiperManager {
   public instances = readySliders
@@ -60,6 +61,17 @@ class SwiperManager {
     const el = document.querySelector<HTMLElement>(selector)
     const sliderID = el?.dataset.swiper
     return sliderID ? getSlider(sliderID) : undefined
+  }
+
+  destroy(selector: string): void {
+    const el = document.querySelector<HTMLElement>(selector)
+    if (!el) return
+    destroySlider(el)
+  }
+
+  destroyAll(): void {
+    const sliders = document.querySelectorAll<HTMLElement>('[data-swiper]')
+    sliders.forEach(destroySlider)
   }
 }
 

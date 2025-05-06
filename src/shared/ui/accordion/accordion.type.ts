@@ -1,6 +1,7 @@
 export type AccordionInstance = {
   open: (index: number) => void
   close: (index: number) => void
+  destroy?: () => void
   elements?: HTMLElement[]
 }
 
@@ -24,13 +25,15 @@ export type AccordionOptions = {
 }
 
 export type AccordionApi = {
-  initAll: (selector?: string) => void
+  initAll: () => void
   init: (selector: HTMLElement | string) => void
-  reinitAll: (selector?: string) => void
+  reinitAll: () => void
   reinit: (selector: HTMLElement | string) => void
-  openAll: (selector?: string) => void
+  destroyAll: () => void
+  destroy: (selector: HTMLElement | string) => void
+  openAll: () => void
   open: (selector: HTMLElement | string) => void
-  closeAll: (selector?: string) => void
+  closeAll: () => void
   close: (selector: HTMLElement | string) => void
   on: (event: 'open' | 'close', callback: (element: HTMLElement) => void) => void
   off: (event: 'open' | 'close', callback: (element: HTMLElement) => void) => void

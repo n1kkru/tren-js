@@ -1,27 +1,22 @@
 import { renderToBody } from '@shared/scripts/utils/render-to-body'
 import { disableScroll, enableScroll } from '@shared/scripts/utils/scroll'
-
-import type { ModalEvents, ModalOptions } from './types/modal'
+import type { ModalEvents, ModalOptions } from './modal.type'
 
 export class Modal {
   el!: HTMLElement
-  isOpen = false
-  options: ModalOptions
+  open = false
+  opts: ModalOptions
   events = new Map<ModalEvents, Function[]>()
-  escHandler = (e: KeyboardEvent) => {
-    console.log('escHandler')
 
-    if (e.key === 'Escape' && this.options.closeOnEsc) this.close()
+  private onEsc = (e: KeyboardEvent) => {
+    if (e.key === 'Escape' && this.opts.closeOnEsc) this.close()
   }
 
-  focusTrapHandler = (e: KeyboardEvent) => {
+  private onFocusTrap = (e: KeyboardEvent) => {
     if (e.key !== 'Tab') return
-    const focusable = this.getFocusableElements()
-    if (!focusable.length) return
-
-    const first = focusable[0]
-    const last = focusable[focusable.length - 1]
-
+    const els = this.getFocusable()
+    if (!els.length) return
+    const [first, last] = [els[0], els[els.length - 1]]
     if (e.shiftKey && document.activeElement === first) {
       e.preventDefault()
       last.focus()
@@ -31,96 +26,94 @@ export class Modal {
     }
   }
 
-  constructor(selectorOrEl: string | HTMLElement, options: ModalOptions = {}) {
-    this.options = this.mergeOptions(options)
-    this.init(selectorOrEl, options)
+  private closeButtons: HTMLElement[] = []
+  private backdropEl?: HTMLElement
+
+  constructor(el: string | HTMLElement, opts: ModalOptions = {}) {
+    this.opts = this.merge(opts)
+    this.init(el, opts)
   }
 
-  public init(selectorOrEl: string | HTMLElement, options: ModalOptions = {}) {
-    this.el =
-      typeof selectorOrEl === 'string' ? document.querySelector(selectorOrEl)! : selectorOrEl
+  init(el: string | HTMLElement, opts: ModalOptions = {}) {
+    this.el = typeof el === 'string' ? document.querySelector(el)! : el
     if (!this.el) throw new Error('Modal element not found')
 
-    this.options = this.mergeOptions(options)
+    this.opts = this.merge(opts)
     this.el.setAttribute('role', 'dialog')
     this.el.setAttribute('aria-modal', 'true')
     this.el.classList.remove('active')
-    ;(this.el as any).modal = this
+      ; (this.el as any).modal = this
 
-    if (this.options.renderToBody) {
-      renderToBody(this.el)
+    if (this.opts.renderToBody) renderToBody(this.el)
+
+    this.closeButtons = Array.from(this.el.querySelectorAll('[data-modal-close]'))
+    this.closeButtons.forEach(btn => btn.addEventListener('click', this.close))
+
+    if (this.opts.closeOnBackdrop) {
+      this.backdropEl = this.el.querySelector('[data-modal-backdrop]') as HTMLElement
+      this.backdropEl?.addEventListener('click', this.close)
     }
 
-    this.el
-      .querySelectorAll('[data-modal-close]')
-      .forEach(btn => btn.addEventListener('click', () => this.close()))
-
-    if (this.options.closeOnBackdrop) {
-      this.el.querySelector('[data-modal-backdrop]')?.addEventListener('click', () => this.close())
-    }
-
-    this.trigger('onInit')
-    this.options.onInit?.(this)
+    this.emit('onInit')
+    this.opts.onInit?.(this)
   }
 
-  public reinit(newOptions: ModalOptions = {}) {
-    this.init(this.el, newOptions)
+  reinit(opts: ModalOptions = {}) {
+    this.destroy()
+    this.init(this.el, opts)
   }
 
-  open() {
-    if (this.isOpen) return
-
+  openModal() {
+    if (this.open) return
     this.el.classList.add('active')
     this.el.setAttribute('aria-hidden', 'false')
-    this.isOpen = true
+    this.open = true
     disableScroll()
-
-    document.addEventListener('keydown', this.escHandler)
-    if (this.options.trapFocus) document.addEventListener('keydown', this.focusTrapHandler)
-
-    const firstFocusable = this.getFocusableElements()[0]
-    firstFocusable?.focus()
-
-    this.trigger('onOpen')
-    this.options.onOpen?.(this)
+    document.addEventListener('keydown', this.onEsc)
+    if (this.opts.trapFocus) document.addEventListener('keydown', this.onFocusTrap)
+    this.getFocusable()[0]?.focus()
+    this.emit('onOpen')
+    this.opts.onOpen?.(this)
   }
 
-  close() {
-    if (!this.isOpen) return
-
+  close = () => {
+    if (!this.open) return
     this.el.classList.remove('active')
     this.el.setAttribute('aria-hidden', 'true')
-    this.isOpen = false
+    this.open = false
     enableScroll()
-    document.removeEventListener('keydown', this.escHandler)
-    if (this.options.trapFocus) document.removeEventListener('keydown', this.focusTrapHandler)
-
-    this.trigger('onClose')
-    this.options.onClose?.(this)
+    document.removeEventListener('keydown', this.onEsc)
+    document.removeEventListener('keydown', this.onFocusTrap)
+    this.emit('onClose')
+    this.opts.onClose?.(this)
   }
 
   toggle() {
-    this.isOpen ? this.close() : this.open()
+    this.open ? this.close() : this.openModal()
   }
 
   destroy() {
     this.events.clear()
-    ;(this.el as any).modal = null
+      ; (this.el as any).modal = null
+    this.closeButtons.forEach(btn => btn.removeEventListener('click', this.close))
+    this.backdropEl?.removeEventListener('click', this.close)
+    document.removeEventListener('keydown', this.onEsc)
+    document.removeEventListener('keydown', this.onFocusTrap)
+    this.closeButtons = []
+    this.backdropEl = undefined
     this.el = null!
-    document.removeEventListener('keydown', this.escHandler)
-    document.removeEventListener('keydown', this.focusTrapHandler)
   }
 
-  on(event: ModalEvents, callback: Function) {
-    if (!this.events.has(event)) this.events.set(event, [])
-    this.events.get(event)!.push(callback)
+  on(evt: ModalEvents, cb: Function) {
+    if (!this.events.has(evt)) this.events.set(evt, [])
+    this.events.get(evt)!.push(cb)
   }
 
-  private trigger(event: ModalEvents) {
-    this.events.get(event)?.forEach(cb => cb(this))
+  private emit(evt: ModalEvents) {
+    this.events.get(evt)?.forEach(cb => cb(this))
   }
 
-  private mergeOptions(userOptions: ModalOptions): ModalOptions {
+  private merge(opts: ModalOptions): ModalOptions {
     return {
       renderToBody: true,
       trapFocus: true,
@@ -129,11 +122,11 @@ export class Modal {
       onInit: undefined,
       onOpen: undefined,
       onClose: undefined,
-      ...userOptions
+      ...opts
     }
   }
 
-  private getFocusableElements(): HTMLElement[] {
+  private getFocusable(): HTMLElement[] {
     return Array.from(
       this.el.querySelectorAll<HTMLElement>(
         'a[href], button, textarea, input, select, [tabindex]:not([tabindex="-1"])'

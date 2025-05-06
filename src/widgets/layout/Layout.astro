@@ -1,6 +1,7 @@
 ---
 import Footer from '@widgets/footer/Footer.astro'
 import Header from '@widgets/header/Header.astro'
+import { ClientRouter } from 'astro:transitions'
 
 interface Props {
   pageName?: string
@@ -13,7 +14,10 @@ export { Layout }
 ---
 
 <!doctype html>
-<html lang="ru">
+<html
+  lang="ru"
+  transition:animate="none"
+>
   <head>
     <meta charset="UTF-8" />
     <meta
@@ -61,14 +65,14 @@ export { Layout }
     </slot>
 
     <title>{pageName}</title>
+    <ClientRouter />
   </head>
   <body>
     <div class="wrapper">
       <Header />
       <main
         class="page-container"
-        data-barba="container"
-        data-barba-namespace={pageName}
+        transition:animate="fade"
         {...props}
       >
         <slot />
