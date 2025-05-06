@@ -15,7 +15,7 @@ import config from './config'
 import { frontApi } from './frontApi'
 import { validateInit } from './libs/custom-validator'
 
-  ; import { swiperApi } from './libs/swiper/swiper-manager'
+import { swiperApi } from './libs/swiper/swiper-manager'
 import { swiperExamples } from '@pages/front-api/_components/swiper-examples/swiper-examples'
 import { inputmaskApi } from './libs/inputmask/inputmask'
 import { inputmaskExamples } from '@pages/front-api/_components/inputmask-examples/inputmask-examples'
@@ -27,22 +27,9 @@ import { selectApi } from '@shared/ui/select/select'
 import { formApi } from '@shared/ui/form/form'
 (window as any).process = { env: {} } // Фикс для совместимости с TomSelect
 
-document.addEventListener('DOMContentLoaded', () => {
-  frontApi()
-  commonFunction()
-})
-
 export const commonFunction = (): void => {
-  // libs config
-  config()
   validateInit()
 
-  // components
-  swiperApi.initAll()
-  validateFormInit()
-  hoverControlledSlider()
-
-  // Примеры использования
   accordionApi.initAll()
   accordionExamples()
 
@@ -59,11 +46,9 @@ export const commonFunction = (): void => {
   selectExamples()
 
   tooltipApi.initAll()
-  tooltipInit()
   tooltipExamples()
 
   rangeApi.initAll()
-  rangeInit()
   rangeExamples()
 
   swiperApi.initAll()

@@ -1,8 +1,5 @@
 ---
 import type { Props as TippyCoreProps } from 'tippy.js'
-import 'tippy.js/dist/tippy.css'
-import Picture from '../picture/Picture.astro'
-import img from '@assets/images/svg/tooltip.svg'
 
 interface TooltipAstroProps {
   content: string
@@ -41,6 +38,8 @@ const tippyConfig = {
   placement,
   ...tippyOptions
 }
+
+export { Tooltip }
 ---
 
 <span
@@ -50,11 +49,7 @@ const tippyConfig = {
   data-tooltip-config={JSON.stringify(tippyConfig)}
   data-tooltip-events={JSON.stringify({ onShow, onHide, onMount, onTrigger, onUntrigger })}
 >
-  <Picture
-    image={img}
-    alt=""
-    class="tooltip__img"
-  />
+  <slot />
 </span>
 
 <style>

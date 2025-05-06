@@ -14,7 +14,10 @@ export { Layout }
 ---
 
 <!doctype html>
-<html lang="ru">
+<html
+  lang="ru"
+  transition:animate="none"
+>
   <head>
     <meta charset="UTF-8" />
     <meta
@@ -69,8 +72,7 @@ export { Layout }
       <Header />
       <main
         class="page-container"
-        data-barba="container"
-        data-barba-namespace={pageName}
+        transition:animate="fade"
         {...props}
       >
         <slot />

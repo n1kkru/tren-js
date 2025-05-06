@@ -8,10 +8,6 @@ class ModalManager {
   private listeners = new Map<GlobalEvt, Function[]>()
   private triggers = new WeakSet<HTMLElement>()
 
-  getAllInstances() {
-    return Array.from(this.map.values())
-  }
-
   initAll(opts: ModalOptions = {}) {
     document.querySelectorAll<HTMLElement>('[data-modal]')
       .forEach(el => this.init(el, opts))
@@ -115,7 +111,5 @@ export const ModalApi = {
   get: manager.get.bind(manager),
   onAnyInit: (cb: (modal: Modal) => void) => manager.onAny('init', cb),
   onAnyOpen: (cb: (modal: Modal) => void) => manager.onAny('open', cb),
-  onAnyClose: (cb: (modal: Modal) => void) => manager.onAny('close', cb),
-  bindTriggers: manager.bindTriggers.bind(manager),
-  getAllInstances: () => manager.getAllInstances()
+  onAnyClose: (cb: (modal: Modal) => void) => manager.onAny('close', cb)
 }
