@@ -17,6 +17,13 @@ const isInit = (el: TTomSelectElement): boolean => {
   return element ? tomSelectInstances.has(element) : false
 }
 
+const setLenisPreventAttr = (instance: TomSelect): void => {
+  const dropdown = instance.dropdown
+  if (dropdown) {
+    dropdown.setAttribute('data-lenis-prevent', '')
+  }
+}
+
 const initTomSelect = (
   element: TTomSelectElement,
   config: ITomSelectConfig = {}
@@ -36,6 +43,9 @@ const initTomSelect = (
 
   const mergedOnInitialize = function (this: TomSelect) {
     el.setAttribute('data-tomselect-init', 'true')
+
+    setLenisPreventAttr(this)
+
     if (config.placeholder) {
       setTimeout(() => {
         this.settings.placeholder = config.placeholder!
@@ -43,7 +53,7 @@ const initTomSelect = (
         this.refreshOptions(false)
       })
     }
-    ;(userOnInitialize as (() => void) | undefined)?.call(this)
+    ; (userOnInitialize as (() => void) | undefined)?.call(this)
   }
 
   const mergedOnItemAdd = function (this: TomSelect, value: string | number, item: HTMLDivElement) {
@@ -54,11 +64,11 @@ const initTomSelect = (
       this.removeItem(value as string)
     })
 
-    ;(userOnItemAdd as ((value: string | number, item: HTMLDivElement) => void) | undefined)?.call(
-      this,
-      value,
-      item
-    )
+      ; (userOnItemAdd as ((value: string | number, item: HTMLDivElement) => void) | undefined)?.call(
+        this,
+        value,
+        item
+      )
   }
 
   const instance = new TomSelect(el, {
@@ -112,7 +122,6 @@ const tomSelectModule = {
 
   destroy(element: TTomSelectElement): void {
     const el = getElement(element)
-
     if (!el) return
 
     const instance = tomSelectInstances.get(el)
@@ -122,6 +131,18 @@ const tomSelectModule = {
       el.removeAttribute('data-tomselect-init')
     }
   },
+
+  destroyAll(): void {
+    document.querySelectorAll<HTMLSelectElement>('.ui-select select').forEach(el => {
+      const instance = tomSelectInstances.get(el)
+      if (instance) {
+        instance.destroy()
+        tomSelectInstances.delete(el)
+        el.removeAttribute('data-tomselect-init')
+      }
+    })
+  },
+
 
   resetOptions(
     element: TTomSelectElement,
@@ -282,6 +303,7 @@ export const selectApi = {
   reInit: tomSelectModule.reInit.bind(tomSelectModule),
   reInitAll: tomSelectModule.reInitAll.bind(tomSelectModule),
   destroy: tomSelectModule.destroy.bind(tomSelectModule),
+  destroyAll: tomSelectModule.destroyAll.bind(tomSelectModule),
   resetOptions: tomSelectModule.resetOptions.bind(tomSelectModule),
   addOption: tomSelectModule.addOption.bind(tomSelectModule),
   removeOption: tomSelectModule.removeOption.bind(tomSelectModule),
@@ -297,6 +319,6 @@ export const selectApi = {
 }
 
 if (typeof window !== 'undefined') {
-  ;(window as any).frontApi = (window as any).frontApi || {}
-  ;(window as any).frontApi.select = selectApi
+  ; (window as any).frontApi = (window as any).frontApi || {}
+    ; (window as any).frontApi.select = selectApi
 }

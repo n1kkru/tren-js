@@ -107,3 +107,22 @@ export const getElement = (el: TElementTarget) => {
   }
   return currentElement
 }
+
+
+export const destroyAllFields = (form: TFormTarget) => {
+  const currentForm = getFormElement(form)
+  const inputs = Array.from(
+    currentForm.querySelectorAll('[data-validate]')
+  ) as HTMLInputElement[]
+
+  inputs.forEach(input => {
+    const inputValidator = new InputValidator(input)
+    if (typeof inputValidator.destroy === 'function') {
+      inputValidator.destroy()
+    }
+  })
+
+  // Убираем общий блок ошибки, если есть
+  const currentErrorBlock = currentForm.querySelector('[data-form-error]')
+  if (currentErrorBlock) currentErrorBlock.remove()
+}

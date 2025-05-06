@@ -1,4 +1,4 @@
-export * from './types/modal.d.ts'
+export * from './modal'
 
-export { ModalAPI } from './api'
+export { ModalApi } from './modal-manager'
 export { Modal } from './modal'

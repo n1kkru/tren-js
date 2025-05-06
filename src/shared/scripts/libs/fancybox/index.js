@@ -2,12 +2,13 @@ import { Fancybox } from '@fancyapps/ui'
 import '@fancyapps/ui/dist/fancybox/fancybox.css'
 
 import { disableScroll, enableScroll } from '../../utils/scroll'
+import './fancybox.scss'
 
 const fancyboxInit = () => {
   Fancybox.bind('[data-fancybox]', {
     Toolbar: false,
     idle: false,
-    closeButton: false,
+    closeButton: 'top',
     Images: {
       zoom: false
     },
@@ -16,7 +17,8 @@ const fancyboxInit = () => {
     },
     keyboard: {
       ArrowRight: 'next',
-      ArrowLeft: 'prev'
+      ArrowLeft: 'prev',
+      Escape: 'close'
     },
     Carousel: {
       Navigation: false
@@ -49,6 +51,21 @@ const fancyboxInit = () => {
           prevBtn.addEventListener('click', () => fancybox.prev())
           nextBtn.addEventListener('click', () => fancybox.next())
         }
+
+        const handleGlobalKeyDown = e => {
+          if (e.key === 'Escape') {
+            e.stopPropagation()
+            e.preventDefault()
+            fancybox.close()
+          }
+        }
+
+        window.addEventListener('keydown', handleGlobalKeyDown)
+
+        fancybox.on('close', () => {
+          window.removeEventListener('keydown', handleGlobalKeyDown)
+          enableScroll()
+        })
       },
       close: () => {
         enableScroll()
@@ -57,4 +74,9 @@ const fancyboxInit = () => {
   })
 }
 
-export { fancyboxInit }
+const fancyboxDestroy = () => {
+  Fancybox.unbind('[data-fancybox]')
+  Fancybox.close()
+}
+
+export { fancyboxInit, fancyboxDestroy }
