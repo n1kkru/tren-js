@@ -6,11 +6,9 @@ import { tabsExamples } from '@pages/front-api/_components/tabs-examples/tabs-ex
 import { toastsExamples } from '@pages/front-api/_components/toasts-examples/toasts-examples'
 import { tooltipExamples } from '@pages/front-api/_components/tooltip-examples/tooltip-examples'
 import { accordionApi } from '@shared/ui/accordion/accordion'
-import rangeApi, { initAll, rangeInit } from '@shared/ui/range/range'
-import tooltipApi, { tooltipInit } from '@shared/ui/tooltip/tooltip'
+import rangeApi from '@shared/ui/range/range'
+import tooltipApi from '@shared/ui/tooltip/tooltip'
 
-import { validateFormInit } from './components/custom-validator'
-import { hoverControlledSlider } from './components/hover-slider'
 import config from './config'
 import { frontApi } from './frontApi'
 import { validateInit } from './libs/custom-validator'
@@ -25,9 +23,14 @@ import { TabsApi } from '@shared/ui/tabs/tabs-manager'
 import { ModalApi } from './components/modals'
 import { selectApi } from '@shared/ui/select/select'
 import { formApi } from '@shared/ui/form/form'
+import { lenisDestroy, lenisInit } from './libs/lenis/lenis'
+import { parallax } from '@shared/ui/parallax/parallax'
+import { fancyboxDestroy, fancyboxInit } from './libs/fancybox'
 (window as any).process = { env: {} } // Фикс для совместимости с TomSelect
 
 export const commonFunction = (): void => {
+  lenisInit();
+
   validateInit()
 
   accordionApi.initAll()
@@ -57,12 +60,16 @@ export const commonFunction = (): void => {
   inputmaskApi.reinitAll()
   inputmaskExamples()
 
-  // lenisInit()
+  parallax()
+
+  fancyboxInit()
 }
 
 console.info(import.meta.env)
 
 export const commonDestroy = () => {
+  lenisDestroy()
+  fancyboxDestroy()
   toastApi.destroyAll()
   swiperApi.destroyAll()
   accordionApi.destroyAll()
