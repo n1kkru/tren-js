@@ -1,5 +1,5 @@
 import type { AccordionApi } from '@shared/ui/accordion/accordion.type'
-import type { RanngeApi } from '@shared/ui/range/range.type'
+import type { RangeApi } from '@shared/ui/range/range.type'
 import type { selectApi } from '@shared/ui/select/select.type'
 import type { TabsApi } from '@shared/ui/tabs/tabs-manager'
 import type { ToastApi } from '@shared/ui/toast/toast'
@@ -18,7 +18,7 @@ declare global {
       toast: ToastApi
       modals: typeof ModalAPI
       tooltip: TooltipApi
-      range: RanngeApi
+      range: RangeApi
       select: selectApi
       tabs: TabsApi
       accordion: AccordionApi

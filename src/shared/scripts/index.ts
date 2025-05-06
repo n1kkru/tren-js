@@ -21,6 +21,7 @@ import { swiperExamples } from '@pages/front-api/_components/swiper-examples/swi
 import { inputmaskApi } from './libs/inputmask/inputmask'
 import { inputmaskExamples } from '@pages/front-api/_components/inputmask-examples/inputmask-examples'
 import { tabsInit } from '@shared/ui/tabs/tabs-manager'
+import { lenisInit } from './libs/lenis/lenis'
 (window as any).process = { env: {} } // Фикс для совместимости с TomSelect
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -62,6 +63,8 @@ export const commonFunction = (): void => {
 
   inputmaskApi.reinitAll()
   inputmaskExamples()
+
+  // lenisInit()
 }
 
 console.info(import.meta.env)
