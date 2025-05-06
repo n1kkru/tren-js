@@ -17,6 +17,13 @@ const isInit = (el: TTomSelectElement): boolean => {
   return element ? tomSelectInstances.has(element) : false
 }
 
+const setLenisPreventAttr = (instance: TomSelect): void => {
+  const dropdown = instance.dropdown
+  if (dropdown) {
+    dropdown.setAttribute('data-lenis-prevent', '')
+  }
+}
+
 const initTomSelect = (
   element: TTomSelectElement,
   config: ITomSelectConfig = {}
@@ -36,6 +43,9 @@ const initTomSelect = (
 
   const mergedOnInitialize = function (this: TomSelect) {
     el.setAttribute('data-tomselect-init', 'true')
+
+    setLenisPreventAttr(this)
+
     if (config.placeholder) {
       setTimeout(() => {
         this.settings.placeholder = config.placeholder!
@@ -112,7 +122,6 @@ const tomSelectModule = {
 
   destroy(element: TTomSelectElement): void {
     const el = getElement(element)
-
     if (!el) return
 
     const instance = tomSelectInstances.get(el)
