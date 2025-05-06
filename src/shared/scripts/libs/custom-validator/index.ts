@@ -1,6 +1,7 @@
 import { InputValidator } from './CustomValidator'
 import { setErrorMessages } from './utils/ErrorMessages'
 import {
+  destroyAllFields,
   isValidForm,
   resetFormError,
   resetFormFieldErrors,
@@ -53,20 +54,45 @@ export const validatorInitFunction = (config?: IInputValidatorOptions) => {
         // Код для валидной формы
       } else {
         if (firstErrorElement) {
-          ;(firstErrorElement as HTMLInputElement).scrollIntoView({
+          ; (firstErrorElement as HTMLInputElement).scrollIntoView({
             behavior: 'smooth',
             block: 'center'
           })
-          ;(firstErrorElement as HTMLInputElement).focus()
+            ; (firstErrorElement as HTMLInputElement).focus()
         }
       }
     })
   })
 }
 
+export const validatorDestroyFunction = () => {
+  const forms = Array.from(
+    document.querySelectorAll('form[data-form-init]')
+  ) as HTMLFormElement[]
+  if (forms.length === 0) return
+
+  forms.forEach(form => {
+    // Удаляем submit listener
+    const handler = (form as any)._validatorSubmitHandler
+    if (handler) {
+      form.removeEventListener('submit', handler)
+      delete (form as any)._validatorSubmitHandler
+    }
+
+    // Убираем признак и ошибки формы
+    form.removeAttribute('data-form-init')
+    resetFormError(form)
+    resetFormFieldsErrors(form)
+
+    // Для каждого поля вызываем destroy
+    destroyAllFields(form)
+  })
+}
+
 function setValidatorEvents() {
   window.customValidator = {
     initAll: validatorInitFunction,
+    destroyAll: validatorDestroyFunction,
     resetFormError,
     isValidForm,
     validateField,

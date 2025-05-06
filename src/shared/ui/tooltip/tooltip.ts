@@ -1,7 +1,6 @@
 import type { Instance, Props } from 'tippy.js'
 import tippy from 'tippy.js'
 import 'tippy.js/dist/tippy.css'
-
 import type { TooltipApi, TooltipInstanceMap } from './tooltip.type'
 
 const tooltipInstances: TooltipInstanceMap = new Map()
@@ -25,14 +24,10 @@ function init(el: string | HTMLElement): void {
   const config = configAttr ? JSON.parse(configAttr) : {}
 
   const instance = tippy(element, {
-    content: config.content || '', // подставляем текст
-    placement: 'top',
-    allowHTML: true,
-    interactive: true,
+    ...config,
     theme: 'custom',
-    offset: [0, 10],
     appendTo: () => element,
-    trigger: isTouchDevice() ? 'click' : 'mouseenter focus'
+    trigger: isTouchDevice() ? 'click' : config.trigger || 'mouseenter focus'
   })
 
   tooltipInstances.set(element, instance)
