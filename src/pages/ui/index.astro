@@ -6,8 +6,12 @@ import Checkbox from '@shared/ui/checkbox/Checkbox.astro'
 import Input from '@shared/ui/input/Input.astro'
 import Switch from '@shared/ui/switch/Switch.astro'
 import Textarea from '@shared/ui/textarea/Textarea.astro'
-import TextContent from '@shared/ui/text-content/TextContent.astro'
+import EditableContent from '@shared/ui/editable-content/EditableContent.astro'
 import Layout from '@widgets/layout/Layout.astro'
+import Title from '@shared/ui/title/Title.astro'
+import Text from '@shared/ui/text/Text.astro'
+import Link from '@shared/ui/link/Link.astro'
+import Radio from '@shared/ui/radio/Radio.astro'
 import ModalVideo from '@shared/ui/modal-video/ModalVideo.astro'
 import GalleryItem from '@shared/ui/gallery-item/GalleryItem.astro'
 import Image from '@shared/assets/images/image.jpg'
@@ -21,7 +25,46 @@ import Dropdown from '@shared/ui/dropdown/Dropdown.astro'
 
     <div class="flex flex-col gap-16">
       <section>
+        <Title
+          variant="120"
+          tag="h1"
+          >Title-h1</Title
+        >
+        <Text
+          variant={'20'}
+          color={'gray'}
+          >text</Text
+        >
+      </section>
+
+      <section>
+        <Link
+          text="ссылка"
+          href="#"
+          variant="text"
+        />
+      </section>
+
+      <section>
         <Author />
+      </section>
+
+      <section class="flex flex-col gap-2">
+        <Radio
+          label="label"
+          name="name"
+          value="value1"
+        />
+        <Radio
+          label="label"
+          name="name"
+          value="value2"
+        />
+        <Radio
+          label="label"
+          name="name"
+          value="value2"
+        />
       </section>
 
       <section>
@@ -94,9 +137,9 @@ import Dropdown from '@shared/ui/dropdown/Dropdown.astro'
       </section>
 
       <section class="bg-gray-200 p-5">
-        <h2 class="text-5xl font-bold">Редактируемая область (TextContent)</h2>
+        <h2 class="text-5xl font-bold">Редактируемая область (EditableContent)</h2>
         <article class="mt-5 rounded-xl bg-white p-10">
-          <TextContent>
+          <EditableContent>
             <p>
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam auctor, nisl eget
               ultricies tincidunt, nisl nisl aliquam nisl, eget ultricies nisl nisl eget nisl.
@@ -135,7 +178,7 @@ import Dropdown from '@shared/ui/dropdown/Dropdown.astro'
               nisl, eget ultricies nisl nisl eget nisl. Sed euismod, nisl eget ultricies tincidunt, nisl
               nisl aliquam nisl, eget ultricies nisl nisl eget nisl.
             </p>
-          </TextContent>
+          </EditableContent>
         </article>
       </section>
 
