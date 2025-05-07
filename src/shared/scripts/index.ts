@@ -26,6 +26,7 @@ import { formApi } from '@shared/ui/form/form'
 import { lenisDestroy, lenisInit } from './libs/lenis/lenis'
 import { parallax } from '@shared/ui/parallax/parallax'
 import { fancyboxDestroy, fancyboxInit } from './libs/fancybox'
+import { dropdownApi } from '@shared/ui/dropdown/dropdown'
 (window as any).process = { env: {} } // Фикс для совместимости с TomSelect
 
 export const commonFunction = (): void => {
@@ -60,6 +61,8 @@ export const commonFunction = (): void => {
   inputmaskApi.reinitAll()
   inputmaskExamples()
 
+  dropdownApi.initAll()
+
   parallax()
 
   fancyboxInit()
@@ -67,20 +70,20 @@ export const commonFunction = (): void => {
 
 console.info(import.meta.env)
 
-export const commonDestroy = () => {
-  lenisDestroy()
-  fancyboxDestroy()
-  toastApi.destroyAll()
-  swiperApi.destroyAll()
-  accordionApi.destroyAll()
-  TabsApi.destroyAll()
-  ModalApi.destroyAll()
-  formApi.destroyAll()
-  selectApi.destroyAll()
-  tooltipApi.destroyAll()
-  rangeApi.destroyAll()
-  inputmaskApi.destroyAll()
-}
+// export const commonDestroy = () => {
+//   lenisDestroy()
+//   fancyboxDestroy()
+//   toastApi.destroyAll()
+//   swiperApi.destroyAll()
+//   accordionApi.destroyAll()
+//   TabsApi.destroyAll()
+//   ModalApi.destroyAll()
+//   formApi.destroyAll()
+//   selectApi.destroyAll()
+//   tooltipApi.destroyAll()
+//   rangeApi.destroyAll()
+//   inputmaskApi.destroyAll()
+// }
 
 document.addEventListener('DOMContentLoaded', () => {
   config()
@@ -88,12 +91,12 @@ document.addEventListener('DOMContentLoaded', () => {
   commonFunction()
 })
 
-document.addEventListener('astro:before-swap', () => {
-  commonDestroy()
-})
+// document.addEventListener('astro:before-swap', () => {
+//   commonDestroy()
+// })
 
-document.addEventListener('astro:after-swap', () => {
-  requestAnimationFrame(() => {
-    commonFunction()
-  })
-})
+// document.addEventListener('astro:after-swap', () => {
+//   requestAnimationFrame(() => {
+//     commonFunction()
+//   })
+// })
