@@ -317,8 +317,3 @@ export const selectApi = {
     return el ? tomSelectInstances.get(el) : undefined
   }
 }
-
-if (typeof window !== 'undefined') {
-  ; (window as any).frontApi = (window as any).frontApi || {}
-    ; (window as any).frontApi.select = selectApi
-}

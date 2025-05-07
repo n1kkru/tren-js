@@ -9,6 +9,7 @@ import { swiperApi } from './libs/swiper/swiper-manager'
 import { inputmaskApi } from './libs/inputmask/inputmask'
 import { toastApi } from '@shared/ui/toast/toasts-manager'
 import { ModalApi } from './components/modals'
+import { dropdownApi } from '@shared/ui/dropdown/dropdown'
 
 export function frontApi() {
   if (!window.frontApi) {
@@ -25,6 +26,7 @@ export function frontApi() {
   window.frontApi.modals = ModalApi
   window.frontApi.swiper = swiperApi
   window.frontApi.inputmask = inputmaskApi
+  window.frontApi.dropdown = dropdownApi
 
   window.frontApi.initAll = () => {
     formApi.initAll()
@@ -37,6 +39,7 @@ export function frontApi() {
     ModalApi.initAll()
     swiperApi.initAll()
     inputmaskApi.reinitAll()
+    dropdownApi.initAll()
   }
 
   window.frontApi.destroyAll = () => {
@@ -49,5 +52,6 @@ export function frontApi() {
     accordionApi.destroyAll()
     ModalApi.destroyAll()
     swiperApi.destroyAll()
+    dropdownApi.destroyAll()
   }
 }

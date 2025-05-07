@@ -10,6 +10,7 @@ import type { FormApi } from '../ui/form/form.type'
 import type { ModalApi } from './components/modals'
 import type { CustomValidatorApi } from './libs/custom-validator/CustomValidator.type'
 import type { inputmaskApi } from './libs/inputmask/inputmask'
+import type { dropdownApi } from '@shared/ui/dropdown/dropdown'
 
 declare global {
   interface Window {
@@ -24,6 +25,7 @@ declare global {
       accordion: typeof AccordionApi
       swiper: typeof swiperApi
       inputmask: typeof inputmaskApi
+      dropdown: typeof dropdownApi
       initAll: () => void
       destroyAll: () => void
     }
