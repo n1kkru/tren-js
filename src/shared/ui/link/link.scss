@@ -28,6 +28,12 @@
   line-height: 1.2;
   font-weight: 500;
 
+  @media #{media('>',t)} and (hover: hover) and (pointer: fine) {
+    &:hover {
+      color: blue;
+    }
+  }
+
   @media #{media('<', d)} {
     font-size: rem(24px);
   }
@@ -82,12 +88,12 @@
 
       &.link_variant_text {
         background-color: transparent;
-        color: var(--color-primary);
+        color: black;
 
         @media #{media('>', d)} and (hover: hover) and (pointer: fine) {
           &:hover {
             background-color: transparent;
-            color: var(--color-gray);
+            color: gray;
           }
         }
 

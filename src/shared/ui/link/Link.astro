@@ -1,5 +1,7 @@
 ---
 interface LinkProps {
+  text: string
+  href: string
   variant?: 'contained'
   color?: 'light' | 'primary'
   class?: string
@@ -8,6 +10,8 @@ interface LinkProps {
 }
 
 const {
+  text,
+  href = '#',
   variant = 'contained',
   color = 'primary',
   class: className,
@@ -20,6 +24,7 @@ export { Link }
 ---
 
 <a
+  href='={href}'
   {...props}
   class:list={[
     'link',
@@ -28,21 +33,7 @@ export { Link }
     className
   ]}
 >
-  {
-    StartIcon && (
-      <span class='link__icon link__icon_left'>
-        <StartIcon />
-      </span>
-    )
-  }
-  <span class='link__text'><slot /></span>
-  {
-    EndIcon && (
-      <span class='link__icon link__icon_right'>
-        <EndIcon />
-      </span>
-    )
-  }
+  {text}
 </a>
 
 <style>
