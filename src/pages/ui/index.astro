@@ -12,17 +12,22 @@ import Title from '@shared/ui/title/Title.astro'
 import Text from '@shared/ui/text/Text.astro'
 import Link from '@shared/ui/link/Link.astro'
 import Radio from '@shared/ui/radio/Radio.astro'
+import ModalVideo from '@shared/ui/modal-video/ModalVideo.astro'
+import GalleryItem from '@shared/ui/gallery-item/GalleryItem.astro'
+import Image from '@shared/assets/images/image.jpg'
+import Picture from '@shared/ui/picture/Picture.astro'
+import Dropdown from '@shared/ui/dropdown/Dropdown.astro'
 ---
 
-<Layout pageName='ui'>
-  <div class='flex flex-col gap-20'>
-    <h1 class='px-4 text-title-100 devices:text-title-40'>Примеры UI компонентов проекта</h1>
+<Layout pageName="ui">
+  <div class="flex flex-col gap-20">
+    <h1 class="px-4 text-title-100 devices:text-title-40">Примеры UI компонентов проекта</h1>
 
-    <div class='flex flex-col gap-16'>
+    <div class="flex flex-col gap-16">
       <section>
         <Title
-          variant='120'
-          tag='h1'
+          variant="120"
+          tag="h1"
           >Title-h1</Title
         >
         <Text
@@ -34,9 +39,9 @@ import Radio from '@shared/ui/radio/Radio.astro'
 
       <section>
         <Link
-          text='ссылка'
-          href='#'
-          variant='text'
+          text="ссылка"
+          href="#"
+          variant="text"
         />
       </section>
 
@@ -44,21 +49,21 @@ import Radio from '@shared/ui/radio/Radio.astro'
         <Author />
       </section>
 
-      <section class='flex flex-col gap-2'>
+      <section class="flex flex-col gap-2">
         <Radio
-          label='label'
-          name='name'
-          value='value1'
+          label="label"
+          name="name"
+          value="value1"
         />
         <Radio
-          label='label'
-          name='name'
-          value='value2'
+          label="label"
+          name="name"
+          value="value2"
         />
         <Radio
-          label='label'
-          name='name'
-          value='value2'
+          label="label"
+          name="name"
+          value="value2"
         />
       </section>
 
@@ -75,48 +80,48 @@ import Radio from '@shared/ui/radio/Radio.astro'
 
       <section>
         <Button
-          href='#'
-          variant='text'
+          href="#"
+          variant="text"
           >Ссылка text</Button
         >
-        <Button variant='contained'>Кнопка contained</Button>
+        <Button variant="contained">Кнопка contained</Button>
         <Button
-          variant='contained'
-          color='light'
+          variant="contained"
+          color="light"
           >Кнопка contained light</Button
         >
-        <Button variant='outlined'>Кнопка outlined</Button>
+        <Button variant="outlined">Кнопка outlined</Button>
       </section>
 
       <section>
-        <Checkbox label='Checkbox' />
+        <Checkbox label="Checkbox" />
         <Checkbox
           name={'checkbox'}
           checked={true}
           >Checkbox с вложенной <a
-            href='#'
-            class='text-blue hover:text-red'
+            href="#"
+            class="text-blue hover:text-red"
             >ссылкой</a
           ></Checkbox
         >
         <Checkbox
-          label='Checkbox disabled'
+          label="Checkbox disabled"
           disabled
         />
       </section>
 
-      <section class='w-1/4'>
-        <Switch label='Switch' />
+      <section class="w-1/4">
+        <Switch label="Switch" />
         <Switch
-          label='Switch'
+          label="Switch"
           checked
         />
         <Switch
-          label='Switch'
+          label="Switch"
           disabled
         />
         <Switch
-          label='Switch'
+          label="Switch"
           checked
           disabled
         />
@@ -131,9 +136,9 @@ import Radio from '@shared/ui/radio/Radio.astro'
         <Textarea placeholder={'Textarea'} />
       </section>
 
-      <section class='bg-gray-200 p-5'>
-        <h2 class='text-xl font-bold'>Редактируемая область (TextContent)</h2>
-        <article class='mt-5 rounded-xl bg-white p-10'>
+      <section class="bg-gray-200 p-5">
+        <h2 class="text-5xl font-bold">Редактируемая область (TextContent)</h2>
+        <article class="mt-5 rounded-xl bg-white p-10">
           <TextContent>
             <p>
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam auctor, nisl eget
@@ -175,6 +180,80 @@ import Radio from '@shared/ui/radio/Radio.astro'
             </p>
           </TextContent>
         </article>
+      </section>
+
+      <section>
+        <h2 class="text-5xl font-bold">Модалка с видео (ModalVideo)</h2>
+
+        <div class="mx-10 mt-5 w-1/2">
+          <ModalVideo>
+            <span
+              class="absolute left-1/2 top-1/2 flex size-40 -translate-x-1/2 -translate-y-1/2 transform items-center justify-center bg-gray-200"
+              >Смотреть видео</span
+            >
+          </ModalVideo>
+        </div>
+      </section>
+
+      <section>
+        <h2 class="text-5xl font-bold">Галерея (Gallery)</h2>
+
+        <div class="mx-10 mt-5">
+          <div class="grid w-full grid-cols-4 gap-5">
+            <GalleryItem
+              src="./images/image.jpg"
+              id="test-gallery"
+            >
+              <Picture image={Image} />
+            </GalleryItem>
+            <GalleryItem
+              src="./images/image.jpg"
+              id="test-gallery"
+              ><Picture image={Image} />
+            </GalleryItem>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2 class="text-5xl font-bold">Dropdown</h2>
+
+        <div class="mx-10 mt-5">
+          <Dropdown label="Dropdown">
+            <ul>
+              <li>
+                <label>
+                  <input
+                    type="checkbox"
+                    name="test"
+                    id="test-checkbox"
+                  />
+                  <span>Uno</span>
+                </label>
+              </li>
+              <li>
+                <label>
+                  <input
+                    type="checkbox"
+                    name="test"
+                    id="test-checkbox"
+                  />
+                  <span>Duo</span>
+                </label>
+              </li>
+              <li>
+                <label>
+                  <input
+                    type="checkbox"
+                    name="test"
+                    id="test-checkbox"
+                  />
+                  <span>Tres</span>
+                </label>
+              </li>
+            </ul>
+          </Dropdown>
+        </div>
       </section>
     </div>
   </div>
