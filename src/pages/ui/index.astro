@@ -8,15 +8,58 @@ import Switch from '@shared/ui/switch/Switch.astro'
 import Textarea from '@shared/ui/textarea/Textarea.astro'
 import TextContent from '@shared/ui/text-content/TextContent.astro'
 import Layout from '@widgets/layout/Layout.astro'
+import Title from '@shared/ui/title/Title.astro'
+import Text from '@shared/ui/text/Text.astro'
+import Link from '@shared/ui/link/Link.astro'
+import Radio from '@shared/ui/radio/Radio.astro'
 ---
 
-<Layout pageName="ui">
-  <div class="flex flex-col gap-20">
-    <h1 class="px-4 text-title-100 devices:text-title-40">Примеры UI компонентов проекта</h1>
+<Layout pageName='ui'>
+  <div class='flex flex-col gap-20'>
+    <h1 class='px-4 text-title-100 devices:text-title-40'>Примеры UI компонентов проекта</h1>
 
-    <div class="flex flex-col gap-16">
+    <div class='flex flex-col gap-16'>
+      <section>
+        <Title
+          variant='120'
+          tag='h1'
+          >Title-h1</Title
+        >
+        <Text
+          variant={'20'}
+          color={'gray'}
+          >text</Text
+        >
+      </section>
+
+      <section>
+        <Link
+          href='#'
+          variant='text'
+          >Ссылка</Link
+        >
+      </section>
+
       <section>
         <Author />
+      </section>
+
+      <section class='flex flex-col gap-2'>
+        <Radio
+          label='label'
+          name='name'
+          value='value1'
+        />
+        <Radio
+          label='label'
+          name='name'
+          value='value2'
+        />
+        <Radio
+          label='label'
+          name='name'
+          value='value2'
+        />
       </section>
 
       <section>
@@ -32,48 +75,48 @@ import Layout from '@widgets/layout/Layout.astro'
 
       <section>
         <Button
-          href="#"
-          variant="text"
+          href='#'
+          variant='text'
           >Ссылка text</Button
         >
-        <Button variant="contained">Кнопка contained</Button>
+        <Button variant='contained'>Кнопка contained</Button>
         <Button
-          variant="contained"
-          color="light"
+          variant='contained'
+          color='light'
           >Кнопка contained light</Button
         >
-        <Button variant="outlined">Кнопка outlined</Button>
+        <Button variant='outlined'>Кнопка outlined</Button>
       </section>
 
       <section>
-        <Checkbox label="Checkbox" />
+        <Checkbox label='Checkbox' />
         <Checkbox
           name={'checkbox'}
           checked={true}
           >Checkbox с вложенной <a
-            href="#"
-            class="text-blue hover:text-red"
+            href='#'
+            class='text-blue hover:text-red'
             >ссылкой</a
           ></Checkbox
         >
         <Checkbox
-          label="Checkbox disabled"
+          label='Checkbox disabled'
           disabled
         />
       </section>
 
-      <section class="w-1/4">
-        <Switch label="Switch" />
+      <section class='w-1/4'>
+        <Switch label='Switch' />
         <Switch
-          label="Switch"
+          label='Switch'
           checked
         />
         <Switch
-          label="Switch"
+          label='Switch'
           disabled
         />
         <Switch
-          label="Switch"
+          label='Switch'
           checked
           disabled
         />
@@ -88,9 +131,9 @@ import Layout from '@widgets/layout/Layout.astro'
         <Textarea placeholder={'Textarea'} />
       </section>
 
-      <section class="bg-gray-200 p-5">
-        <h2 class="text-xl font-bold">Редактируемая область (TextContent)</h2>
-        <article class="mt-5 rounded-xl bg-white p-10">
+      <section class='bg-gray-200 p-5'>
+        <h2 class='text-xl font-bold'>Редактируемая область (TextContent)</h2>
+        <article class='mt-5 rounded-xl bg-white p-10'>
           <TextContent>
             <p>
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam auctor, nisl eget

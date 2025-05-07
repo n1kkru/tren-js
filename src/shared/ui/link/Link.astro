@@ -1,0 +1,50 @@
+---
+interface LinkProps {
+  variant?: 'contained'
+  color?: 'light' | 'primary'
+  class?: string
+  startIcon?: any
+  endIcon?: any
+}
+
+const {
+  variant = 'contained',
+  color = 'primary',
+  class: className,
+  startIcon: StartIcon,
+  endIcon: EndIcon,
+  ...props
+} = Astro.props as LinkProps
+
+export { Link }
+---
+
+<a
+  {...props}
+  class:list={[
+    'link',
+    { [`link_variant_${variant}`]: !!variant },
+    { [`link_color_${color}`]: !!color },
+    className
+  ]}
+>
+  {
+    StartIcon && (
+      <span class='link__icon link__icon_left'>
+        <StartIcon />
+      </span>
+    )
+  }
+  <span class='link__text'><slot /></span>
+  {
+    EndIcon && (
+      <span class='link__icon link__icon_right'>
+        <EndIcon />
+      </span>
+    )
+  }
+</a>
+
+<style>
+  @import './link.scss';
+</style>
