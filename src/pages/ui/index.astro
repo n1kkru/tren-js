@@ -8,6 +8,11 @@ import Switch from '@shared/ui/switch/Switch.astro'
 import Textarea from '@shared/ui/textarea/Textarea.astro'
 import TextContent from '@shared/ui/text-content/TextContent.astro'
 import Layout from '@widgets/layout/Layout.astro'
+import ModalVideo from '@shared/ui/modal-video/ModalVideo.astro'
+import GalleryItem from '@shared/ui/gallery-item/GalleryItem.astro'
+import Image from '@shared/assets/images/image.jpg'
+import Picture from '@shared/ui/picture/Picture.astro'
+import Dropdown from '@shared/ui/dropdown/Dropdown.astro'
 ---
 
 <Layout pageName="ui">
@@ -89,7 +94,7 @@ import Layout from '@widgets/layout/Layout.astro'
       </section>
 
       <section class="bg-gray-200 p-5">
-        <h2 class="text-xl font-bold">Редактируемая область (TextContent)</h2>
+        <h2 class="text-5xl font-bold">Редактируемая область (TextContent)</h2>
         <article class="mt-5 rounded-xl bg-white p-10">
           <TextContent>
             <p>
@@ -132,6 +137,80 @@ import Layout from '@widgets/layout/Layout.astro'
             </p>
           </TextContent>
         </article>
+      </section>
+
+      <section>
+        <h2 class="text-5xl font-bold">Модалка с видео (ModalVideo)</h2>
+
+        <div class="mx-10 mt-5 w-1/2">
+          <ModalVideo>
+            <span
+              class="absolute left-1/2 top-1/2 flex size-40 -translate-x-1/2 -translate-y-1/2 transform items-center justify-center bg-gray-200"
+              >Смотреть видео</span
+            >
+          </ModalVideo>
+        </div>
+      </section>
+
+      <section>
+        <h2 class="text-5xl font-bold">Галерея (Gallery)</h2>
+
+        <div class="mx-10 mt-5">
+          <div class="grid w-full grid-cols-4 gap-5">
+            <GalleryItem
+              src="./images/image.jpg"
+              id="test-gallery"
+            >
+              <Picture image={Image} />
+            </GalleryItem>
+            <GalleryItem
+              src="./images/image.jpg"
+              id="test-gallery"
+              ><Picture image={Image} />
+            </GalleryItem>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2 class="text-5xl font-bold">Dropdown</h2>
+
+        <div class="mx-10 mt-5">
+          <Dropdown label="Dropdown">
+            <ul>
+              <li>
+                <label>
+                  <input
+                    type="checkbox"
+                    name="test"
+                    id="test-checkbox"
+                  />
+                  <span>Uno</span>
+                </label>
+              </li>
+              <li>
+                <label>
+                  <input
+                    type="checkbox"
+                    name="test"
+                    id="test-checkbox"
+                  />
+                  <span>Duo</span>
+                </label>
+              </li>
+              <li>
+                <label>
+                  <input
+                    type="checkbox"
+                    name="test"
+                    id="test-checkbox"
+                  />
+                  <span>Tres</span>
+                </label>
+              </li>
+            </ul>
+          </Dropdown>
+        </div>
       </section>
     </div>
   </div>
