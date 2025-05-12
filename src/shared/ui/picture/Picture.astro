@@ -1,16 +1,7 @@
 ---
 import type { ImageMetadata } from 'astro'
 import { getImage } from 'astro:assets'
-
-/**
- * Описание картинки и брейкпоинта, при котором она должна подставляться
- */
-interface ResponsiveSource {
-  /** Импортированная картинка (через import из '~/assets/...') */
-  image: ImageMetadata
-  /** Брейкпоинт (например, 768 или '768px'), на котором сработает эта версия */
-  breakpoint: number | string
-}
+import type { ResponsiveSource } from './picture.types'
 
 /**
  * Пропсы компонента <Picture>
@@ -25,7 +16,7 @@ interface Props {
   /**
    * Основное изображение (используется как fallback и дефолтное)
    */
-  image: ImageMetadata
+  image: ImageMetadata // This is the main image prop
 
   /**
    * Альтернативный текст для тега <img>
@@ -60,7 +51,7 @@ interface Props {
 // Деструктуризация пропсов
 const {
   sources = [],
-  image,
+  image: mainImageMetadata, // Renamed to avoid confusion with 'image' in map
   alt = '',
   imgAttributes,
   class: className,
@@ -81,53 +72,49 @@ const sortedSources = sources.sort(
   (a, b) => getBreakpointValue(a.breakpoint) - getBreakpointValue(b.breakpoint)
 )
 
-// Для каждого источника — генерируем webp и fallback-форматы
+// Для каждого источника — генерируем webp и используем raw .src для fallback-формата
 const preparedSources = await Promise.all(
-  sortedSources.map(async ({ image, breakpoint }) => {
-    const width = image.width
-    const fallbackFormat = image.format
+  sortedSources.map(async ({ image: responsiveImage, breakpoint }) => {
+    // 'image' here is the ImageMetadata for the current responsive source
+    const width = responsiveImage.width
+    const originalFormat = responsiveImage.format
 
+    // Generate WebP version
     const webp = await getImage({
-      src: image,
+      src: responsiveImage,
       formats: ['webp'],
       widths: [width],
       quality
     })
 
-    const fallback = await getImage({
-      src: image,
-      formats: [fallbackFormat],
-      widths: [width],
-      quality
-    })
+    // For the original format fallback, use the direct .src
+    // The .src from an import is already an optimized path from Astro
+    const fallbackSrcSet = responsiveImage.src
 
     return {
       media: `(max-width: ${getBreakpointValue(breakpoint)}px)`,
       webpSrcSet: webp.srcSet.attribute,
-      fallbackSrcSet: fallback.srcSet.attribute,
-      fallbackFormat
+      fallbackSrcSet: fallbackSrcSet, // Uses direct .src
+      fallbackFormat: originalFormat
     }
   })
 )
 
 // Обработка fallback-изображения (дефолтный вариант)
-const fallbackWidth = image.width
-const fallbackHeight = image.height
-const fallbackFormat = image.format
+const fallbackWidth = mainImageMetadata.width
+const fallbackHeight = mainImageMetadata.height
+const mainImageOriginalFormat = mainImageMetadata.format
 
+// WEBP для основной картинки
 const fallbackWebp = await getImage({
-  src: image,
+  src: mainImageMetadata,
   formats: ['webp'],
   widths: [fallbackWidth],
   quality
 })
 
-const fallbackImg = await getImage({
-  src: image,
-  formats: [fallbackFormat],
-  widths: [fallbackWidth],
-  quality
-})
+// For the main image's original format fallback <source> and <img>, use its direct .src
+const mainImageFallbackSrc = mainImageMetadata.src
 ---
 
 <picture
@@ -143,6 +130,7 @@ const fallbackImg = await getImage({
           srcset={source.webpSrcSet}
           sizes={sizes}
         />
+        {/* Fallback обходит getImage() */}
         <source
           media={source.media}
           type={`image/${source.fallbackFormat}`}
@@ -153,24 +141,26 @@ const fallbackImg = await getImage({
     ))
   }
 
+  {/* WebP source */}
   <source
     type="image/webp"
     srcset={fallbackWebp.srcSet.attribute}
     sizes={sizes}
   />
+  {/* Оригинальный формат если .webp откзывает, обход getImage() */}
   <source
-    type={`image/${fallbackFormat}`}
-    srcset={fallbackImg.srcSet.attribute}
+    type={`image/${mainImageOriginalFormat}`}
+    srcset={mainImageFallbackSrc}
     sizes={sizes}
   />
 
+  {/* в случае отказа обоих source */}
   <img
-    src={fallbackImg.src}
+    src={mainImageFallbackSrc}
     alt={alt}
     width={fallbackWidth}
     height={fallbackHeight}
     loading="lazy"
-    decoding="async"
     class:list={['picture__img', imgAttributes?.class]}
     {...imgAttributes}
     sizes={sizes}
@@ -178,5 +168,5 @@ const fallbackImg = await getImage({
 </picture>
 
 <style>
-  @import './index.scss';
+  @import './picture.scss';
 </style>
