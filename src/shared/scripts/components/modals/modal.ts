@@ -1,6 +1,6 @@
 import { renderToBody } from '@shared/scripts/utils/render-to-body'
-import { disableScroll, enableScroll } from '@shared/scripts/utils/scroll'
 import type { ModalEvents, ModalOptions } from './modal.type'
+import { pageScroll } from '@shared/scripts'
 
 export class Modal {
   el!: HTMLElement
@@ -68,7 +68,7 @@ export class Modal {
     this.el.classList.add('active')
     this.el.setAttribute('aria-hidden', 'false')
     this.open = true
-    disableScroll()
+    pageScroll.disableScroll()
     document.addEventListener('keydown', this.onEsc)
     if (this.opts.trapFocus) document.addEventListener('keydown', this.onFocusTrap)
     this.getFocusable()[0]?.focus()
@@ -81,7 +81,7 @@ export class Modal {
     this.el.classList.remove('active')
     this.el.setAttribute('aria-hidden', 'true')
     this.open = false
-    enableScroll()
+    pageScroll.enableScroll()
     document.removeEventListener('keydown', this.onEsc)
     document.removeEventListener('keydown', this.onFocusTrap)
     this.emit('onClose')

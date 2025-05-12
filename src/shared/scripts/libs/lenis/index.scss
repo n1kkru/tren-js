@@ -1,12 +1,8 @@
-.lenis.lenis-scrolling iframe {
-  pointer-events: none;
-}
-
 html {
   .lenis {
     height: auto;
 
-    .lenis-smooth {
+    &-smooth {
       scroll-behavior: auto !important;
 
       &[data-lenis-prevent] {
@@ -17,13 +13,13 @@ html {
         pointer-events: none;
       }
     }
+
+    &-scrolling iframe {
+      pointer-events: none;
+    }
   }
 }
 
-.lenis.lenis-smooth [data-lenis-prevent] {
+[data-overlayscrollbars-viewport] {
   overscroll-behavior: contain;
-}
-
-main {
-  height: 400vh;
 }

@@ -5,18 +5,50 @@
 }
 
 @function media($direction: '>', $variant: d) {
-  @if $direction == '>' {
+  @if $direction =='>' {
     @return '(min-width: #{breakpoint($variant)})';
-  } @else if $direction == '<' {
+  }
+
+  @else if $direction =='<' {
     @return '(max-width: #{breakpoint($variant) - 1px})';
-  } @else if $direction == '<=' {
+  }
+
+  @else if $direction =='<=' {
     @return '(max-width: #{breakpoint($variant)})';
-  } @else if $direction == 'mt' {
+  }
+
+  @else if $direction =='mt' {
     @return '(min-width: #{breakpoint(m)}) and (max-width: #{breakpoint(t) - 1px})';
-  } @else if $direction == 'td' {
+  }
+
+  @else if $direction =='td' {
     @return '(min-width: #{breakpoint(t)}) and (max-width: #{breakpoint(d) - 1px})';
-  } @else if $direction == 'md' {
+  }
+
+  @else if $direction =='md' {
     @return '(min-width: #{breakpoint(m)}) and (max-width: #{breakpoint(d) - 1px})';
+  }
+}
+
+@mixin border() {
+  position: relative;
+
+  &::after {
+    pointer-events: none;
+    content: '';
+
+    position: absolute;
+    z-index: 2;
+    top: -1px;
+    left: -1px;
+
+    width: calc(100% + 2px);
+    height: calc(100% + 2px);
+    border: 1px solid;
+
+    background: transparent;
+
+    @apply border-primary;
   }
 }
 

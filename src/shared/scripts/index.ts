@@ -11,7 +11,6 @@ import tooltipApi from '@shared/ui/tooltip/tooltip'
 
 import config from './config'
 import { frontApi } from './frontApi'
-import { validateInit } from './libs/custom-validator'
 
 import { swiperApi } from './libs/swiper/swiper-manager'
 import { swiperExamples } from '@pages/front-api/_components/swiper-examples/swiper-examples'
@@ -23,16 +22,20 @@ import { TabsApi } from '@shared/ui/tabs/tabs-manager'
 import { ModalApi } from './components/modals'
 import { selectApi } from '@shared/ui/select/select'
 import { formApi } from '@shared/ui/form/form'
-import { lenisDestroy, lenisInit } from './libs/lenis/lenis'
 import { parallax } from '@shared/ui/parallax/parallax'
-import { fancyboxDestroy, fancyboxInit } from './libs/fancybox'
+import { fancyboxInit } from './libs/fancybox'
 import { dropdownApi } from '@shared/ui/dropdown/dropdown'
+import { initHeader } from '@widgets/header/header'
+import { mobileMenuInit } from '@widgets/mobile-menu/mobile-menu'
+import { ScrollManager } from './libs/lenis/lenis'
 (window as any).process = { env: {} } // Фикс для совместимости с TomSelect
 
-export const commonFunction = (): void => {
-  lenisInit();
+export const pageScroll = new ScrollManager()
 
-  validateInit()
+export const commonFunction = (): void => {
+  pageScroll.init()
+
+  formApi.initAll()
 
   accordionApi.initAll()
   accordionExamples()
@@ -66,37 +69,15 @@ export const commonFunction = (): void => {
   parallax()
 
   fancyboxInit()
+
+  mobileMenuInit()
 }
 
 console.info(import.meta.env)
 
-// export const commonDestroy = () => {
-//   lenisDestroy()
-//   fancyboxDestroy()
-//   toastApi.destroyAll()
-//   swiperApi.destroyAll()
-//   accordionApi.destroyAll()
-//   TabsApi.destroyAll()
-//   ModalApi.destroyAll()
-//   formApi.destroyAll()
-//   selectApi.destroyAll()
-//   tooltipApi.destroyAll()
-//   rangeApi.destroyAll()
-//   inputmaskApi.destroyAll()
-// }
-
 document.addEventListener('DOMContentLoaded', () => {
   config()
   frontApi()
+  initHeader()
   commonFunction()
 })
-
-// document.addEventListener('astro:before-swap', () => {
-//   commonDestroy()
-// })
-
-// document.addEventListener('astro:after-swap', () => {
-//   requestAnimationFrame(() => {
-//     commonFunction()
-//   })
-// })
