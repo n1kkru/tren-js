@@ -1,75 +1,74 @@
-import Lenis from 'lenis'
+import Lenis, { type LenisOptions } from 'lenis'
+import { BREAKPOINT_DESKTOP } from '@shared/scripts/config'
 
-import { isSafariFunction } from '../../utils/isSafari'
-
-const isSafari = isSafariFunction()
-
-let lenis: Lenis | null = null
-
-export const lenisInit = (): void => {
-  // Не инициализируем повторно
-  if (lenis || window.screen.width <= 1024 || isSafari) return
-
-  lenis = new Lenis({
-    duration: 1.2,
-    easing: (time: number): number => (time === 1 ? 1 : 1 - Math.pow(2, -10 * time)),
-    direction: 'vertical',
-    gestureDirection: 'vertical',
-    smooth: true,
-    smoothTouch: false,
-    touchMultiplier: 2
-  })
-
-  document.querySelectorAll<HTMLAnchorElement>('a[href^="#"]').forEach(element => {
-    const onClick = (event: MouseEvent) => {
-      event.preventDefault()
-      const href = element.getAttribute('href')
-      if (!href) return
-      const id = href.slice(1)
-      if (!id) return
-      const target = document.getElementById(id)
-      if (target) {
-        target.scrollIntoView({ behavior: 'smooth' })
-      }
-    }
-
-    element.addEventListener('click', onClick)
-    element.dataset.lenisClick = 'true'
-  })
-
-  const raf = (time: number): void => {
-    lenis?.raf(time)
-    window.requestAnimationFrame(raf)
-  }
-
-  window.requestAnimationFrame(raf)
+export interface IScrollManager {
+  init(options?: Partial<LenisOptions>): void
+  destroy(): void
+  start(): void
+  stop(): void
+  enableScroll(): void
+  disableScroll(): void
 }
 
-export const lenisDestroy = (): void => {
-  if (lenis) {
-    lenis.destroy()
-    lenis = null
+export class ScrollManager implements IScrollManager {
+  private lenis: Lenis | null = null
+  private mediaQuery = window.matchMedia(
+    `(min-width: ${BREAKPOINT_DESKTOP + 1}px)`
+  )
+
+  constructor() {
+    this.handleMediaChange = this.handleMediaChange.bind(this)
   }
 
-  // Удаляем события с якорных ссылок
-  document.querySelectorAll<HTMLAnchorElement>('a[href^="#"]').forEach(element => {
-    if (element.dataset.lenisClick) {
-      const clone = element.cloneNode(true)
-      element.replaceWith(clone)
-    }
-  })
-}
+  public init(options: Partial<LenisOptions> = {}): void {
+    if (this.lenis) return
 
-export function resumeLenis(): void {
-  if (window.screen.width > 1024 && !isSafari && lenis) {
-    lenis.start()
+    this.lenis = new Lenis({
+      // основные настройки плавности
+      orientation: 'vertical',
+      gestureOrientation: 'vertical',
+      smoothWheel: true,
+      wheelMultiplier: 1,
+      touchMultiplier: 2,
+      duration: 1.2,
+      easing: t => (t === 1 ? 1 : 1 - Math.pow(2, -10 * t)),
+      // авто-запуск цикла RAF и поддержка якорей
+      autoRaf: true,
+      anchors: true,
+      ...options,
+    })
+
+    // включаем/выключаем Lenis в зависимости от ширины экрана
+    this.mediaQuery.addEventListener('change', this.handleMediaChange)
+    this.lenis.start()
+  }
+
+  private handleMediaChange(e: MediaQueryListEvent): void {
+    e.matches ? this.lenis?.start() : this.lenis?.stop()
+  }
+
+  public start(): void {
+    this.lenis?.start()
+  }
+
+  public stop(): void {
+    this.lenis?.stop()
+  }
+
+  public destroy(): void {
+    this.mediaQuery.removeEventListener('change', this.handleMediaChange)
+    this.lenis?.destroy()
+    this.lenis = null
+    document.documentElement.style.overflow = ''
+  }
+
+  public disableScroll(): void {
+    this.stop()
+    document.documentElement.style.overflow = 'hidden'
+  }
+
+  public enableScroll(): void {
+    document.documentElement.style.overflow = ''
+    this.start()
   }
 }
-
-export function stopLenis(): void {
-  if (window.screen.width > 1024 && !isSafari && lenis) {
-    lenis.stop()
-  }
-}
-
-export { lenis }
