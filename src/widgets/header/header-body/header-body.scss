@@ -171,9 +171,6 @@
   }
 
   &__logo {
-    width: rem(246px);
-    height: rem(64px);
-    clip-path: inset(0% 0% 0% 0%);
 
     :global(.logo-svg) {
       width: auto !important;
