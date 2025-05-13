@@ -27,31 +27,28 @@ const getCustomParams = (slider: HTMLElement): SwiperOptions => {
   const params: string = slider.dataset.swiperParams as string
   const options: SwiperOptions = params ? JSON.parse(params) : {}
 
-  slider.dataset.swiperParams && delete slider.dataset.swiperParams
-
   return options
 }
 
 const getSlider = (sliderID: string): Swiper | undefined => readySliders[sliderID]
 
 const reinit = (initialSlider: Swiper, config: SwiperOptions, rewrite = false): Swiper => {
-  const initialParams: SwiperOptions = initialSlider.params
+  const initialParams = initialSlider.params
+  const sliderID = (initialSlider.el as HTMLElement).dataset.swiper as string
+  const container = initialSlider.el as HTMLElement
 
-  const updatedParams: SwiperOptions = rewrite
-    ? config
-    : {
-      ...initialParams,
-      ...config
-    }
-
-  const container: HTMLElement = initialSlider.el
-  const newSlider: Swiper = new Swiper(container, updatedParams)
-  const sliderID: string = container.dataset.swiper as string
-
-  sliderID && (readySliders[sliderID] = newSlider)
-
+  // Сначала полностью убираем старый instance (и его стили)
   initialSlider.destroy(true, true)
 
+  // Потом создаём новый
+  const updatedParams: SwiperOptions = rewrite
+    ? config
+    : { ...initialParams, ...config }
+
+  const newSlider = new Swiper(container, updatedParams)
+
+  // Обновляем хранилище
+  readySliders[sliderID] = newSlider
   container.dataset.swiperInit = 'true'
 
   return newSlider
