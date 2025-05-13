@@ -24,6 +24,7 @@ import Drawer from '@shared/ui/drawer/Drawer.astro'
 import Select from '@shared/ui/select/select.astro'
 import Tooltip from '@shared/ui/tooltip/Tooltip.astro'
 import Range from '@shared/ui/range/Range.astro'
+import Icon, { icons, type IconKey } from '@shared/ui/icon/Icon.astro'
 ---
 
 <Layout pageName="ui">
@@ -31,6 +32,27 @@ import Range from '@shared/ui/range/Range.astro'
     <h1 class="px-4 text-title-100 devices:text-title-40">Примеры UI компонентов проекта</h1>
 
     <div class="flex flex-col gap-16">
+      <section class="flex flex-col gap-8 px-6">
+        <h2 class="text-5xl font-bold">Icon</h2>
+
+        <p class="text-xl">Передать проп name для выбора иконки</p>
+        <p class="text-xl">Передать проп initial для возврата к стилям по умолчанию</p>
+
+        <div class="grid grid-flow-col gap-6">
+          {
+            Object.keys(icons).map(icon => (
+              <div class="flex flex-col items-center gap-4">
+                <Icon
+                  name={icon as IconKey}
+                  class="size-8"
+                />
+                <span class="text-lg">{icon}</span>
+              </div>
+            ))
+          }
+        </div>
+      </section>
+
       <section>
         <Title
           variant="120"
