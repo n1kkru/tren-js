@@ -1,6 +1,6 @@
+import { scrollManager } from '@shared/scripts/libs/lenis/lenis';
 import type { DefaultPanelIds, IHeaderConfig, IPanelConfig } from '../types';
 import { HeaderPanel } from './header-panel';
-import { pageScroll } from '@shared/scripts';
 import gsap from 'gsap';
 
 export interface IHeaderButton {
@@ -90,7 +90,7 @@ export class HeaderController {
       this.tl.add(() => {
         if (isSame) {
           if (this.overlay) this.overlay.classList.remove('active');
-          pageScroll.enableScroll();
+          scrollManager.enableScroll();
           this.activePanel = undefined;
           this.activeButton = undefined;
         }
@@ -116,7 +116,7 @@ export class HeaderController {
       else this.overlay.classList.add('active');
     }
     this.tl!.add(button.target.show());
-    pageScroll.disableScroll();
+    scrollManager.disableScroll();
   }
 
   private scheduleHoverHide(button: IHeaderButton) {
@@ -168,7 +168,7 @@ export class HeaderController {
     this.buttons = [];
     this.activePanel = undefined;
     this.activeButton = undefined;
-    pageScroll.enableScroll();
+    scrollManager.enableScroll();
   }
 
   hideAll() {
@@ -178,7 +178,7 @@ export class HeaderController {
     this.activePanel = undefined;
     this.activeButton = undefined;
     if (this.overlay) this.overlay.classList.remove('active');
-    pageScroll.enableScroll();
+    scrollManager.enableScroll();
   }
 
   private _onKeyUp = (e: KeyboardEvent) => {

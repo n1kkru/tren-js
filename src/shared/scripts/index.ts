@@ -27,15 +27,13 @@ import { fancyboxInit } from './libs/fancybox'
 import { dropdownApi } from '@shared/ui/dropdown/dropdown'
 import { initHeader } from '@widgets/header/header'
 import { mobileMenuInit } from '@widgets/mobile-menu/mobile-menu'
-import { ScrollManager } from './libs/lenis/lenis'
 import { initOverlayScrollbars } from './utils/overlayScrollbars'
+import { scrollManager } from './libs/lenis/lenis'
 (window as any).process = { env: {} } // Фикс для совместимости с TomSelect
-
-export const pageScroll = new ScrollManager()
 
 export const commonFunction = (): void => {
   initOverlayScrollbars()
-  pageScroll.init()
+  scrollManager.init()
 
   formApi.initAll()
 

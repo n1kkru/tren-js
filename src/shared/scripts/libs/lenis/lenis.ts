@@ -10,21 +10,20 @@ export interface IScrollManager {
   disableScroll(): void
 }
 
-export class ScrollManager implements IScrollManager {
+class ScrollManager implements IScrollManager {
   private lenis: Lenis | null = null
-  private mediaQuery = window.matchMedia(
-    `(min-width: ${BREAKPOINT_DESKTOP + 1}px)`
-  )
+  private headerSelector = '[data-header="body"]'
+  private mediaQuery = window.matchMedia(`(min-width: ${BREAKPOINT_DESKTOP + 1}px)`)
 
   constructor() {
     this.handleMediaChange = this.handleMediaChange.bind(this)
+    this.handleAnchorClick = this.handleAnchorClick.bind(this)
   }
 
   public init(options: Partial<LenisOptions> = {}): void {
     if (this.lenis) return
 
     this.lenis = new Lenis({
-      // основные настройки плавности
       orientation: 'vertical',
       gestureOrientation: 'vertical',
       smoothWheel: true,
@@ -32,15 +31,15 @@ export class ScrollManager implements IScrollManager {
       touchMultiplier: 2,
       duration: 1.2,
       easing: t => (t === 1 ? 1 : 1 - Math.pow(2, -10 * t)),
-      // авто-запуск цикла RAF и поддержка якорей
       autoRaf: true,
-      anchors: true,
       ...options,
     })
 
-    // включаем/выключаем Lenis в зависимости от ширины экрана
     this.mediaQuery.addEventListener('change', this.handleMediaChange)
     this.lenis.start()
+
+    // ловим клики по якорям
+    document.addEventListener('click', this.handleAnchorClick, true)
   }
 
   private handleMediaChange(e: MediaQueryListEvent): void {
@@ -57,6 +56,7 @@ export class ScrollManager implements IScrollManager {
 
   public destroy(): void {
     this.mediaQuery.removeEventListener('change', this.handleMediaChange)
+    document.removeEventListener('click', this.handleAnchorClick, true)
     this.lenis?.destroy()
     this.lenis = null
     document.documentElement.style.overflow = ''
@@ -71,4 +71,57 @@ export class ScrollManager implements IScrollManager {
     document.documentElement.style.overflow = ''
     this.start()
   }
+
+  /**
+   * Обработчик кликов по якорным ссылкам
+   */
+  private handleAnchorClick(e: MouseEvent): void {
+    const link = (e.target as HTMLElement)?.closest<HTMLAnchorElement>('a[href^="#"]:not([href="#"])')
+    if (!link) return
+
+    // игнорируем внешние якоря и ссылки без id на странице
+    const anchor = link.getAttribute('href')
+    if (!anchor || anchor === '#') return
+
+    const id = anchor.startsWith('#') ? anchor.slice(1) : anchor
+    const target = document.getElementById(id)
+    if (!target) return
+
+    e.preventDefault()
+    this.scrollToAnchor(target, link)
+  }
+
+  /**
+   * Скролл к якорю с учётом header и data-anchor-offset у ссылки
+   */
+  private scrollToAnchor(target: HTMLElement, link?: HTMLElement | null): void {
+    // Высота фиксированного header
+    const header = document.querySelector<HTMLElement>(this.headerSelector)
+    const headerRect = header?.getBoundingClientRect()
+    const headerHeight = headerRect ? headerRect.height : 0
+
+    // Смещение с data-anchor-offset
+    let offset = 0
+    if (link) {
+      const attr = link.getAttribute('data-anchor-offset')
+      if (attr) offset = parseInt(attr, 10) || 0
+    }
+
+    // Итоговый offset: вниз — отрицательно, вверх — положительно
+    const finalOffset = -headerHeight + offset
+
+    if (this.lenis) {
+      this.lenis.scrollTo(target, {
+        offset: finalOffset,
+        immediate: false,
+      })
+    } else {
+      // fallback без lenis
+      const y = target.getBoundingClientRect().top + window.scrollY + finalOffset
+      window.scrollTo({ top: y, behavior: 'smooth' })
+    }
+  }
 }
+
+const scrollManager = new ScrollManager()
+export { scrollManager }
