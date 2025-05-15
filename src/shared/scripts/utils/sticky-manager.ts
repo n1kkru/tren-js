@@ -1,8 +1,10 @@
 export class StickyManager {
   private header: HTMLElement | null = null;
-  private stickyElements: NodeListOf<HTMLElement> = [] as any;
+  private stickyElements: HTMLElement[] = [];
   private resizeObserver: ResizeObserver | null = null;
   private mutationObserver: MutationObserver | null = null;
+  private rafId: number | null = null;
+  private lastHeaderHeight: number = 0;
 
   private constructor() { }
 
@@ -12,7 +14,6 @@ export class StickyManager {
     if (this.#instance) {
       this.#instance.destroy();
     }
-
     const manager = new StickyManager();
     manager._init();
     this.#instance = manager;
@@ -31,7 +32,7 @@ export class StickyManager {
       return;
     }
 
-    this.stickyElements = document.querySelectorAll<HTMLElement>('[data-sticky]');
+    this.stickyElements = Array.from(document.querySelectorAll<HTMLElement>('[data-sticky]'));
     this.updateStickyPositions();
 
     this.resizeObserver = new ResizeObserver(() => this.updateStickyPositions());
@@ -42,11 +43,13 @@ export class StickyManager {
       attributes: true,
       childList: true,
       subtree: true,
-      attributeFilter: ['class', 'style']
+      attributeFilter: ['class', 'style', 'hidden'],
     });
 
     window.addEventListener('scroll', this.handleScroll, { passive: true });
     window.addEventListener('resize', this.handleResize);
+
+    this.startLoop();
   }
 
   destroy() {
@@ -54,44 +57,77 @@ export class StickyManager {
     this.mutationObserver?.disconnect();
     window.removeEventListener('scroll', this.handleScroll);
     window.removeEventListener('resize', this.handleResize);
-
     this.header = null;
-    this.stickyElements = [] as any;
+    this.stickyElements = [];
     this.resizeObserver = null;
     this.mutationObserver = null;
+    this.stopLoop();
   }
 
-  private updateStickyPositions() {
+  private updateStickyPositions(force = false) {
     if (!this.header) return;
 
-    const headerHeight = this.header.offsetHeight;
+    const headerRect = this.header.getBoundingClientRect();
+    const headerHeight = headerRect.height;
+    if (!force && this.lastHeaderHeight === headerHeight) return;
+    this.lastHeaderHeight = headerHeight;
 
     this.stickyElements.forEach((el) => {
-      // Обновляем отступ сверху
       el.style.top = `${headerHeight}px`;
 
       if (el.hasAttribute('data-sticky-auto-height')) {
-        const stickyRect = el.getBoundingClientRect();
-        const offsetTop = stickyRect.top + window.scrollY;
+        // Смотрим, совпадает ли top блока с headerHeight
+        const elRect = el.getBoundingClientRect();
+        const stickyTop = elRect.top;
+        // Пока sticky не встал под хедер, пересчитываем на каждом скролле
+        if (stickyTop !== headerHeight) {
+          window.addEventListener('scroll', this.handleScrollSticky, { passive: true });
+        } else {
+          window.removeEventListener('scroll', this.handleScrollSticky);
+        }
 
-        const parent = el.offsetParent as HTMLElement;
-        if (!parent) return;
+        // Стандартный расчет maxHeight
+        const maxHeightByViewport = window.innerHeight - stickyTop;
+        let maxHeightByParent = Infinity;
+        const parent = el.offsetParent as HTMLElement | null;
+        if (parent) {
+          const parentRect = parent.getBoundingClientRect();
+          const parentBottomInViewport = parentRect.bottom;
+          maxHeightByParent = parentBottomInViewport - stickyTop;
+        }
+        const finalMaxHeight = Math.max(0, Math.min(maxHeightByViewport, maxHeightByParent));
 
-        const parentRect = parent.getBoundingClientRect();
-        const parentBottom = parentRect.top + window.scrollY + parent.offsetHeight;
-
-        const availableHeight = parentBottom - offsetTop;
-        const maxHeight = window.innerHeight - (stickyRect.top);
-
-        el.style.height = `${Math.min(availableHeight, maxHeight)}px`;
+        if (el.style.maxHeight !== `${finalMaxHeight}px`) {
+          el.style.maxHeight = `${finalMaxHeight}px`;
+        }
         el.style.overflow = 'auto';
       }
     });
   }
 
+  private handleScrollSticky = () => {
+    this.updateStickyPositions(true);
+  }
+
+  private startLoop() {
+    const loop = () => {
+      this.updateStickyPositions();
+      this.rafId = requestAnimationFrame(loop);
+    };
+    if (!this.rafId) {
+      this.rafId = requestAnimationFrame(loop);
+    }
+  }
+
+  private stopLoop() {
+    if (this.rafId !== null) {
+      cancelAnimationFrame(this.rafId);
+      this.rafId = null;
+    }
+  }
 
   private handleScroll = () => {
-    this.updateStickyPositions();
+    // just keep loop running — it's always active anyway
   };
 
   private handleResize = () => {
