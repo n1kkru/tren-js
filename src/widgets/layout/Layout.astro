@@ -13,7 +13,10 @@ export { Layout }
 ---
 
 <!doctype html>
-<html lang="ru">
+<html
+  lang="ru"
+  data-overlayscrollbars-initialize
+>
   <head>
     <meta charset="UTF-8" />
     <meta
@@ -62,7 +65,10 @@ export { Layout }
 
     <title>{pageName}</title>
   </head>
-  <body>
+  <body
+    data-scrollbar
+    data-overlayscrollbars-initialize
+  >
     <div class="wrapper">
       <Header />
       <main

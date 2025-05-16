@@ -1,3 +1,6 @@
+// Задать data-swiper-hover-wrapper для обертки, в пределах которой должно учитываться движение мыши
+// data-swiper-hover - на сам слайдер, который нужно переключать
+
 import type Swiper from 'swiper'
 
 type TMouseMoveSlidesChange = (slider: Swiper, e: MouseEvent) => void
@@ -24,21 +27,21 @@ interface HandlerPair {
 }
 const handlerMap = new WeakMap<HTMLElement, HandlerPair>()
 
-export function hoverControlledSlider(): void {
+export const hoverControlledSlider = (): void => {
   const isMobile = /Mobi|Android/i.test(navigator.userAgent)
-  const cards = document.querySelectorAll<HTMLElement>('[data-card-product]')
-  if (!cards.length) return
+  const wrappers = document.querySelectorAll<HTMLElement>('[data-swiper-hover-wrapper]')
+  if (!wrappers.length) return
 
-  cards.forEach(card => {
+  wrappers.forEach(wrapper => {
     // Всегда сбрасываем старые слушатели
-    const old = handlerMap.get(card)
+    const old = handlerMap.get(wrapper)
     if (old) {
-      card.removeEventListener('mousemove', old.onMouseMove)
-      card.removeEventListener('mouseleave', old.onMouseLeave)
-      handlerMap.delete(card)
+      wrapper.removeEventListener('mousemove', old.onMouseMove)
+      wrapper.removeEventListener('mouseleave', old.onMouseLeave)
+      handlerMap.delete(wrapper)
     }
 
-    const sliderEl = card.querySelector<HTMLElementWithSwiper>('[data-swiper-hover]')
+    const sliderEl = wrapper.querySelector<HTMLElementWithSwiper>('[data-swiper-hover]')
     const slider = sliderEl?.swiper
     if (isMobile || !slider) return
 
@@ -46,8 +49,8 @@ export function hoverControlledSlider(): void {
     const onMouseMove = (e: MouseEvent) => mouseMoveSlidesChange(slider, e)
     const onMouseLeave = () => slider.slideTo(0)
 
-    card.addEventListener('mousemove', onMouseMove)
-    card.addEventListener('mouseleave', onMouseLeave)
-    handlerMap.set(card, { onMouseMove, onMouseLeave })
+    wrapper.addEventListener('mousemove', onMouseMove)
+    wrapper.addEventListener('mouseleave', onMouseLeave)
+    handlerMap.set(wrapper, { onMouseMove, onMouseLeave })
   })
 }
