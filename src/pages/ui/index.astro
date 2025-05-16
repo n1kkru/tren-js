@@ -28,6 +28,7 @@ import Tab from '@shared/ui/tabs/tab/Tab.astro'
 import TabsList from '@shared/ui/tabs/tabs-list/TabsList.astro'
 import TabPanel from '@shared/ui/tabs/tab-panel/TabPanel.astro'
 import Tabs from '@shared/ui/tabs/Tabs.astro'
+import Toast from '@shared/ui/toast/toast.astro'
 ---
 
 <Layout pageName="ui">
@@ -379,14 +380,11 @@ import Tabs from '@shared/ui/tabs/Tabs.astro'
       <section>
         <h2 class="mb-4 text-5xl font-bold">Toast</h2>
 
-        <!-- Шаблонные тосты -->
         <div class="hidden">
-          <div
-            id="toast-success"
-            data-toast
+          <Toast
             data-toast-close
-          >
-            <div
+            id="toast-success"
+            ><div
               class="flex items-center justify-between rounded-md bg-green-500 px-4 py-2 text-white"
             >
               <span>Успешно сохранено</span>
@@ -396,14 +394,11 @@ import Tabs from '@shared/ui/tabs/Tabs.astro'
                 >×</button
               >
             </div>
-          </div>
-
-          <div
-            id="toast-error"
-            data-toast
+          </Toast>
+          <Toast
             data-toast-close
-          >
-            <div
+            id="toast-error"
+            ><div
               class="flex items-center justify-between rounded-md bg-rose-500 px-4 py-2 text-white"
             >
               <span>Произошла ошибка</span>
@@ -413,7 +408,7 @@ import Tabs from '@shared/ui/tabs/Tabs.astro'
                 >×</button
               >
             </div>
-          </div>
+          </Toast>
         </div>
 
         <button
@@ -561,85 +556,71 @@ import Tabs from '@shared/ui/tabs/Tabs.astro'
   <style>
     @import './index.scss';
   </style>
+</Layout>
 
-  <script>
-    console.log('script starting')
+<script>
+  console.log('script starting')
 
-    function waitForFrontApi(cb) {
-      if (window.frontApi && window.frontApi) {
-        cb(window.frontApi)
-      } else {
-        setTimeout(() => waitForFrontApi(cb), 50)
-      }
+  function waitForFrontApi(cb) {
+    if (window.frontApi && window.frontApi) {
+      cb(window.frontApi)
+    } else {
+      setTimeout(() => waitForFrontApi(cb), 50)
+    }
+  }
+
+  waitForFrontApi(frontApi => {
+    const toast = frontApi.toast
+
+    // const successNode = document.querySelector('[data-toast]')
+    const successNode = document.querySelector('#toast-success')
+    const errorNode = document.querySelector('#toast-error')
+
+    if (!successNode || !errorNode) {
+      console.error('Toast templates not found')
     }
 
-    waitForFrontApi(frontApi => {
-      // #region Toast
-      const toast = frontApi.toast
-
-      console.log("here's the toast", toast)
-
-      toast.onAnyInit(t => console.log('[init]', t))
-      toast.onAnyOpen(t => console.log('[open]', t))
-      toast.onAnyClose(t => console.log('[close]', t))
-
-      const successNode = document.querySelector('#toast-success') as HTMLElement | null
-      const errorNode = document.querySelector('#toast-error') as HTMLElement | null
-
-      const toastSuccess = toast.init({
-        node: successNode,
-        duration: 3000,
-        gravity: 'top',
-        position: 'right',
-        closeElement: '[data-toast-close]'
-      })
-
-      const toastError = toast.init({
-        node: errorNode,
-        duration: 3000,
-        gravity: 'top',
-        position: 'right',
-        closeElement: '[data-toast-close]'
-      })
-
-      const handleShowSuccess = () => toastSuccess.show()
-      const handleShowError = () => toastError.show()
-      const handleShowTemp = () =>
-        toast.show({
-          text: 'Временный toast',
-          duration: 3000,
-          gravity: 'top',
-          position: 'right'
-        })
-
-      const handleHideSuccess = () => toast.hide('#toast-success')
-      const handleGet = () => {
-        const found = toast.get('#toast-success')
-        console.log('Найден:', found)
-      }
-
-      const handleReinit = () => {
-        toast
-          .reinit('#toast-success', {
-            duration: 4000,
-            gravity: 'bottom'
-          })
-          .show()
-      }
-
-      const handleInitAll = () => toast.initAll()
-
-      const withListeners = (selector: string, handler: EventListener) => {
-        const el = document.querySelector(selector)
-        if (!el) return
-        el.removeEventListener('click', handler)
-        el.addEventListener('click', handler)
-      }
-
-      withListeners('#btn-show-success', handleShowSuccess)
-      withListeners('#btn-show-error', handleShowError)
-      withListeners('#btn-show-temp', handleShowTemp)
-      // #endregion
+    const toastSuccess = toast.init({
+      node: successNode,
+      duration: 3000,
+      gravity: 'top',
+      position: 'right',
+      closeElement: '[data-toast-close]'
     })
-  </script>
-</Layout>
+
+    const toastError = toast.init({
+      node: errorNode,
+      duration: 3000,
+      gravity: 'top',
+      position: 'right',
+      closeElement: '[data-toast-close]'
+    })
+
+    const handleShowError = () => toastError.show()
+    const handleShowSuccess = () => {
+      toastSuccess.show()
+      console.log('Success toast will be shown!')
+    }
+    const handleShowTemp = () =>
+      toast.show({
+        text: 'Временный toast',
+        duration: 3000,
+        gravity: 'top',
+        position: 'right'
+      })
+
+    const withListeners = (selector, handler) => {
+      const el = document.querySelector(selector)
+      if (!el) {
+        console.warn('Element not found for selector:', selector)
+        return
+      }
+      el.removeEventListener('click', handler)
+      el.addEventListener('click', handler)
+    }
+
+    withListeners('#btn-show-success', handleShowSuccess)
+    withListeners('#btn-show-error', handleShowError)
+    withListeners('#btn-show-temp', handleShowTemp)
+  })
+</script>
