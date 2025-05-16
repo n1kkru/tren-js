@@ -24,6 +24,10 @@ import Drawer from '@shared/ui/drawer/Drawer.astro'
 import Select from '@shared/ui/select/select.astro'
 import Tooltip from '@shared/ui/tooltip/Tooltip.astro'
 import Range from '@shared/ui/range/Range.astro'
+import Tab from '@shared/ui/tabs/tab/Tab.astro'
+import TabsList from '@shared/ui/tabs/tabs-list/TabsList.astro'
+import TabPanel from '@shared/ui/tabs/tab-panel/TabPanel.astro'
+import Tabs from '@shared/ui/tabs/Tabs.astro'
 ---
 
 <Layout pageName="ui">
@@ -280,71 +284,35 @@ import Range from '@shared/ui/range/Range.astro'
       <section>
         <h2 class="mb-4 text-5xl font-bold">Tabs</h2>
 
-        <div
-          class="tabs"
-          data-tabs="example-tabs"
+        <Tabs
+          id="ui-tabs"
+          class="mt-6 devices:mt-4"
         >
-          <ul
-            class="tabs-list"
-            role="tablist"
-          >
-            <li>
-              <button
-                id="tab-1"
-                class="tab active"
-                role="tab"
-                aria-selected="true"
-                aria-controls="panel-1"
-                >Tab 1</button
-              >
-            </li>
-            <li>
-              <button
-                id="tab-2"
-                class="tab"
-                role="tab"
-                aria-selected="false"
-                aria-controls="panel-2"
-                >Tab 2</button
-              >
-            </li>
-            <li>
-              <button
-                id="tab-3"
-                class="tab"
-                role="tab"
-                aria-selected="false"
-                aria-controls="panel-3"
-                >Tab 3</button
-              >
-            </li>
-          </ul>
+          <TabsList slot="tabs-list">
+            <Tab
+              id="ui-tab-1"
+              isActive
+              >Таб 1</Tab
+            >
+            <Tab id="ui-tab-2">Таб 2</Tab>
+            <Tab id="ui-tab-3">Таб 3</Tab>
+            <Tab id="ui-tab-4">Таб 4</Tab>
+            <Tab id="ui-tab-5">Таб 5</Tab>
+            <Tab id="ui-tab-6">Таб 6</Tab>
+          </TabsList>
 
-          <div
-            id="panel-1"
-            class="tab-panel active"
-            role="tabpanel"
-            aria-labelledby="tab-1"
+          <TabPanel
+            id="ui-tab-1-panel"
+            isActive
           >
-            Контент 1
-          </div>
-          <div
-            id="panel-2"
-            class="tab-panel"
-            role="tabpanel"
-            aria-labelledby="tab-2"
-          >
-            Контент 2
-          </div>
-          <div
-            id="panel-3"
-            class="tab-panel"
-            role="tabpanel"
-            aria-labelledby="tab-3"
-          >
-            Контент 3
-          </div>
-        </div>
+            Таб 1 - контент
+          </TabPanel>
+          <TabPanel id="ui-tab-2-panel"> Таб 2 - контент </TabPanel>
+          <TabPanel id="ui-tab-3-panel"> Таб 3 - контент </TabPanel>
+          <TabPanel id="ui-tab-4-panel"> Таб 4 - контент </TabPanel>
+          <TabPanel id="ui-tab-5-panel"> Таб 5 - контент </TabPanel>
+          <TabPanel id="ui-tab-6-panel"> Таб 6 - контент </TabPanel>
+        </Tabs>
       </section>
 
       <section>
