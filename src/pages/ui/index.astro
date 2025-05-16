@@ -24,6 +24,11 @@ import Drawer from '@shared/ui/drawer/Drawer.astro'
 import Select from '@shared/ui/select/select.astro'
 import Tooltip from '@shared/ui/tooltip/Tooltip.astro'
 import Range from '@shared/ui/range/Range.astro'
+import Tab from '@shared/ui/tabs/tab/Tab.astro'
+import TabsList from '@shared/ui/tabs/tabs-list/TabsList.astro'
+import TabPanel from '@shared/ui/tabs/tab-panel/TabPanel.astro'
+import Tabs from '@shared/ui/tabs/Tabs.astro'
+import Toast from '@shared/ui/toast/toast.astro'
 ---
 
 <Layout pageName="ui">
@@ -280,71 +285,35 @@ import Range from '@shared/ui/range/Range.astro'
       <section>
         <h2 class="mb-4 text-5xl font-bold">Tabs</h2>
 
-        <div
-          class="tabs"
-          data-tabs="example-tabs"
+        <Tabs
+          id="ui-tabs"
+          class="mt-6 devices:mt-4"
         >
-          <ul
-            class="tabs-list"
-            role="tablist"
-          >
-            <li>
-              <button
-                id="tab-1"
-                class="tab active"
-                role="tab"
-                aria-selected="true"
-                aria-controls="panel-1"
-                >Tab 1</button
-              >
-            </li>
-            <li>
-              <button
-                id="tab-2"
-                class="tab"
-                role="tab"
-                aria-selected="false"
-                aria-controls="panel-2"
-                >Tab 2</button
-              >
-            </li>
-            <li>
-              <button
-                id="tab-3"
-                class="tab"
-                role="tab"
-                aria-selected="false"
-                aria-controls="panel-3"
-                >Tab 3</button
-              >
-            </li>
-          </ul>
+          <TabsList slot="tabs-list">
+            <Tab
+              id="ui-tab-1"
+              isActive
+              >Таб 1</Tab
+            >
+            <Tab id="ui-tab-2">Таб 2</Tab>
+            <Tab id="ui-tab-3">Таб 3</Tab>
+            <Tab id="ui-tab-4">Таб 4</Tab>
+            <Tab id="ui-tab-5">Таб 5</Tab>
+            <Tab id="ui-tab-6">Таб 6</Tab>
+          </TabsList>
 
-          <div
-            id="panel-1"
-            class="tab-panel active"
-            role="tabpanel"
-            aria-labelledby="tab-1"
+          <TabPanel
+            id="ui-tab-1-panel"
+            isActive
           >
-            Контент 1
-          </div>
-          <div
-            id="panel-2"
-            class="tab-panel"
-            role="tabpanel"
-            aria-labelledby="tab-2"
-          >
-            Контент 2
-          </div>
-          <div
-            id="panel-3"
-            class="tab-panel"
-            role="tabpanel"
-            aria-labelledby="tab-3"
-          >
-            Контент 3
-          </div>
-        </div>
+            Таб 1 - контент
+          </TabPanel>
+          <TabPanel id="ui-tab-2-panel"> Таб 2 - контент </TabPanel>
+          <TabPanel id="ui-tab-3-panel"> Таб 3 - контент </TabPanel>
+          <TabPanel id="ui-tab-4-panel"> Таб 4 - контент </TabPanel>
+          <TabPanel id="ui-tab-5-panel"> Таб 5 - контент </TabPanel>
+          <TabPanel id="ui-tab-6-panel"> Таб 6 - контент </TabPanel>
+        </Tabs>
       </section>
 
       <section>
@@ -411,14 +380,11 @@ import Range from '@shared/ui/range/Range.astro'
       <section>
         <h2 class="mb-4 text-5xl font-bold">Toast</h2>
 
-        <!-- Шаблонные тосты -->
         <div class="hidden">
-          <div
-            id="toast-success"
-            data-toast
+          <Toast
             data-toast-close
-          >
-            <div
+            id="toast-success"
+            ><div
               class="flex items-center justify-between rounded-md bg-green-500 px-4 py-2 text-white"
             >
               <span>Успешно сохранено</span>
@@ -428,14 +394,11 @@ import Range from '@shared/ui/range/Range.astro'
                 >×</button
               >
             </div>
-          </div>
-
-          <div
-            id="toast-error"
-            data-toast
+          </Toast>
+          <Toast
             data-toast-close
-          >
-            <div
+            id="toast-error"
+            ><div
               class="flex items-center justify-between rounded-md bg-rose-500 px-4 py-2 text-white"
             >
               <span>Произошла ошибка</span>
@@ -445,7 +408,7 @@ import Range from '@shared/ui/range/Range.astro'
                 >×</button
               >
             </div>
-          </div>
+          </Toast>
         </div>
 
         <button
@@ -593,85 +556,71 @@ import Range from '@shared/ui/range/Range.astro'
   <style>
     @import './index.scss';
   </style>
+</Layout>
 
-  <script>
-    console.log('script starting')
+<script>
+  console.log('script starting')
 
-    function waitForFrontApi(cb) {
-      if (window.frontApi && window.frontApi) {
-        cb(window.frontApi)
-      } else {
-        setTimeout(() => waitForFrontApi(cb), 50)
-      }
+  function waitForFrontApi(cb) {
+    if (window.frontApi && window.frontApi) {
+      cb(window.frontApi)
+    } else {
+      setTimeout(() => waitForFrontApi(cb), 50)
+    }
+  }
+
+  waitForFrontApi(frontApi => {
+    const toast = frontApi.toast
+
+    // const successNode = document.querySelector('[data-toast]')
+    const successNode = document.querySelector('#toast-success')
+    const errorNode = document.querySelector('#toast-error')
+
+    if (!successNode || !errorNode) {
+      console.error('Toast templates not found')
     }
 
-    waitForFrontApi(frontApi => {
-      // #region Toast
-      const toast = frontApi.toast
-
-      console.log("here's the toast", toast)
-
-      toast.onAnyInit(t => console.log('[init]', t))
-      toast.onAnyOpen(t => console.log('[open]', t))
-      toast.onAnyClose(t => console.log('[close]', t))
-
-      const successNode = document.querySelector('#toast-success') as HTMLElement | null
-      const errorNode = document.querySelector('#toast-error') as HTMLElement | null
-
-      const toastSuccess = toast.init({
-        node: successNode,
-        duration: 3000,
-        gravity: 'top',
-        position: 'right',
-        closeElement: '[data-toast-close]'
-      })
-
-      const toastError = toast.init({
-        node: errorNode,
-        duration: 3000,
-        gravity: 'top',
-        position: 'right',
-        closeElement: '[data-toast-close]'
-      })
-
-      const handleShowSuccess = () => toastSuccess.show()
-      const handleShowError = () => toastError.show()
-      const handleShowTemp = () =>
-        toast.show({
-          text: 'Временный toast',
-          duration: 3000,
-          gravity: 'top',
-          position: 'right'
-        })
-
-      const handleHideSuccess = () => toast.hide('#toast-success')
-      const handleGet = () => {
-        const found = toast.get('#toast-success')
-        console.log('Найден:', found)
-      }
-
-      const handleReinit = () => {
-        toast
-          .reinit('#toast-success', {
-            duration: 4000,
-            gravity: 'bottom'
-          })
-          .show()
-      }
-
-      const handleInitAll = () => toast.initAll()
-
-      const withListeners = (selector: string, handler: EventListener) => {
-        const el = document.querySelector(selector)
-        if (!el) return
-        el.removeEventListener('click', handler)
-        el.addEventListener('click', handler)
-      }
-
-      withListeners('#btn-show-success', handleShowSuccess)
-      withListeners('#btn-show-error', handleShowError)
-      withListeners('#btn-show-temp', handleShowTemp)
-      // #endregion
+    const toastSuccess = toast.init({
+      node: successNode,
+      duration: 3000,
+      gravity: 'top',
+      position: 'right',
+      closeElement: '[data-toast-close]'
     })
-  </script>
-</Layout>
+
+    const toastError = toast.init({
+      node: errorNode,
+      duration: 3000,
+      gravity: 'top',
+      position: 'right',
+      closeElement: '[data-toast-close]'
+    })
+
+    const handleShowError = () => toastError.show()
+    const handleShowSuccess = () => {
+      toastSuccess.show()
+      console.log('Success toast will be shown!')
+    }
+    const handleShowTemp = () =>
+      toast.show({
+        text: 'Временный toast',
+        duration: 3000,
+        gravity: 'top',
+        position: 'right'
+      })
+
+    const withListeners = (selector, handler) => {
+      const el = document.querySelector(selector)
+      if (!el) {
+        console.warn('Element not found for selector:', selector)
+        return
+      }
+      el.removeEventListener('click', handler)
+      el.addEventListener('click', handler)
+    }
+
+    withListeners('#btn-show-success', handleShowSuccess)
+    withListeners('#btn-show-error', handleShowError)
+    withListeners('#btn-show-temp', handleShowTemp)
+  })
+</script>
