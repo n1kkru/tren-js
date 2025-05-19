@@ -30,6 +30,7 @@ import { mobileMenuInit } from '@widgets/mobile-menu/mobile-menu'
 import { initOverlayScrollbars } from './utils/overlayScrollbars'
 import { scrollManager } from './libs/lenis/lenis'
 import { initHorizontalScroll } from './utils/horizontal-scroll'
+import { StickyManager } from '@shared/ui/sticky/sticky'
 (window as any).process = { env: {} } // Фикс для совместимости с TomSelect
 
 export const commonFunction = (): void => {
@@ -74,6 +75,8 @@ export const commonFunction = (): void => {
   mobileMenuInit()
 
   initHorizontalScroll()
+
+  StickyManager.init()
 }
 
 console.info(import.meta.env)
