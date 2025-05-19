@@ -6,18 +6,7 @@ interface TooltipAstroProps {
   placement?: TippyCoreProps['placement']
   class?: string
   id?: string
-
-  // Названия глобальных функций
-  onShow?: string
-  onHide?: string
-  onMount?: string
-  onTrigger?: string
-  onUntrigger?: string
-
-  // Всё остальное — пойдёт прямо в tippy, кроме конфликтных событий
-  tippyOptions?: Partial<
-    Omit<TippyCoreProps, 'onShow' | 'onHide' | 'onMount' | 'onTrigger' | 'onUntrigger'>
-  >
+  tippyOptions?: Partial<TippyCoreProps>
 }
 
 const {
@@ -25,11 +14,6 @@ const {
   placement = 'top',
   class: className = '',
   id = `tooltip-${Math.random().toString(36).slice(2)}`,
-  onShow,
-  onHide,
-  onMount,
-  onTrigger,
-  onUntrigger,
   tippyOptions = {}
 } = Astro.props as TooltipAstroProps
 
@@ -43,11 +27,10 @@ export { Tooltip }
 ---
 
 <span
-  class:list={['tooltip', className]}
+  class:list={['tooltip', className].filter(Boolean)}
   id={id}
   data-tooltip
   data-tooltip-config={JSON.stringify(tippyConfig)}
-  data-tooltip-events={JSON.stringify({ onShow, onHide, onMount, onTrigger, onUntrigger })}
 >
   <slot />
 </span>

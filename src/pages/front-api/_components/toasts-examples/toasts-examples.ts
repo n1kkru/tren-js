@@ -18,19 +18,17 @@ export const toastsExamples = () => {
 
   // Инстансы
   const toastSuccess = toast.init({
-    node: successNode,
+    node: successNode.cloneNode(true),
     duration: 3000,
     gravity: 'top',
-    position: 'right',
-    closeElement: '[data-toast-close]'
+    position: 'right'
   })
 
   const toastError = toast.init({
-    node: errorNode,
+    node: errorNode.cloneNode(true),
     duration: 3000,
     gravity: 'top',
-    position: 'right',
-    closeElement: '[data-toast-close]'
+    position: 'right'
   })
 
   // Обработчики
