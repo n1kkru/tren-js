@@ -35,10 +35,11 @@ class ScrollManager implements IScrollManager {
       ...options,
     })
 
+    // enable/disable Lenis by breakpoint
     this.mediaQuery.addEventListener('change', this.handleMediaChange)
     this.lenis.start()
 
-    // ловим клики по якорям
+    // ловим клики по якорям (один раз на документ)
     document.addEventListener('click', this.handleAnchorClick, true)
   }
 
@@ -73,7 +74,7 @@ class ScrollManager implements IScrollManager {
   }
 
   /**
-   * Обработчик кликов по якорным ссылкам
+   * Обработчик кликов по якорным ссылкам (инкапсулировано)
    */
   private handleAnchorClick(e: MouseEvent): void {
     const link = (e.target as HTMLElement)?.closest<HTMLAnchorElement>('a[href^="#"]:not([href="#"])')
@@ -92,7 +93,7 @@ class ScrollManager implements IScrollManager {
   }
 
   /**
-   * Скролл к якорю с учётом header и data-anchor-offset у ссылки
+   * Скроллим к якорю с учётом header и data-anchor-offset у ссылки
    */
   private scrollToAnchor(target: HTMLElement, link?: HTMLElement | null): void {
     // Высота фиксированного header
@@ -100,7 +101,7 @@ class ScrollManager implements IScrollManager {
     const headerRect = header?.getBoundingClientRect()
     const headerHeight = headerRect ? headerRect.height : 0
 
-    // Смещение с data-anchor-offset
+    // Смещение с data-anchor-offset (может быть null)
     let offset = 0
     if (link) {
       const attr = link.getAttribute('data-anchor-offset')
@@ -123,5 +124,6 @@ class ScrollManager implements IScrollManager {
   }
 }
 
+// **Экспорт одного экземпляра**
 const scrollManager = new ScrollManager()
 export { scrollManager }

@@ -22,6 +22,7 @@ export enum ToastEvent {
   GlobalClose = 'toast:global-closed'
 }
 
+// ✅ SUPPORTED_KEYS теперь здесь, без циклов
 export const SUPPORTED_KEYS = [
   'text',
   'duration',
@@ -39,4 +40,5 @@ export const SUPPORTED_KEYS = [
 
 export type SupportedKey = (typeof SUPPORTED_KEYS)[number]
 
+// ✅ Используется для безопасного парсинга из DOM
 export type ToastOptionsDOM = Pick<ToastOptions, SupportedKey>

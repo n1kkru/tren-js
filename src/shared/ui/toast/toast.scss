@@ -1,19 +1,19 @@
-:global(.toastify) {
-  cursor: pointer !important;
+.toastify {
+  cursor: auto !important;
 
   transform: translate(0, rem(89px)) !important;
 
   display: unset !important;
 
   width: 100%;
-  max-width: 350px !important;
-  padding: rem(18px) !important;
+  max-width: rem(350px) !important;
+  padding: 0 !important;
   border-radius: unset !important;
 
   color: #ffffff !important;
   text-decoration: unset !important;
 
-  background: #000000 !important;
+  background: none !important;
   box-shadow: unset !important;
 
   transition: $transition !important;
@@ -26,14 +26,47 @@
 
   @media #{media('<',m)} {
     max-width: calc(100% - rem(32px)) !important;
-    padding: rem(16px) !important;
+  }
+
+  @media #{media('<',xs)} {
+    transform: translate(0, rem(50px)) !important;
+    max-width: calc(100% - rem(16px)) !important;
+  }
+
+  &-right {
+    right: rem(24px) !important;
+
+    @media #{media('<',d)} {
+      right: rem(16px) !important;
+    }
+
+    @media #{media('<',xs)} {
+      right: 0 !important;
+    }
   }
 }
 
-:global(.toastify-right) {
-  right: rem(24px) !important;
+.toast {
+  position: relative;
+  padding: rem(18px);
+  background-color: #000000;
 
-  @media #{media('<',d)} {
-    right: rem(16px) !important;
+  @media #{media('<',m)} {
+    padding: rem(16px);
+  }
+
+  &__close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 1;
+    cursor: pointer;
+    width: rem(24px);
+    height: rem(24px);
+
+    svg {
+      width: 100%;
+      height: 100%;
+    }
   }
 }
