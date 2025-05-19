@@ -1,13 +1,14 @@
 import { Fancybox } from '@fancyapps/ui'
 import '@fancyapps/ui/dist/fancybox/fancybox.css'
+import { scrollManager } from '@shared/scripts/libs/lenis/lenis';
 
-import { disableScroll, enableScroll } from '../../utils/scroll'
+import './fancybox.scss'
 
 const fancyboxInit = () => {
   Fancybox.bind('[data-fancybox]', {
     Toolbar: false,
     idle: false,
-    closeButton: false,
+    closeButton: 'top',
     Images: {
       zoom: false
     },
@@ -16,7 +17,8 @@ const fancyboxInit = () => {
     },
     keyboard: {
       ArrowRight: 'next',
-      ArrowLeft: 'prev'
+      ArrowLeft: 'prev',
+      Escape: 'close'
     },
     Carousel: {
       Navigation: false
@@ -25,7 +27,7 @@ const fancyboxInit = () => {
       initCarousel: fancybox => {
         const slidesCount = fancybox.userSlides.length
 
-        disableScroll()
+        scrollManager.disableScroll()
 
         const controlsTemplate = document.querySelector('[data-fancybox-controls-template]')
         if (!controlsTemplate) return
@@ -49,12 +51,32 @@ const fancyboxInit = () => {
           prevBtn.addEventListener('click', () => fancybox.prev())
           nextBtn.addEventListener('click', () => fancybox.next())
         }
+
+        const handleGlobalKeyDown = e => {
+          if (e.key === 'Escape') {
+            e.stopPropagation()
+            e.preventDefault()
+            fancybox.close()
+          }
+        }
+
+        window.addEventListener('keydown', handleGlobalKeyDown)
+
+        fancybox.on('close', () => {
+          window.removeEventListener('keydown', handleGlobalKeyDown)
+          scrollManager.enableScroll()
+        })
       },
       close: () => {
-        enableScroll()
+        scrollManager.enableScroll()
       }
     }
   })
 }
 
-export { fancyboxInit }
+const fancyboxDestroy = () => {
+  Fancybox.unbind('[data-fancybox]')
+  Fancybox.close()
+}
+
+export { fancyboxInit, fancyboxDestroy }

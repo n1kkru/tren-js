@@ -5,63 +5,85 @@ import { selectExamples } from '@pages/front-api/_components/select-examples/sel
 import { tabsExamples } from '@pages/front-api/_components/tabs-examples/tabs-examples'
 import { toastsExamples } from '@pages/front-api/_components/toasts-examples/toasts-examples'
 import { tooltipExamples } from '@pages/front-api/_components/tooltip-examples/tooltip-examples'
-import { accordionInitAll } from '@shared/ui/accordion/accordions'
-import { initAll, rangeInit } from '@shared/ui/range/range'
-import { tooltipInit } from '@shared/ui/tooltip/tooltip'
+import { accordionApi } from '@shared/ui/accordion/accordion'
+import rangeApi from '@shared/ui/range/range'
+import tooltipApi from '@shared/ui/tooltip/tooltip'
 
-import { validateFormInit } from './components/custom-validator'
-import { hoverControlledSlider } from './components/hover-slider'
-import { initToastsFromDOM } from './components/init-toasts'
 import config from './config'
 import { frontApi } from './frontApi'
-import { validateInit } from './libs/custom-validator'
 
-  ; import { swiperApi } from './libs/swiper/swiper-manager'
+import { swiperApi } from './libs/swiper/swiper-manager'
 import { swiperExamples } from '@pages/front-api/_components/swiper-examples/swiper-examples'
 import { inputmaskApi } from './libs/inputmask/inputmask'
 import { inputmaskExamples } from '@pages/front-api/_components/inputmask-examples/inputmask-examples'
-import { tabsInit } from '@shared/ui/tabs/tabs-manager'
+
+import { toastApi } from '@shared/ui/toast/toasts-manager'
+import { TabsApi } from '@shared/ui/tabs/tabs-manager'
+import { ModalApi } from './components/modals'
+import { selectApi } from '@shared/ui/select/select'
+import { formApi } from '@shared/ui/form/form'
+import { parallax } from '@shared/ui/parallax/parallax'
+import { fancyboxInit } from './libs/fancybox'
+import { dropdownApi } from '@shared/ui/dropdown/dropdown'
+import { initHeader } from '@widgets/header/header'
+import { mobileMenuInit } from '@widgets/mobile-menu/mobile-menu'
+import { initOverlayScrollbars } from './utils/overlayScrollbars'
+import { scrollManager } from './libs/lenis/lenis'
+import { initHorizontalScroll } from './utils/horizontal-scroll'
+import { StickyManager } from '@shared/ui/sticky/sticky'
 (window as any).process = { env: {} } // Фикс для совместимости с TomSelect
 
-document.addEventListener('DOMContentLoaded', () => {
-  frontApi()
-  commonFunction()
-})
-
 export const commonFunction = (): void => {
-  // libs config
-  config()
-  validateInit()
+  initOverlayScrollbars()
+  scrollManager.init()
 
-  // components
-  swiperApi.initAll()
-  initToastsFromDOM()
-  validateFormInit()
-  hoverControlledSlider()
+  formApi.initAll()
 
-  // Примеры использования
-  accordionInitAll()
+  accordionApi.initAll()
   accordionExamples()
 
+  toastApi.initAll()
   toastsExamples()
 
-  tabsInit()
+  TabsApi.initAll()
   tabsExamples()
 
+  ModalApi.initAll()
   modalExamples()
 
+  selectApi.initAll()
   selectExamples()
 
-  tooltipInit()
+  tooltipApi.initAll()
   tooltipExamples()
 
-  rangeInit()
+  rangeApi.initAll()
   rangeExamples()
 
+  swiperApi.initAll()
   swiperExamples()
 
   inputmaskApi.reinitAll()
   inputmaskExamples()
+
+  dropdownApi.initAll()
+
+  parallax()
+
+  fancyboxInit()
+
+  mobileMenuInit()
+
+  initHorizontalScroll()
+
+  StickyManager.init()
 }
 
 console.info(import.meta.env)
+
+document.addEventListener('DOMContentLoaded', () => {
+  config()
+  frontApi()
+  initHeader()
+  commonFunction()
+})

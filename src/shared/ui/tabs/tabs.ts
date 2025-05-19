@@ -1,18 +1,22 @@
 import { TabsManagerApi } from './tabs-manager'
+import { defaultTabsOptions } from './tabs.defaults'
 import type { PanelElement, TabElement, TabsOptions } from './tabs.type'
 
 export class Tabs {
   public container: HTMLElement
   public options: TabsOptions
+  public instance: Tabs
 
   private tabList!: HTMLElement
   private tabs: TabElement[] = []
   private panels: PanelElement[] = []
   private activeTab: TabElement | null = null
+  private tabHandlers: Map<TabElement, { click: EventListener; keydown: EventListener }> = new Map()
 
-  constructor(container: HTMLElement, options: TabsOptions = {}) {
+  constructor(container: HTMLElement, options: TabsOptions = defaultTabsOptions) {
     this.container = container
-    this.options = options
+    this.options = { ...defaultTabsOptions, ...options }
+    this.instance = this
 
     TabsManagerApi.register(this)
     this.init()
@@ -35,10 +39,20 @@ export class Tabs {
     this.setActive(initiallyActive ?? this.tabs[0])
 
     this.container.dataset.tabsInit = 'true'
-    this.options.onInit?.(this)
   }
 
   public reinit(): void {
+    this.destroy()
+    this.init()
+  }
+
+  public destroy(): void {
+    this.tabHandlers.forEach((handlers, tab) => {
+      tab.removeEventListener('click', handlers.click)
+      tab.removeEventListener('keydown', handlers.keydown)
+    })
+    this.tabHandlers.clear()
+
     this.tabs.forEach(tab => {
       const clone = tab.cloneNode(true) as TabElement
       tab.replaceWith(clone)
@@ -50,7 +64,11 @@ export class Tabs {
     })
 
     delete this.container.dataset.tabsInit
-    this.init()
+    this.tabs = []
+    this.panels = []
+    this.activeTab = null
+
+    this.options.onDestroy?.(this)
   }
 
   public getActive(): TabElement | null {
@@ -109,8 +127,16 @@ export class Tabs {
 
     tab.setAttribute('tabindex', isSelected ? '0' : '-1')
 
-    tab.addEventListener('click', () => this.setActive(tab))
-    tab.addEventListener('keydown', e => this.handleKey(e as KeyboardEvent, index))
+    const clickHandler = () => this.setActive(tab)
+    const keydownHandler = (e: Event) => this.handleKey(e as KeyboardEvent, index)
+
+    tab.addEventListener('click', clickHandler)
+    tab.addEventListener('keydown', keydownHandler)
+
+    this.tabHandlers.set(tab, {
+      click: clickHandler,
+      keydown: keydownHandler
+    })
   }
 
   private handleKey(e: KeyboardEvent, index: number): void {

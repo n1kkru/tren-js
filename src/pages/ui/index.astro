@@ -6,8 +6,30 @@ import Checkbox from '@shared/ui/checkbox/Checkbox.astro'
 import Input from '@shared/ui/input/Input.astro'
 import Switch from '@shared/ui/switch/Switch.astro'
 import Textarea from '@shared/ui/textarea/Textarea.astro'
-import TextContent from '@shared/ui/text-content/TextContent.astro'
+import EditableContent from '@shared/ui/editable-content/EditableContent.astro'
 import Layout from '@widgets/layout/Layout.astro'
+import Title from '@shared/ui/title/Title.astro'
+import Text from '@shared/ui/text/Text.astro'
+import Link from '@shared/ui/link/Link.astro'
+import Radio from '@shared/ui/radio/Radio.astro'
+import ModalVideo from '@shared/ui/modal-video/ModalVideo.astro'
+import GalleryItem from '@shared/ui/gallery-item/GalleryItem.astro'
+import Image from '@shared/assets/images/image.jpg'
+import Picture from '@shared/ui/picture/Picture.astro'
+import Dropdown from '@shared/ui/dropdown/Dropdown.astro'
+import AccordionContainer from '@shared/ui/accordion/accordion-container/AccordionContainer.astro'
+import Accordion from '@shared/ui/accordion/Accordion.astro'
+import Modal from '@shared/ui/modal/Modal.astro'
+import Drawer from '@shared/ui/drawer/Drawer.astro'
+import Select from '@shared/ui/select/select.astro'
+import Tooltip from '@shared/ui/tooltip/Tooltip.astro'
+import Range from '@shared/ui/range/Range.astro'
+import Icon, { icons, type IconKey } from '@shared/ui/icon/Icon.astro'
+import Tab from '@shared/ui/tabs/tab/Tab.astro'
+import TabsList from '@shared/ui/tabs/tabs-list/TabsList.astro'
+import TabPanel from '@shared/ui/tabs/tab-panel/TabPanel.astro'
+import Tabs from '@shared/ui/tabs/Tabs.astro'
+import Toast from '@shared/ui/toast/toast.astro'
 ---
 
 <Layout pageName="ui">
@@ -15,34 +37,46 @@ import Layout from '@widgets/layout/Layout.astro'
     <h1 class="px-4 text-title-100 devices:text-title-40">Примеры UI компонентов проекта</h1>
 
     <div class="flex flex-col gap-16">
-      <section>
-        <Author />
+      <section class="flex flex-col gap-8 px-6">
+        <h2 class="text-5xl font-bold">Icon</h2>
+
+        <p class="text-xl">Передать проп name для выбора иконки</p>
+        <p class="text-xl">Передать проп initial для возврата к стилям по умолчанию</p>
+
+        <div class="grid grid-flow-col gap-6">
+          {
+            Object.keys(icons).map(icon => (
+              <div class="flex flex-col items-center gap-4">
+                <Icon
+                  name={icon as IconKey}
+                  class="size-8"
+                />
+                <span class="text-lg">{icon}</span>
+              </div>
+            ))
+          }
+        </div>
       </section>
 
       <section>
-        <Breadcrumbs
-          list={[
-            { text: 'Каталог', href: '#' },
-            { text: 'Посуда', href: '#' },
-            { text: 'Сковороды', href: '#' },
-            { text: 'Сковорода Шеф Бернардо', href: '#' }
-          ]}
-        />
+        <Title
+          variant="120"
+          tag="h1"
+          >Title-h1</Title
+        >
+        <Text
+          variant={'20'}
+          color={'gray'}
+          >text</Text
+        >
       </section>
 
       <section>
-        <Button
-          href="#"
-          variant="text"
-          >Ссылка text</Button
-        >
-        <Button variant="contained">Кнопка contained</Button>
-        <Button
-          variant="contained"
-          color="light"
-          >Кнопка contained light</Button
-        >
-        <Button variant="outlined">Кнопка outlined</Button>
+        <Input placeholder={'Input'} />
+      </section>
+
+      <section>
+        <Textarea placeholder={'Textarea'} />
       </section>
 
       <section>
@@ -62,36 +96,102 @@ import Layout from '@widgets/layout/Layout.astro'
         />
       </section>
 
-      <section class="w-1/4">
-        <Switch label="Switch" />
-        <Switch
-          label="Switch"
-          checked
+      <section class="flex flex-col gap-2">
+        <Radio
+          label="label"
+          name="name"
+          value="value1"
         />
-        <Switch
-          label="Switch"
-          disabled
+        <Radio
+          label="label"
+          name="name"
+          value="value2"
         />
-        <Switch
-          label="Switch"
-          checked
-          disabled
+        <Radio
+          label="label"
+          name="name"
+          value="value2"
         />
-        <Switch>Switch без label</Switch>
       </section>
 
       <section>
-        <Input placeholder={'Input'} />
+        <h2 class="mb-4 text-5xl font-bold">Select</h2>
+
+        <div class="mt-6 grid grid-cols-1 gap-5 md:grid-cols-2">
+          <Select>
+            <select
+              id="tomSelect1"
+              class="js-tomselect w-full"
+            >
+              <option value="1">Option 1</option>
+              <option value="2">Option 2</option>
+            </select>
+          </Select>
+
+          <Select>
+            <select
+              id="tomSelect2"
+              class="js-tomselect w-full"
+              multiple
+            >
+              <option value="a">Multi A</option>
+              <option value="b">Multi B</option>
+              <option value="c">Multi C</option>
+            </select>
+          </Select>
+        </div>
       </section>
 
       <section>
-        <Textarea placeholder={'Textarea'} />
+        <Link
+          text="ссылка"
+          href="#"
+          variant="text"
+        />
+      </section>
+
+      <section>
+        <Breadcrumbs
+          list={[
+            { text: 'Каталог' },
+            { text: 'Посуда' },
+            { text: 'Сковороды' },
+            { text: 'Сковорода Шеф Бернардо' },
+            { text: 'Каталог' },
+            { text: 'Посуда' },
+            { text: 'Сковороды' },
+            { text: 'Сковорода Шеф Бернардо' },
+            { text: 'Каталог' },
+            { text: 'Посуда' },
+            { text: 'Сковороды' },
+            { text: 'Сковорода Шеф Бернардо' },
+            { text: 'Каталог' },
+            { text: 'Посуда' },
+            { text: 'Сковороды' },
+            { text: 'Сковорода Шеф Бернардо' }
+          ]}
+        />
+      </section>
+
+      <section>
+        <Button
+          href="#"
+          variant="text"
+          >Ссылка text</Button
+        >
+        <Button variant="contained">Кнопка contained</Button>
+        <Button
+          variant="contained"
+          color="light"
+          >Кнопка contained light</Button
+        >
+        <Button variant="outlined">Кнопка outlined</Button>
       </section>
 
       <section class="bg-gray-200 p-5">
-        <h2 class="text-xl font-bold">Редактируемая область (TextContent)</h2>
+        <h2 class="text-5xl font-bold">Редактируемая область (EditableContent)</h2>
         <article class="mt-5 rounded-xl bg-white p-10">
-          <TextContent>
+          <EditableContent>
             <p>
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam auctor, nisl eget
               ultricies tincidunt, nisl nisl aliquam nisl, eget ultricies nisl nisl eget nisl.
@@ -130,9 +230,366 @@ import Layout from '@widgets/layout/Layout.astro'
               nisl, eget ultricies nisl nisl eget nisl. Sed euismod, nisl eget ultricies tincidunt, nisl
               nisl aliquam nisl, eget ultricies nisl nisl eget nisl.
             </p>
-          </TextContent>
+          </EditableContent>
         </article>
+      </section>
+
+      <section>
+        <h2 class="mb-4 text-5xl font-bold">Swiper</h2>
+
+        <div class="mb-10">
+          <div
+            class="swiper h-80 w-full rounded-xl"
+            id="exampleSwiper"
+            data-swiper="exampleSwiper"
+          >
+            <div class="swiper-wrapper">
+              <div class="swiper-slide flex items-center justify-center bg-gray-200">Слайд 1</div>
+              <div class="swiper-slide flex items-center justify-center bg-gray-300">Слайд 2</div>
+              <div class="swiper-slide flex items-center justify-center bg-gray-400">Слайд 3</div>
+            </div>
+            <div data-swiper-pagination="exampleSwiper"></div>
+            <div data-swiper-button-prev="exampleSwiper"></div>
+            <div data-swiper-button-next="exampleSwiper"></div>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2 class="text-5xl font-bold">Галерея (Gallery)</h2>
+
+        <div class="mx-10 mt-5">
+          <div class="grid w-full grid-cols-4 gap-5">
+            <GalleryItem
+              src="./images/image.jpg"
+              id="test-gallery"
+            >
+              <Picture image={Image} />
+            </GalleryItem>
+            <GalleryItem
+              src="./images/image.jpg"
+              id="test-gallery"
+              ><Picture image={Image} />
+            </GalleryItem>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2 class="text-5xl font-bold">Dropdown</h2>
+
+        <div class="mx-10 mt-5">
+          <Dropdown label="Dropdown">
+            <ul>
+              <li>
+                <label>
+                  <input
+                    type="checkbox"
+                    name="test"
+                    id="test-checkbox"
+                  />
+                  <span>Uno</span>
+                </label>
+              </li>
+              <li>
+                <label>
+                  <input
+                    type="checkbox"
+                    name="test"
+                    id="test-checkbox"
+                  />
+                  <span>Duo</span>
+                </label>
+              </li>
+              <li>
+                <label>
+                  <input
+                    type="checkbox"
+                    name="test"
+                    id="test-checkbox"
+                  />
+                  <span>Tres</span>
+                </label>
+              </li>
+            </ul>
+          </Dropdown>
+        </div>
+      </section>
+
+      <section>
+        <h2 class="mb-4 text-5xl font-bold">Tabs</h2>
+
+        <Tabs
+          id="ui-tabs"
+          class="mt-6 devices:mt-4"
+        >
+          <TabsList slot="tabs-list">
+            <Tab
+              id="ui-tab-1"
+              isActive
+              >Таб 1</Tab
+            >
+            <Tab id="ui-tab-2">Таб 2</Tab>
+            <Tab id="ui-tab-3">Таб 3</Tab>
+            <Tab id="ui-tab-4">Таб 4</Tab>
+            <Tab id="ui-tab-5">Таб 5</Tab>
+            <Tab id="ui-tab-6">Таб 6</Tab>
+          </TabsList>
+
+          <TabPanel
+            id="ui-tab-1-panel"
+            isActive
+          >
+            Таб 1 - контент
+          </TabPanel>
+          <TabPanel id="ui-tab-2-panel"> Таб 2 - контент </TabPanel>
+          <TabPanel id="ui-tab-3-panel"> Таб 3 - контент </TabPanel>
+          <TabPanel id="ui-tab-4-panel"> Таб 4 - контент </TabPanel>
+          <TabPanel id="ui-tab-5-panel"> Таб 5 - контент </TabPanel>
+          <TabPanel id="ui-tab-6-panel"> Таб 6 - контент </TabPanel>
+        </Tabs>
+      </section>
+
+      <section>
+        <h2 class="mb-4 text-5xl font-bold">Dropdown</h2>
+
+        <AccordionContainer id="accordion-container">
+          <Accordion
+            title="Аккордеон 1"
+            id="ac0"
+          >
+            <p>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente quia doloremque
+              minima quos natus ullam praesentium hic, deserunt impedit sunt, eligendi vero maiores
+              quis commodi illo culpa quisquam! Corrupti, quae!
+            </p>
+          </Accordion>
+          <Accordion
+            title="Аккордеон 2"
+            id="ac1"
+          >
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Modi eveniet culpa neque
+              facere accusamus eius? Excepturi assumenda ullam pariatur recusandae quae nulla sunt
+              repellat, numquam vero, vel quam, eveniet porro!
+            </p>
+          </Accordion>
+          <Accordion
+            title="Аккордеон 3"
+            id="ac2"
+          >
+            <p>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Repudiandae eius vitae iste
+              unde quo dolorem commodi facere ab? Aut consequatur magni dolorum dolor unde alias
+              voluptatem et eveniet temporibus ipsam!
+            </p>
+          </Accordion>
+        </AccordionContainer>
+      </section>
+
+      <section>
+        <h2 class="mb-4 text-5xl font-bold">InputMask</h2>
+
+        <div class="space-y-6">
+          <!-- window.frontApi.inputmask.init -->
+          <div class="rounded bg-white p-4 shadow">
+            <h2 class="text-lg font-semibold">window.frontApi.inputmask.init()</h2>
+
+            <input
+              type="tel"
+              data-mask-phone
+              placeholder="+7 (___) ___-__-__"
+              class="mt-2 w-full rounded border px-3 py-2"
+            />
+
+            <input
+              id="reinit-input"
+              type="tel"
+              data-mask-phone
+              value="89123456789"
+              class="mt-2 w-full rounded border px-3 py-2"
+            />
+          </div>
+        </div>
+      </section>
+
+      <section id="toasts-examples">
+        <h2 class="mb-4 text-5xl font-bold">Toast</h2>
+
+        <div class="hidden">
+          <Toast
+            data-toast-close
+            id="toast-success"
+            ><div
+              class="flex items-center justify-between rounded-md bg-green-500 px-4 py-2 text-white"
+            >
+              <span>Успешно сохранено</span>
+              <button
+                class="ml-4"
+                data-toast-close
+                >×</button
+              >
+            </div>
+          </Toast>
+          <Toast
+            data-toast-close
+            id="toast-error"
+            ><div
+              class="flex items-center justify-between rounded-md bg-rose-500 px-4 py-2 text-white"
+            >
+              <span>Произошла ошибка</span>
+              <button
+                class="ml-4"
+                data-toast-close
+                >×</button
+              >
+            </div>
+          </Toast>
+        </div>
+
+        <button
+          id="btn-show-success"
+          class="mt-2 rounded bg-cyan-500 px-4 py-2 text-white"
+          >Пример вызова</button
+        >
+        <button
+          id="btn-show-error"
+          class="rounded bg-rose-500 px-4 py-2 text-white"
+          >Показать ошибку</button
+        >
+        <button
+          id="btn-show-temp"
+          class="rounded bg-gray-600 px-4 py-2 text-white"
+          >Временный toast</button
+        >
+      </section>
+      <section>
+        <h2 class="mb-4 text-5xl font-bold">Modals</h2>
+
+        <button
+          data-modal-trigger="modal-1"
+          class="rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
+        >
+          Открыть центральную
+        </button>
+        <Modal id="modal-1">
+          <div
+            slot="content"
+            class="p-6"
+          >
+            <h3 class="text-lg font-medium">Центральная модалка</h3>
+            <p class="mt-2">Это контент вашего модального окна.</p>
+          </div>
+          <div
+            slot="footer"
+            class="flex justify-end space-x-2 border-t p-4"
+          >
+            <button
+              data-modal-close
+              class="px-3 py-1"
+              >Закрыть</button
+            >
+          </div>
+        </Modal>
+
+        <button
+          data-modal-trigger="modal-2"
+          class="rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
+        >
+          Открыть боковую
+        </button>
+        <Drawer
+          id="modal-2"
+          title="Боковая панель"
+        >
+          <div class="p-6">
+            <h3 class="text-lg font-medium">Фильтры</h3>
+            <p class="mt-2">Содержимое бокового меню.</p>
+          </div>
+          <div
+            slot="footer"
+            class="flex justify-end space-x-2 border-t p-4"
+          >
+            <button
+              data-modal-close
+              class="px-3 py-1"
+              >Закрыть</button
+            >
+          </div>
+        </Drawer>
+      </section>
+      <section>
+        <h2 class="text-5xl font-bold">Модалка с видео (ModalVideo)</h2>
+
+        <div class="mx-10 mt-5 w-1/2">
+          <ModalVideo>
+            <span
+              class="absolute left-1/2 top-1/2 flex size-40 -translate-x-1/2 -translate-y-1/2 transform items-center justify-center bg-gray-200"
+              >Смотреть видео</span
+            >
+          </ModalVideo>
+        </div>
+      </section>
+      <section>
+        <h2 class="mb-4 text-5xl font-bold">Tooltip</h2>
+
+        <Tooltip
+          content="Укажите количество виртуальных процессоров"
+          placement="top"
+          class="mb-5"
+        >
+          Наведи на меня</Tooltip
+        >
+      </section>
+      <section>
+        <h2 class="mb-4 text-5xl font-bold">Range</h2>
+
+        <div class="mt-10 grid grid-cols-2 gap-5">
+          <Range
+            id="range1"
+            maxLength={10}
+            oneSided={false}
+            data-step={100}
+            min={100}
+            max={10000}
+            startMin={2500}
+            startMax={7500}
+          />
+          <Range
+            id="range2"
+            maxLength={10}
+            oneSided={true}
+            data-step={100}
+            min={100}
+            max={10000}
+            startMin={2500}
+          />
+        </div>
+      </section>
+      <section class="w-1/4">
+        <Switch label="Switch" />
+        <Switch
+          label="Switch"
+          checked
+        />
+        <Switch
+          label="Switch"
+          disabled
+        />
+        <Switch
+          label="Switch"
+          checked
+          disabled
+        />
+        <Switch>Switch без label</Switch>
+      </section>
+      <section>
+        <Author />
       </section>
     </div>
   </div>
 </Layout>
+
+<style>
+  @import './index.scss';
+</style>

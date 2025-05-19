@@ -1,41 +1,42 @@
+// src/scripts/modalExamples.ts
 export const modalExamples = () => {
-  const page = document.querySelector('#modal-examples-page') as HTMLElement
-  if (!page) return
-
   const modal = window.frontApi.modals
 
-  document.querySelector('#modal-init')?.addEventListener('click', () => {
-    console.log(`modal.init([data-modal="modal-1"])`)
+  document.getElementById('btn-init')?.addEventListener('click', () => {
+    console.log('modal.init("[data-modal=\'modal-1\']")')
     modal.init('[data-modal="modal-1"]')
   })
 
-  document.querySelector('#modal-init-all')?.addEventListener('click', () => {
-    console.log(`modal.initAll()`)
+  document.getElementById('btn-init-all')?.addEventListener('click', () => {
+    console.log('modal.initAll()')
     modal.initAll()
   })
 
-  document.querySelector('#modal-bind-trig')?.addEventListener('click', () => {
-    console.log(`modal.bindTriggers()`)
-    modal.bindTriggers()
+  document.getElementById('btn-show')?.addEventListener('click', () => {
+    console.log('modal.show("[data-modal=\'modal-1\']")')
+    modal.show('[data-modal="modal-1"]')
   })
 
-  document.querySelector('#modal-get')?.addEventListener('click', () => {
-    console.log(`modal.get('[data-modal="modal-1"]')`, modal.get('[data-modal="modal-1"]'))
+  document.getElementById('btn-hide')?.addEventListener('click', () => {
+    console.log('modal.hide("[data-modal=\'modal-1\']")')
+    modal.hide('[data-modal="modal-1"]')
   })
 
-  document.querySelector('#modal-instances')?.addEventListener('click', () => {
-    console.log(`modal.instances`, modal.instances)
+  document.getElementById('btn-destroy')?.addEventListener('click', () => {
+    console.log('modal.destroy("[data-modal=\'modal-1\']")')
+    modal.destroy('[data-modal="modal-1"]')
   })
 
-  window.frontApi.modals.onAny('onAnyInit', (instance) => {
-    console.log('[onAnyInit]', instance);
+  document.getElementById('btn-destroy-all')?.addEventListener('click', () => {
+    console.log('modal.destroyAll()')
+    modal.destroyAll()
   })
 
-  window.frontApi.modals.onAny('onAnyOpen', (instance) => {
-    console.log('[onAnyOpen]', instance);
+  document.getElementById('btn-get')?.addEventListener('click', () => {
+    console.log('modal.get →', modal.get('[data-modal="modal-1"]'))
   })
 
-  window.frontApi.modals.onAny('onAnyClose', (instance) => {
-    console.log('[onAnyClose]', instance);
-  })
+  modal.onAnyInit(instance => console.log('[init]', instance))
+  modal.onAnyOpen(instance => console.log('[open]', instance))
+  modal.onAnyClose(instance => console.log('[close]', instance))
 }

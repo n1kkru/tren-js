@@ -7,7 +7,7 @@ interface Props {
 
 const {
   class: className,
-  root = { text: 'Главная', href: '/' },
+  root = { text: 'Главная', href: import.meta.env.BASE_URL },
   list = [],
   ...props
 } = Astro.props as Props
@@ -19,7 +19,10 @@ export { Breadcrumbs }
   class:list={['breadcrumbs', className]}
   {...props}
 >
-  <ul class="breadcrumbs__list text-title-20 devices:text-title-16">
+  <ul
+    class="breadcrumbs__list text-title-20 devices:text-title-16"
+    data-horizontal-scroll
+  >
     <li class="breadcrumbs__item">
       <a
         href={root.href}

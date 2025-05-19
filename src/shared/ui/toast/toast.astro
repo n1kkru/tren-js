@@ -1,5 +1,6 @@
 ---
-import { SUPPORTED_KEYS, type ToastOptionsDOM } from '@shared/scripts/components/init-toasts'
+import type { ToastOptionsDOM } from './toast.type'
+import { SUPPORTED_KEYS } from './toast.type'
 
 export interface IToastProps extends ToastOptionsDOM {
   id: string
@@ -27,6 +28,7 @@ export { Toast }
 ---
 
 <div
+  id={id}
   class:list={['toast', className]}
   data-toast={id}
   data-gravity="top"
@@ -34,9 +36,36 @@ export { Toast }
   {...dataAttrs}
   {...rest}
 >
+  <button
+    data-toast-close
+    class="toast__close"
+  >
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="58"
+      height="58"
+      viewBox="0 0 58 58"
+      fill="none"
+    >
+      <path
+        d="M21.75 21.7502L36.25 36.2502"
+        stroke="black"
+        stroke-width="3"
+        stroke-linecap="square"
+        stroke-linejoin="round"
+      ></path>
+      <path
+        d="M21.75 36.2502L36.25 21.7502"
+        stroke="black"
+        stroke-width="3"
+        stroke-linecap="square"
+        stroke-linejoin="round"
+      ></path>
+    </svg>
+  </button>
   <slot />
 </div>
 
-<style>
+<style is:global>
   @import './toast.scss';
 </style>

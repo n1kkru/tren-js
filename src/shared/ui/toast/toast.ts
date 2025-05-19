@@ -1,66 +1,78 @@
 import Toastify from 'toastify-js'
-import type { Options as ToastifyOptions } from 'toastify-js'
 import 'toastify-js/src/toastify.css'
+import { ToastEvent, type ToastOptions, type ToastType, type ToastifyInstance } from './toast.type'
+import { gsap } from 'gsap'
+import { Draggable } from 'gsap/Draggable'
 
-/**
- * Интерфейс экземпляра Toastify
- */
-interface ToastifyInstance {
-  showToast: () => void
-  hideToast: () => void
+gsap.registerPlugin(Draggable)
+
+interface CreateToastNodeOptions {
+  text?: string;
+  type?: ToastType;
 }
 
-/**
- * Опции для Toast (на базе Toastify)
- */
-export type ToastOptions = ToastifyOptions
-
-/**
- * События Toast, можно использовать для глобального отслеживания
- */
-export enum ToastEvent {
-  Init = 'toast:initialized',
-  Open = 'toast:opened',
-  Close = 'toast:closed',
-  GlobalInit = 'toast:global-initialized',
-  GlobalOpen = 'toast:global-opened',
-  GlobalClose = 'toast:global-closed'
+const createToastNode = ({
+  text = '',
+  type = 'default',
+}: CreateToastNodeOptions): HTMLElement => {
+  const node = document.createElement('div');
+  node.className = `toast-text ${type}`;
+  node.innerHTML = `
+    <div class="toast-content">
+      <span>${text}</span>
+      <button class="toast-close" data-toast-close>&times;</button>
+    </div>
+  `;
+  return node;
 }
 
-/**
- * Хранилище всех инстансов Toast
- */
-const toastInstances: Toast[] = []
 
-/**
- * Класс для создания и управления уведомлениями (Toast)
- */
+const addSwipeDraggable = (node: HTMLElement, onClose: () => void) => {
+  Draggable.create(node, {
+    type: 'x',
+    edgeResistance: 0.7,
+    bounds: { minX: -window.innerWidth, maxX: window.innerWidth },
+    inertia: true,
+    onDragEnd: function () {
+      // Если сдвинули больше чем на 100px — закрыть
+      if (Math.abs(this.x) > 100) {
+        gsap.to(node, {
+          x: this.x > 0 ? 500 : -500,
+          opacity: 0,
+          duration: 0.3,
+          onComplete: onClose
+        })
+      } else {
+        gsap.to(node, { x: 0, duration: 0.2, opacity: 1 })
+      }
+    }
+  })
+  // Сброс — вдруг нода была переиспользована
+  gsap.set(node, { x: 0, opacity: 1 })
+}
+
+
 export class Toast {
-  toast!: ToastifyInstance
-  options!: ToastOptions
-  closeElement?: HTMLElement
-  private isClosed = false
+  private toastifyInstance?: ToastifyInstance
+  private autoCloseTimer?: number
+  private _resolvedCloseEl?: HTMLElement
+  public isClosed = true
 
-  /**
-   * Создаёт экземпляр Toast
-   * @param options Настройки Toastify и необязательный closeElement
-   */
-  constructor(options: ToastOptions & { closeElement?: HTMLElement | string }) {
+  constructor(public options: ToastOptions & { node?: HTMLElement; closeElement?: string | HTMLElement }) {
     if (!options.node && !options.text) {
-      throw new Error('[Toast] Either options.node or options.text must be provided')
+      throw new Error('[Toast] options.node or options.text required')
     }
 
-    this.options = options
+    if (options.node && options.closeElement) {
+      if (typeof options.closeElement === 'string') {
+        this._resolvedCloseEl = options.node.querySelector(options.closeElement) || undefined
+      } else if (options.closeElement instanceof HTMLElement) {
+        this._resolvedCloseEl = options.closeElement
+      }
+      this._resolvedCloseEl?.addEventListener('click', () => this.hide())
+    }
 
-    if (options.node instanceof HTMLElement) {
-      this.closeElement =
-        typeof options.closeElement === 'string'
-          ? (options.node.querySelector(options.closeElement) ?? undefined)
-          : options.closeElement
-
-      this.closeElement?.addEventListener('click', () => this.hide())
-
-      // Устанавливаем атрибут защиты от повторной инициализации
+    if (options.node) {
       options.node.dataset.toastInit = 'true'
     }
 
@@ -68,263 +80,83 @@ export class Toast {
       document.dispatchEvent(new CustomEvent(ToastEvent.Init, { detail: { instance: this } }))
       document.dispatchEvent(new CustomEvent(ToastEvent.GlobalInit, { detail: { instance: this } }))
     })
-
-    toastInstances.push(this)
   }
 
-  /**
-   * Показывает toast
-   */
-  show(): void {
+  public show(): void {
+    clearTimeout(this.autoCloseTimer)
+    if (!this.isClosed) {
+      this.resetAutoClose()
+      return
+    }
     this.isClosed = false
-    this.toast = Toastify(this.options)
-    this.toast.showToast()
 
-    if (this.options.node instanceof HTMLElement) {
-      const node = this.options.node as Node
+    let options = { ...this.options }
+    let toastNode
 
-      const observer = new MutationObserver(() => {
-        if (!document.body.contains(node)) {
-          this.hide()
-          observer.disconnect()
-        }
+    if (options.node instanceof HTMLElement) {
+      toastNode = options.node.cloneNode(true) as HTMLElement
+    } else {
+      toastNode = createToastNode({
+        text: options.text,
+        type: options.type ?? 'default'
       })
-
-      observer.observe(document.body, { childList: true, subtree: true })
     }
 
+    // Навешиваем обработчик на "крестик" у текущей ноды
+    const closeSelector = options.closeElement || '[data-toast-close]'
+    const closeEl = typeof closeSelector === 'string'
+      ? toastNode.querySelector(closeSelector)
+      : closeSelector instanceof HTMLElement
+        ? toastNode.querySelector('[data-toast-close]')
+        : null
+
+    closeEl?.addEventListener('click', () => this.hide())
+
+    addSwipeDraggable(toastNode as HTMLElement, () => this.hide())
+    options = { ...options, node: toastNode as HTMLElement, text: undefined }
+
+
+    this.toastifyInstance = Toastify({
+      ...options,
+      callback: () => {
+        this.options.onClick?.(this)
+      }
+    })
+
+    this.toastifyInstance.showToast()
+    this.options.onShown?.(this)
+
+    this.resetAutoClose()
     document.dispatchEvent(new CustomEvent(ToastEvent.Open, { detail: { instance: this } }))
     document.dispatchEvent(new CustomEvent(ToastEvent.GlobalOpen, { detail: { instance: this } }))
   }
 
-  /**
-   * Скрывает toast программно
-   */
-  hide(): void {
+
+  public hide(): void {
     if (this.isClosed) return
     this.isClosed = true
+    clearTimeout(this.autoCloseTimer)
+    this.toastifyInstance?.hideToast()
 
-    this.toast?.hideToast()
+    this.options.onHidden?.(this)
+
     document.dispatchEvent(new CustomEvent(ToastEvent.Close, { detail: { instance: this } }))
     document.dispatchEvent(new CustomEvent(ToastEvent.GlobalClose, { detail: { instance: this } }))
   }
 
-  /**
-   * Обновляет настройки текущего toast
-   * @param options Новые опции (частичные)
-   */
-  update(options: Partial<ToastOptions>): void {
-    this.options = { ...this.options, ...options }
-    this.toast = Toastify(this.options)
+  public destroy(): void {
+    this.hide()
+    if (this.options.node) {
+      delete this.options.node.dataset.toastInit
+      this._resolvedCloseEl?.removeEventListener('click', () => this.hide())
+    }
   }
 
-  /**
-   * Подписка на событие открытия именно этого toast
-   * @param callback Коллбэк при открытии
-   * @returns Функция отписки
-   */
-  onOpen(callback: (instance: Toast) => void): () => void {
-    const handler = (e: Event) => {
-      const ce = e as CustomEvent<{ instance: Toast }>
-      if (ce.detail.instance === this) callback(this)
+  private resetAutoClose(): void {
+    clearTimeout(this.autoCloseTimer)
+    const d = this.options.duration
+    if (typeof d === 'number' && d > 0) {
+      this.autoCloseTimer = window.setTimeout(() => this.hide(), d)
     }
-    document.addEventListener(ToastEvent.Open, handler)
-    return () => document.removeEventListener(ToastEvent.Open, handler)
-  }
-
-  /**
-   * Подписка на событие закрытия именно этого toast
-   * @param callback Коллбэк при закрытии
-   * @returns Функция отписки
-   */
-  onClose(callback: (instance: Toast) => void): () => void {
-    const handler = (e: Event) => {
-      const ce = e as CustomEvent<{ instance: Toast }>
-      if (ce.detail.instance === this) callback(this)
-    }
-    document.addEventListener(ToastEvent.Close, handler)
-    return () => document.removeEventListener(ToastEvent.Close, handler)
-  }
-
-  /**
-   * Подписка на инициализацию именно этого toast
-   * @param callback Коллбэк при инициализации
-   * @returns Функция отписки
-   */
-  onInit(callback: (instance: Toast) => void): () => void {
-    const handler = (e: Event) => {
-      const ce = e as CustomEvent<{ instance: Toast }>
-      if (ce.detail.instance === this) callback(this)
-    }
-    document.addEventListener(ToastEvent.Init, handler)
-    return () => document.removeEventListener(ToastEvent.Init, handler)
-  }
-}
-
-/**
- * Глобальное API для управления toast'ами
- */
-export const toastApi = {
-  /**
-   * Все активные экземпляры toast
-   */
-  instances: toastInstances,
-
-  /**
-   * Инициализация нового toast
-   * @param options Опции для создания нового Toast
-   * @returns Новый или уже существующий экземпляр Toast
-   */
-  init(options: ToastOptions & { closeElement?: HTMLElement | string }): Toast {
-    const node = options.node
-    if (node instanceof HTMLElement && node.dataset.toastInit === 'true') {
-      const existing = this.get(node)
-      if (existing) return existing
-    }
-
-    return new Toast(options)
-  },
-
-  /**
-   * Получает toast по селектору или элементу
-   * @param target Элемент или селектор
-   * @returns Экземпляр Toast (если найден)
-   */
-  get(target: HTMLElement | string): Toast | undefined {
-    const element = typeof target === 'string' ? document.querySelector(target) : target
-
-    return toastInstances.find(instance => {
-      const node = instance.options.node
-
-      if (node === element) return true
-      if (element && node === element) return true
-
-      if (typeof target === 'string' && node instanceof Element) {
-        try {
-          return node.matches(target)
-        } catch {
-          return false
-        }
-      }
-
-      return false
-    })
-  },
-
-  /**
-   * Показывает toast по селектору/элементу или создаёт временный
-   * @param targetOrOptions Элемент, селектор или опции
-   */
-  show(
-    targetOrOptions: HTMLElement | string | (ToastOptions & { closeElement?: HTMLElement | string })
-  ): void {
-    if (typeof targetOrOptions === 'string' || targetOrOptions instanceof HTMLElement) {
-      const instance = this.get(targetOrOptions)
-      instance?.show()
-      return
-    }
-
-    const instance = this.init(targetOrOptions)
-    instance.show()
-
-    const cleanup = () => {
-      const index = toastInstances.indexOf(instance)
-      if (index !== -1) toastInstances.splice(index, 1)
-    }
-
-    instance.onClose(cleanup)
-  },
-
-  /**
-   * Скрывает toast по селектору или элементу
-   * @param target Элемент или селектор
-   */
-  hide(target: HTMLElement | string): void {
-    const instance = this.get(target)
-    instance?.hide()
-  },
-
-  /**
-   * Инициализирует все элементы с атрибутом [data-toast]
-   */
-  initAll(): void {
-    const elements = document.querySelectorAll('[data-toast]') as NodeListOf<HTMLElement>
-    elements.forEach(el => {
-      this.init({
-        node: el,
-        closeElement: (el.querySelector('[data-toast-close]') as HTMLElement) ?? undefined
-      })
-    })
-  },
-
-  /**
-   * Повторно инициализирует toast по элементу или селектору, с новыми опциями
-   * @param target Элемент или селектор
-   * @param newOptions Новые опции
-   * @returns Новый экземпляр Toast
-   */
-  reinit(
-    target: HTMLElement | string,
-    newOptions?: ToastOptions & { closeElement?: HTMLElement | string }
-  ): Toast {
-    const existing = this.get(target)
-    if (!existing) throw new Error('[Toast] Cannot reinit: instance not found')
-
-    const node = existing.options.node
-    if (node instanceof HTMLElement) {
-      node.removeAttribute('data-toast-init')
-    }
-
-    const optionsToUse = {
-      ...existing.options,
-      ...newOptions
-    }
-
-    const index = toastInstances.indexOf(existing)
-    if (index !== -1) toastInstances.splice(index, 1)
-
-    return this.init(optionsToUse)
-  },
-
-  /**
-   * Подписка на глобальную инициализацию любого toast
-   * @param callback Коллбэк
-   * @returns Функция отписки
-   */
-  onAnyInit(callback: (instance: Toast) => void): () => void {
-    const handler = (e: Event) => {
-      const ce = e as CustomEvent<{ instance: Toast }>
-      callback(ce.detail.instance)
-    }
-    document.addEventListener(ToastEvent.GlobalInit, handler)
-    return () => document.removeEventListener(ToastEvent.GlobalInit, handler)
-  },
-
-  /**
-   * Подписка на глобальное открытие любого toast
-   * @param callback Коллбэк
-   * @returns Функция отписки
-   */
-  onAnyOpen(callback: (instance: Toast) => void): () => void {
-    const handler = (e: Event) => {
-      const ce = e as CustomEvent<{ instance: Toast }>
-      callback(ce.detail.instance)
-    }
-    document.addEventListener(ToastEvent.GlobalOpen, handler)
-    return () => document.removeEventListener(ToastEvent.GlobalOpen, handler)
-  },
-
-  /**
-   * Подписка на глобальное закрытие любого toast
-   * @param callback Коллбэк
-   * @returns Функция отписки
-   */
-  onAnyClose(callback: (instance: Toast) => void): () => void {
-    const handler = (e: Event) => {
-      const ce = e as CustomEvent<{ instance: Toast }>
-      callback(ce.detail.instance)
-    }
-    document.addEventListener(ToastEvent.GlobalClose, handler)
-    return () => document.removeEventListener(ToastEvent.GlobalClose, handler)
   }
 }
