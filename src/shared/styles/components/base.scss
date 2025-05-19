@@ -20,26 +20,6 @@ html {
   border: 1px solid red !important;
 }
 
-// svg {
-//   overflow: visible;
-//   width: 100%;
-//   height: 100%;
-
-//   &:not(.initial) {
-//     * {
-//       transform-box: fill-box;
-
-//       &[fill] {
-//         fill: currentColor;
-//       }
-
-//       &[stroke] {
-//         stroke: currentColor;
-//       }
-//     }
-//   }
-// }
-
 textarea {
   caret-color: currentColor;
 }
@@ -54,5 +34,6 @@ input {
 }
 
 [data-horizontal-scroll] {
+  overflow-x: auto;
   overscroll-behavior-x: contain;
 }

@@ -148,10 +148,22 @@ import Icon, { icons, type IconKey } from '@shared/ui/icon/Icon.astro'
       <section>
         <Breadcrumbs
           list={[
-            { text: 'Каталог', href: '#' },
-            { text: 'Посуда', href: '#' },
-            { text: 'Сковороды', href: '#' },
-            { text: 'Сковорода Шеф Бернардо', href: '#' }
+            { text: 'Каталог' },
+            { text: 'Посуда' },
+            { text: 'Сковороды' },
+            { text: 'Сковорода Шеф Бернардо' },
+            { text: 'Каталог' },
+            { text: 'Посуда' },
+            { text: 'Сковороды' },
+            { text: 'Сковорода Шеф Бернардо' },
+            { text: 'Каталог' },
+            { text: 'Посуда' },
+            { text: 'Сковороды' },
+            { text: 'Сковорода Шеф Бернардо' },
+            { text: 'Каталог' },
+            { text: 'Посуда' },
+            { text: 'Сковороды' },
+            { text: 'Сковорода Шеф Бернардо' }
           ]}
         />
       </section>
@@ -405,6 +417,7 @@ import Icon, { icons, type IconKey } from '@shared/ui/icon/Icon.astro'
           </Accordion>
         </AccordionContainer>
       </section>
+
       <section>
         <h2 class="mb-4 text-5xl font-bold">InputMask</h2>
 
@@ -430,7 +443,8 @@ import Icon, { icons, type IconKey } from '@shared/ui/icon/Icon.astro'
           </div>
         </div>
       </section>
-      <section>
+
+      <section id="toasts-examples">
         <h2 class="mb-4 text-5xl font-bold">Toast</h2>
 
         <!-- Шаблонные тосты -->
@@ -611,89 +625,8 @@ import Icon, { icons, type IconKey } from '@shared/ui/icon/Icon.astro'
       </section>
     </div>
   </div>
-
-  <style>
-    @import './index.scss';
-  </style>
-
-  <script>
-    console.log('script starting')
-
-    function waitForFrontApi(cb) {
-      if (window.frontApi && window.frontApi) {
-        cb(window.frontApi)
-      } else {
-        setTimeout(() => waitForFrontApi(cb), 50)
-      }
-    }
-
-    waitForFrontApi(frontApi => {
-      // #region Toast
-      const toast = frontApi.toast
-
-      console.log("here's the toast", toast)
-
-      toast.onAnyInit(t => console.log('[init]', t))
-      toast.onAnyOpen(t => console.log('[open]', t))
-      toast.onAnyClose(t => console.log('[close]', t))
-
-      const successNode = document.querySelector('#toast-success') as HTMLElement | null
-      const errorNode = document.querySelector('#toast-error') as HTMLElement | null
-
-      const toastSuccess = toast.init({
-        node: successNode,
-        duration: 3000,
-        gravity: 'top',
-        position: 'right',
-        closeElement: '[data-toast-close]'
-      })
-
-      const toastError = toast.init({
-        node: errorNode,
-        duration: 3000,
-        gravity: 'top',
-        position: 'right',
-        closeElement: '[data-toast-close]'
-      })
-
-      const handleShowSuccess = () => toastSuccess.show()
-      const handleShowError = () => toastError.show()
-      const handleShowTemp = () =>
-        toast.show({
-          text: 'Временный toast',
-          duration: 3000,
-          gravity: 'top',
-          position: 'right'
-        })
-
-      const handleHideSuccess = () => toast.hide('#toast-success')
-      const handleGet = () => {
-        const found = toast.get('#toast-success')
-        console.log('Найден:', found)
-      }
-
-      const handleReinit = () => {
-        toast
-          .reinit('#toast-success', {
-            duration: 4000,
-            gravity: 'bottom'
-          })
-          .show()
-      }
-
-      const handleInitAll = () => toast.initAll()
-
-      const withListeners = (selector: string, handler: EventListener) => {
-        const el = document.querySelector(selector)
-        if (!el) return
-        el.removeEventListener('click', handler)
-        el.addEventListener('click', handler)
-      }
-
-      withListeners('#btn-show-success', handleShowSuccess)
-      withListeners('#btn-show-error', handleShowError)
-      withListeners('#btn-show-temp', handleShowTemp)
-      // #endregion
-    })
-  </script>
 </Layout>
+
+<style>
+  @import './index.scss';
+</style>

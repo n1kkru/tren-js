@@ -29,6 +29,7 @@ import { initHeader } from '@widgets/header/header'
 import { mobileMenuInit } from '@widgets/mobile-menu/mobile-menu'
 import { initOverlayScrollbars } from './utils/overlayScrollbars'
 import { scrollManager } from './libs/lenis/lenis'
+import { initHorizontalScroll } from './utils/horizontal-scroll'
 (window as any).process = { env: {} } // Фикс для совместимости с TomSelect
 
 export const commonFunction = (): void => {
@@ -71,6 +72,8 @@ export const commonFunction = (): void => {
   fancyboxInit()
 
   mobileMenuInit()
+
+  initHorizontalScroll()
 }
 
 console.info(import.meta.env)
