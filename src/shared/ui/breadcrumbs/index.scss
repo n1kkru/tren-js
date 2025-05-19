@@ -1,21 +1,20 @@
 .breadcrumbs {
   &__list {
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     gap: rem(24px);
     padding: rem(24px);
+    @include scrollbar-hidden();
 
     @media #{media('<',d)} {
-      overflow-x: auto;
-      flex-wrap: nowrap;
       gap: rem(16px);
       padding: rem(16px);
-      @include scrollbar-hidden();
     }
   }
 
   &__item {
     &-text {
+      user-select: none;
       white-space: nowrap;
       transition: color $transition;
 

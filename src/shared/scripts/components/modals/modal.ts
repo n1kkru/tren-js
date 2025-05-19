@@ -1,6 +1,6 @@
 import { renderToBody } from '@shared/scripts/utils/render-to-body'
 import type { ModalEvents, ModalOptions } from './modal.type'
-import { pageScroll } from '@shared/scripts'
+import { scrollManager } from '@shared/scripts/libs/lenis/lenis';
 
 export class Modal {
   el!: HTMLElement
@@ -68,7 +68,7 @@ export class Modal {
     this.el.classList.add('active')
     this.el.setAttribute('aria-hidden', 'false')
     this.open = true
-    pageScroll.disableScroll()
+    scrollManager.disableScroll()
     document.addEventListener('keydown', this.onEsc)
     if (this.opts.trapFocus) document.addEventListener('keydown', this.onFocusTrap)
     this.getFocusable()[0]?.focus()
@@ -81,7 +81,7 @@ export class Modal {
     this.el.classList.remove('active')
     this.el.setAttribute('aria-hidden', 'true')
     this.open = false
-    pageScroll.enableScroll()
+    scrollManager.enableScroll()
     document.removeEventListener('keydown', this.onEsc)
     document.removeEventListener('keydown', this.onFocusTrap)
     this.emit('onClose')

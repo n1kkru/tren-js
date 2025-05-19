@@ -1,8 +1,8 @@
 import { Fancybox } from '@fancyapps/ui'
 import '@fancyapps/ui/dist/fancybox/fancybox.css'
+import { scrollManager } from '@shared/scripts/libs/lenis/lenis';
 
 import './fancybox.scss'
-import { pageScroll } from '@shared/scripts'
 
 const fancyboxInit = () => {
   Fancybox.bind('[data-fancybox]', {
@@ -27,7 +27,7 @@ const fancyboxInit = () => {
       initCarousel: fancybox => {
         const slidesCount = fancybox.userSlides.length
 
-        pageScroll.disableScroll()
+        scrollManager.disableScroll()
 
         const controlsTemplate = document.querySelector('[data-fancybox-controls-template]')
         if (!controlsTemplate) return
@@ -64,11 +64,11 @@ const fancyboxInit = () => {
 
         fancybox.on('close', () => {
           window.removeEventListener('keydown', handleGlobalKeyDown)
-          pageScroll.enableScroll()
+          scrollManager.enableScroll()
         })
       },
       close: () => {
-        pageScroll.enableScroll()
+        scrollManager.enableScroll()
       }
     }
   })

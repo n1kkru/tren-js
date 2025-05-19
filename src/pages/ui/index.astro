@@ -24,6 +24,7 @@ import Drawer from '@shared/ui/drawer/Drawer.astro'
 import Select from '@shared/ui/select/select.astro'
 import Tooltip from '@shared/ui/tooltip/Tooltip.astro'
 import Range from '@shared/ui/range/Range.astro'
+import Icon, { icons, type IconKey } from '@shared/ui/icon/Icon.astro'
 import Tab from '@shared/ui/tabs/tab/Tab.astro'
 import TabsList from '@shared/ui/tabs/tabs-list/TabsList.astro'
 import TabPanel from '@shared/ui/tabs/tab-panel/TabPanel.astro'
@@ -36,6 +37,27 @@ import Toast from '@shared/ui/toast/toast.astro'
     <h1 class="px-4 text-title-100 devices:text-title-40">Примеры UI компонентов проекта</h1>
 
     <div class="flex flex-col gap-16">
+      <section class="flex flex-col gap-8 px-6">
+        <h2 class="text-5xl font-bold">Icon</h2>
+
+        <p class="text-xl">Передать проп name для выбора иконки</p>
+        <p class="text-xl">Передать проп initial для возврата к стилям по умолчанию</p>
+
+        <div class="grid grid-flow-col gap-6">
+          {
+            Object.keys(icons).map(icon => (
+              <div class="flex flex-col items-center gap-4">
+                <Icon
+                  name={icon as IconKey}
+                  class="size-8"
+                />
+                <span class="text-lg">{icon}</span>
+              </div>
+            ))
+          }
+        </div>
+      </section>
+
       <section>
         <Title
           variant="120"
@@ -131,10 +153,22 @@ import Toast from '@shared/ui/toast/toast.astro'
       <section>
         <Breadcrumbs
           list={[
-            { text: 'Каталог', href: '#' },
-            { text: 'Посуда', href: '#' },
-            { text: 'Сковороды', href: '#' },
-            { text: 'Сковорода Шеф Бернардо', href: '#' }
+            { text: 'Каталог' },
+            { text: 'Посуда' },
+            { text: 'Сковороды' },
+            { text: 'Сковорода Шеф Бернардо' },
+            { text: 'Каталог' },
+            { text: 'Посуда' },
+            { text: 'Сковороды' },
+            { text: 'Сковорода Шеф Бернардо' },
+            { text: 'Каталог' },
+            { text: 'Посуда' },
+            { text: 'Сковороды' },
+            { text: 'Сковорода Шеф Бернардо' },
+            { text: 'Каталог' },
+            { text: 'Посуда' },
+            { text: 'Сковороды' },
+            { text: 'Сковорода Шеф Бернардо' }
           ]}
         />
       </section>
@@ -352,6 +386,7 @@ import Toast from '@shared/ui/toast/toast.astro'
           </Accordion>
         </AccordionContainer>
       </section>
+
       <section>
         <h2 class="mb-4 text-5xl font-bold">InputMask</h2>
 
@@ -377,7 +412,8 @@ import Toast from '@shared/ui/toast/toast.astro'
           </div>
         </div>
       </section>
-      <section>
+
+      <section id="toasts-examples">
         <h2 class="mb-4 text-5xl font-bold">Toast</h2>
 
         <div class="hidden">
@@ -552,75 +588,8 @@ import Toast from '@shared/ui/toast/toast.astro'
       </section>
     </div>
   </div>
-
-  <style>
-    @import './index.scss';
-  </style>
 </Layout>
 
-<script>
-  console.log('script starting')
-
-  function waitForFrontApi(cb) {
-    if (window.frontApi && window.frontApi) {
-      cb(window.frontApi)
-    } else {
-      setTimeout(() => waitForFrontApi(cb), 50)
-    }
-  }
-
-  waitForFrontApi(frontApi => {
-    const toast = frontApi.toast
-
-    // const successNode = document.querySelector('[data-toast]')
-    const successNode = document.querySelector('#toast-success')
-    const errorNode = document.querySelector('#toast-error')
-
-    if (!successNode || !errorNode) {
-      console.error('Toast templates not found')
-    }
-
-    const toastSuccess = toast.init({
-      node: successNode,
-      duration: 3000,
-      gravity: 'top',
-      position: 'right',
-      closeElement: '[data-toast-close]'
-    })
-
-    const toastError = toast.init({
-      node: errorNode,
-      duration: 3000,
-      gravity: 'top',
-      position: 'right',
-      closeElement: '[data-toast-close]'
-    })
-
-    const handleShowError = () => toastError.show()
-    const handleShowSuccess = () => {
-      toastSuccess.show()
-      console.log('Success toast will be shown!')
-    }
-    const handleShowTemp = () =>
-      toast.show({
-        text: 'Временный toast',
-        duration: 3000,
-        gravity: 'top',
-        position: 'right'
-      })
-
-    const withListeners = (selector, handler) => {
-      const el = document.querySelector(selector)
-      if (!el) {
-        console.warn('Element not found for selector:', selector)
-        return
-      }
-      el.removeEventListener('click', handler)
-      el.addEventListener('click', handler)
-    }
-
-    withListeners('#btn-show-success', handleShowSuccess)
-    withListeners('#btn-show-error', handleShowError)
-    withListeners('#btn-show-temp', handleShowTemp)
-  })
-</script>
+<style>
+  @import './index.scss';
+</style>

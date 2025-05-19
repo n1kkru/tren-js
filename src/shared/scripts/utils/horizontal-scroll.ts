@@ -28,10 +28,21 @@ const handleLinksScroll = (e: WheelEvent): void => {
 
   if (el.scrollWidth <= el.clientWidth) return;
 
+  // Определяем, чем скроллить: deltaX (тачпад/сенсор) или deltaY (обычная мышка)
+  let scrollAmount = 0;
+  if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
+    scrollAmount = e.deltaX;
+  } else {
+    scrollAmount = e.deltaY;
+  }
+
+  if (scrollAmount === 0) return; // ничего не делать
+
   e.stopImmediatePropagation();
   e.preventDefault();
-  el.scrollLeft += e.deltaY;
+  el.scrollLeft += scrollAmount;
 };
+
 
 export const initHorizontalScroll = (): void => {
   document
