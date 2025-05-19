@@ -16,7 +16,6 @@ pages:
     - export CI_ENV=dev
     - npm run build
     - mkdir -p public/
-    - rm -rf public/*
     - mv dist/* public/
   artifacts:
     paths:

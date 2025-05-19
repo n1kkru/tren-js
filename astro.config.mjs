@@ -63,25 +63,29 @@ const updateBuildScripts = () => ({
           if (!isDevBuild) {
             const pageDir = path.dirname(pagePath)
             await fs.mkdir(pageDir, { recursive: true })
+          }
 
-            try {
-              let content = await fs.readFile(path.join(outDir, relativePagePath), 'utf-8')
+          try {
+            const content = await fs.readFile(path.join(outDir, relativePagePath), 'utf-8')
 
-              content = content.replace(
-                /<script[^>]*src="[^"]*main\d+\.js[^"]*"[^>]*><\/script>\n?/g,
-                ''
-              )
+            let updatedContent = content.replace(
+              /<script\b[^>]*\bsrc\s*=\s*["'][^"']*["'][^>]*>[\s\S]*?<\/script>\n?/gi,
+              ''
+            )
 
-              const updatedContent = content.replace(
-                /(<script\b[^>]*\bsrc=")([^"]*\.js)("[^>]*>)/g,
-                `$1$2?${timestamp}$3`
-              )
+            updatedContent = updatedContent.replace(
+              /<\/body>/i,
+              `<script src="/scripts/script.js?${timestamp}"></script>\n</body>`
+            )
 
-              if (updatedContent !== content) {
-                await fs.writeFile(pagePath, updatedContent)
-                console.log(`Обновлен: ${pagePath}`)
-              }
+            if (updatedContent !== content) {
+              if (isDevBuild)
+                await fs.writeFile(path.join(resolve(outDir, ''), relativePagePath), updatedContent)
+              else await fs.writeFile(pagePath, updatedContent)
+              console.log(`Обновлен: ${pagePath}`)
+            }
 
+            if (!isDevBuild) {
               const filePathInRoot = path.join(outDir, relativePagePath)
               try {
                 await fs.access(filePathInRoot)
@@ -90,9 +94,11 @@ const updateBuildScripts = () => ({
               } catch {
                 console.log(`Страница не найдена в корне: ${filePathInRoot}`)
               }
-            } catch (error) {
-              console.error('Ошибка при обработке страницы:', error)
             }
+          } catch (error) {
+            console.error('Ошибка при обработке страницы:', error)
+          }
+          if (!isDevBuild) {
             const dirs = await fs.readdir(outDir, { withFileTypes: true })
             for (const dir of dirs) {
               if (dir.isDirectory()) {
