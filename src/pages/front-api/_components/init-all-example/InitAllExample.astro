@@ -34,7 +34,9 @@ export { InitAllExample }
 
 <script>
   const frontapiInitAllButton = document.getElementById('frontapi-init-all') as HTMLButtonElement
-  frontapiInitAllButton.addEventListener('click', () => {
-    window.frontApi.initAll()
-  })
+  if (frontapiInitAllButton) {
+    frontapiInitAllButton.addEventListener('click', () => {
+      window.frontApi.initAll()
+    })
+  }
 </script>

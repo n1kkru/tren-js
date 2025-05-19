@@ -132,7 +132,6 @@ export default defineConfig({
       include: ['tom-select']
     },
     build: {
-      cssCodeSplit: false,
       rollupOptions: {
         output: {
           manualChunks: () => 'script',
