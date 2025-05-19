@@ -1,6 +1,6 @@
 import { Fancybox } from '@fancyapps/ui'
 import '@fancyapps/ui/dist/fancybox/fancybox.css'
-import { scrollManager } from '@shared/scripts/libs/lenis/lenis';
+import { scrollManager } from '@shared/scripts/libs/lenis/lenis'
 
 import './fancybox.scss'
 
