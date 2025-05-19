@@ -1,10 +1,31 @@
 import Toastify from 'toastify-js'
 import 'toastify-js/src/toastify.css'
-import { ToastEvent, type ToastOptions, type ToastifyInstance } from './toast.type'
+import { ToastEvent, type ToastOptions, type ToastType, type ToastifyInstance } from './toast.type'
 import { gsap } from 'gsap'
 import { Draggable } from 'gsap/Draggable'
 
 gsap.registerPlugin(Draggable)
+
+interface CreateToastNodeOptions {
+  text?: string;
+  type?: ToastType;
+}
+
+const createToastNode = ({
+  text = '',
+  type = 'default',
+}: CreateToastNodeOptions): HTMLElement => {
+  const node = document.createElement('div');
+  node.className = `toast-text ${type}`;
+  node.innerHTML = `
+    <div class="toast-content">
+      <span>${text}</span>
+      <button class="toast-close" data-toast-close>&times;</button>
+    </div>
+  `;
+  return node;
+}
+
 
 const addSwipeDraggable = (node: HTMLElement, onClose: () => void) => {
   Draggable.create(node, {
@@ -63,36 +84,37 @@ export class Toast {
 
   public show(): void {
     clearTimeout(this.autoCloseTimer)
-
     if (!this.isClosed) {
       this.resetAutoClose()
       return
     }
-
     this.isClosed = false
 
     let options = { ...this.options }
+    let toastNode
+
     if (options.node instanceof HTMLElement) {
-      const nodeClone = options.node.cloneNode(true) as HTMLElement
-
-      addSwipeDraggable(nodeClone, () => this.hide())
-
-      if (options.closeElement) {
-        let closeEl
-        if (typeof options.closeElement === 'string') {
-          closeEl = nodeClone.querySelector(options.closeElement)
-        } else if (options.closeElement instanceof HTMLElement) {
-          closeEl = nodeClone.querySelector('[data-toast-close]')
-        }
-        closeEl?.addEventListener('click', () => this.hide())
-      }
-
-      options = {
-        ...options,
-        node: nodeClone,
-        text: undefined,
-      }
+      toastNode = options.node.cloneNode(true) as HTMLElement
+    } else {
+      toastNode = createToastNode({
+        text: options.text,
+        type: options.type ?? 'default'
+      })
     }
+
+    // Навешиваем обработчик на "крестик" у текущей ноды
+    const closeSelector = options.closeElement || '[data-toast-close]'
+    const closeEl = typeof closeSelector === 'string'
+      ? toastNode.querySelector(closeSelector)
+      : closeSelector instanceof HTMLElement
+        ? toastNode.querySelector('[data-toast-close]')
+        : null
+
+    closeEl?.addEventListener('click', () => this.hide())
+
+    addSwipeDraggable(toastNode as HTMLElement, () => this.hide())
+    options = { ...options, node: toastNode as HTMLElement, text: undefined }
+
 
     this.toastifyInstance = Toastify({
       ...options,
@@ -105,10 +127,10 @@ export class Toast {
     this.options.onShown?.(this)
 
     this.resetAutoClose()
-
     document.dispatchEvent(new CustomEvent(ToastEvent.Open, { detail: { instance: this } }))
     document.dispatchEvent(new CustomEvent(ToastEvent.GlobalOpen, { detail: { instance: this } }))
   }
+
 
   public hide(): void {
     if (this.isClosed) return

@@ -1,6 +1,8 @@
 import type { Options as ToastifyOptions } from 'toastify-js'
 import type { Toast } from './toast'
 
+export type ToastType = 'success' | 'error' | 'info' | 'warning' | 'default';
+
 export interface ToastifyInstance {
   showToast: () => void
   hideToast: () => void
@@ -10,6 +12,7 @@ export type ToastOptions = ToastifyOptions & {
   onClick?: (toast: Toast) => void
   onShown?: (toast: Toast) => void
   onHidden?: (toast: Toast) => void
+  type?: ToastType
   closeElement?: string | HTMLElement
 }
 
