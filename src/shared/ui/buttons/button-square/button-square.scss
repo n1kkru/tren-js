@@ -1,19 +1,6 @@
-@mixin color-light {
-  @apply bg-white text-primary !important;
-
-  @media #{media('>',d)} and (hover: hover) and (pointer: fine) {
-    &:hover {
-      @apply bg-primary text-white !important;
-    }
-  }
-
-  &[disabled] {
-    opacity: 0.3 !important;
-  }
-}
-
 .button-square {
   border-radius: rem(4px);
+  border: 1px solid transparent;
   user-select: none;
 
   display: flex;
@@ -21,18 +8,12 @@
   justify-content: center;
 
   transition:
-    color,
+    color $transition,
     background-color $transition;
-
-  font-size: rem(20px);
-
-  @media #{media('<',d)} {
-    font-size: rem(14px);
-  }
 
   &[disabled] {
     pointer-events: none;
-    cursor: not-allowed;
+    cursor: default;
     opacity: 0.5;
   }
 
@@ -45,6 +26,16 @@
         width: rem(40px);
         height: rem(40px);
       }
+
+      .button-square__icon {
+        width: rem(28px);
+        height: rem(28px);
+
+        @media #{media('<',d)} {
+          width: rem(20px);
+          height: rem(20px);
+        }
+      }
     }
 
     &_60 {
@@ -54,6 +45,16 @@
       @media #{media('<',d)} {
         width: rem(56px);
         height: rem(56px);
+      }
+
+      .button-square__icon {
+        width: rem(28px);
+        height: rem(28px);
+
+        @media #{media('<',d)} {
+          width: rem(20px);
+          height: rem(20px);
+        }
       }
     }
 
@@ -65,6 +66,16 @@
         width: rem(56px);
         height: rem(56px);
       }
+
+      .button-square__icon {
+        width: rem(40px);
+        height: rem(40px);
+
+        @media #{media('<',d)} {
+          width: rem(28px);
+          height: rem(28px);
+        }
+      }
     }
 
     &_124 {
@@ -75,30 +86,38 @@
         width: rem(56px);
         height: rem(56px);
       }
+
+      .button-square__icon {
+        width: rem(48px);
+        height: rem(48px);
+
+        @media #{media('<',d)} {
+          width: rem(28px);
+          height: rem(28px);
+        }
+      }
     }
   }
 
   &_color {
     &_default {
-      border: 1px solid #d0d5db;
-      background: #fff;
+      background-color: #fff;
       color: #262d3b;
 
       @media #{media('>',t)} and (hover: hover) and (pointer: fine) {
         &:hover {
-          border-color: #d0d5db;
-          background: #ececec;
+          background-color: #ececec;
         }
       }
     }
 
     &_accent {
-      background: #9cc6f1;
+      background-color: #9cc6f1;
       color: #fff;
 
       @media #{media('>',d)} and (hover: hover) and (pointer: fine) {
         &:hover {
-          background: #262d3b;
+          background-color: #262d3b;
         }
       }
     }

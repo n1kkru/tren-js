@@ -1,5 +1,5 @@
 ---
-import Icon, { icons, type IconKey } from '@shared/ui/icon/Icon.astro'
+import Icon, { type IconKey } from '@shared/ui/icon/Icon.astro'
 import type { HTMLAttributes } from 'astro/types'
 
 interface ButtonSquareProps extends astroHTML.JSX.ButtonHTMLAttributes {
@@ -14,7 +14,7 @@ interface AnchorProps extends astroHTML.JSX.AnchorHTMLAttributes {
 
 type Props = (ButtonSquareProps | AnchorProps) & {
   class?: string
-  iconName: IconKey
+  icon: IconKey
   size?: '48' | '60' | '64' | '124'
   color?: 'default' | 'accent'
 }
@@ -22,7 +22,7 @@ type Props = (ButtonSquareProps | AnchorProps) & {
 const {
   as,
   class: className,
-  iconName,
+  icon,
   size = '48',
   color = 'default',
   ...props
@@ -44,9 +44,9 @@ export { ButtonSquare }
   ]}
 >
   {
-    iconName && (
+    icon && (
       <Icon
-        name={iconName}
+        name={icon}
         class="button-square__icon"
       />
     )
