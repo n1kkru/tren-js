@@ -31,6 +31,7 @@ import TabPanel from '@shared/ui/tabs/tab-panel/TabPanel.astro'
 import Tabs from '@shared/ui/tabs/Tabs.astro'
 import Toast from '@shared/ui/toast/toast.astro'
 import ButtonSquare from '@shared/ui/buttons/button-square/ButtonSquare.astro'
+import List from '@shared/ui/list/List.astro'
 ---
 
 <Layout pageName="ui">
@@ -95,6 +96,33 @@ import ButtonSquare from '@shared/ui/buttons/button-square/ButtonSquare.astro'
           label="Checkbox disabled"
           disabled
         />
+      </section>
+
+      <section>
+        <h3 class="mt-5 text-title-40">Списки</h3>
+        <div class="mt-5">
+          <div class="gap-5w-full flex flex-col">
+            <List
+              items={[
+                'Bullet list',
+                'Bullet list',
+                'Bullet list',
+                'Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae cum minima maxime!'
+              ]}
+            />
+          </div>
+          <div class="gap-5w-full mt-3 flex flex-col">
+            <List
+              as="ol"
+              items={[
+                'Bullet list',
+                'Bullet list',
+                'Bullet list',
+                'Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae cum minima maxime!'
+              ]}
+            />
+          </div>
+        </div>
       </section>
 
       <section class="flex flex-col gap-2">
