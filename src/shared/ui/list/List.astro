@@ -1,0 +1,49 @@
+---
+import Text from '@shared/ui/text/Text.astro'
+
+enum ListAs {
+  OL = 'ol',
+  UL = 'ul'
+}
+interface Props {
+  as?: ListAs
+  variant?: 'bullet'
+  color?: 'white' | 'gray'
+  class?: string
+  items: string[]
+}
+
+const {
+  as = ListAs.UL,
+  variant = 'bullet',
+  color = 'gray',
+  class: className,
+  items,
+  ...props
+} = Astro.props as Props
+
+const Tag: ListAs = as
+
+export { List }
+---
+
+<Tag
+  {...props}
+  class:list={['list', { [`list_variant_${variant}`]: !!variant }, className]}
+>
+  {
+    items ? (
+      items.map((item: string) => (
+        <li>
+          <Text color={color}>{item}</Text>
+        </li>
+      ))
+    ) : (
+      <slot />
+    )
+  }
+</Tag>
+
+<style>
+  @import './list.scss';
+</style>
