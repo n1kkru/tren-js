@@ -1,0 +1,106 @@
+@mixin color-light {
+  @apply bg-white text-primary !important;
+
+  @media #{media('>',d)} and (hover: hover) and (pointer: fine) {
+    &:hover {
+      @apply bg-primary text-white !important;
+    }
+  }
+
+  &[disabled] {
+    opacity: 0.3 !important;
+  }
+}
+
+.button-square {
+  border-radius: rem(4px);
+  user-select: none;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  transition:
+    color,
+    background-color $transition;
+
+  font-size: rem(20px);
+
+  @media #{media('<',d)} {
+    font-size: rem(14px);
+  }
+
+  &[disabled] {
+    pointer-events: none;
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+
+  &_size {
+    &_48 {
+      width: rem(48px);
+      height: rem(48px);
+
+      @media #{media('<',d)} {
+        width: rem(40px);
+        height: rem(40px);
+      }
+    }
+
+    &_60 {
+      width: rem(60px);
+      height: rem(60px);
+
+      @media #{media('<',d)} {
+        width: rem(56px);
+        height: rem(56px);
+      }
+    }
+
+    &_64 {
+      width: rem(64px);
+      height: rem(64px);
+
+      @media #{media('<',d)} {
+        width: rem(56px);
+        height: rem(56px);
+      }
+    }
+
+    &_124 {
+      width: rem(124px);
+      height: rem(124px);
+
+      @media #{media('<',d)} {
+        width: rem(56px);
+        height: rem(56px);
+      }
+    }
+  }
+
+  &_color {
+    &_default {
+      border: 1px solid #d0d5db;
+      background: #fff;
+      color: #262d3b;
+
+      @media #{media('>',t)} and (hover: hover) and (pointer: fine) {
+        &:hover {
+          border-color: #d0d5db;
+          background: #ececec;
+        }
+      }
+    }
+
+    &_accent {
+      background: #9cc6f1;
+      color: #fff;
+
+      @media #{media('>',d)} and (hover: hover) and (pointer: fine) {
+        &:hover {
+          background: #262d3b;
+        }
+      }
+    }
+  }
+}

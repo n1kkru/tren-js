@@ -30,6 +30,7 @@ import TabsList from '@shared/ui/tabs/tabs-list/TabsList.astro'
 import TabPanel from '@shared/ui/tabs/tab-panel/TabPanel.astro'
 import Tabs from '@shared/ui/tabs/Tabs.astro'
 import Toast from '@shared/ui/toast/toast.astro'
+import ButtonSquare from '@shared/ui/buttons/button-square/ButtonSquare.astro'
 ---
 
 <Layout pageName="ui">
@@ -186,6 +187,37 @@ import Toast from '@shared/ui/toast/toast.astro'
           >Кнопка contained light</Button
         >
         <Button variant="outlined">Кнопка outlined</Button>
+      </section>
+
+      <section>
+        <h2 class="mb-4 text-5xl font-bold">ButtonSquare</h2>
+
+        <div class="flex gap-4">
+          <ButtonSquare
+            iconName={'like'}
+            color="accent"
+            size={'124'}
+          />
+          <ButtonSquare
+            color="accent"
+            iconName={'like'}
+            size={'124'}
+            disabled
+          />
+        </div>
+        <div class="flex gap-4">
+          <ButtonSquare
+            iconName={'arrow-small-right'}
+            color="default"
+            size={'60'}
+          />
+          <ButtonSquare
+            iconName={'arrow-small-right'}
+            color="default"
+            size={'60'}
+            disabled
+          />
+        </div>
       </section>
 
       <section class="bg-gray-200 p-5">
