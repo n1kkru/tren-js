@@ -17,16 +17,11 @@ export class InputValidator {
   errorContainer: HTMLElement
   wrapper: HTMLElement
   options: IInputValidatorOptions | undefined
-  private handleInputUpdate: () => void
-  private handleInputValidate?: () => void
 
   constructor(input: HTMLInputElement, options?: IInputValidatorOptions) {
     this.options = options
     this.el = input
     this.value = input.value
-    this.handleInputUpdate = () => {
-      this.value = this.el.value
-    }
     this.el.addEventListener('input', () => {
       this.value = this.el.value
     })
@@ -43,9 +38,6 @@ export class InputValidator {
   validate() {
     if (!this.afterSubmit) {
       this.afterSubmit = true
-      this.handleInputValidate = () => {
-        this.validate()
-      }
       this.el.addEventListener('input', () => {
         this.validate()
       })
@@ -57,6 +49,32 @@ export class InputValidator {
   }
 
   checkValid() {
+    if (this.type === 'checkbox') {
+      if (this.required && !this.el.checked) {
+        this.isValid = false
+        this.errorMessage = getErrorMessages().checkbox || getErrorMessages().required
+        return false
+      }
+      this.isValid = true
+      return true
+    }
+
+    if (this.type === 'radio') {
+      // Берём name и ищем все radio с этим name в форме
+      const radios = this.el.form
+        ? this.el.form.querySelectorAll(`input[type="radio"][name="${this.el.name}"]`) as NodeListOf<HTMLInputElement>
+        : document.querySelectorAll(`input[type="radio"][name="${this.el.name}"]`) as NodeListOf<HTMLInputElement>;
+      const isChecked = Array.from(radios).some((radio) => radio.checked);
+
+      if (this.required && !isChecked) {
+        this.isValid = false
+        this.errorMessage = getErrorMessages().radio || getErrorMessages().required
+        return false
+      }
+      this.isValid = true
+      return true
+    }
+
     if (this.value !== '') {
       if (this.#checkMinLength()) {
         this.errorMessage =
@@ -96,37 +114,6 @@ export class InputValidator {
     slideUp(this.errorContainer, 250, () => {
       this.errorContainer.textContent = ''
     })
-  }
-
-  /**
-   * Удаляет все подписки и ошибки, возвращая элемент в исходное состояние
-   */
-  destroy() {
-    // удаляем ошибки из DOM
-    this.removeError()
-
-    // снимаем подписки
-    this.el.removeEventListener('input', this.handleInputUpdate)
-    if (this.handleInputValidate) {
-      this.el.removeEventListener('input', this.handleInputValidate)
-    }
-
-    // очищаем контейнер ошибок
-    if (this.errorContainer) {
-      this.errorContainer.textContent = ''
-      this.errorContainer.classList.remove(
-        this.options?.errorContainerClass
-          ? `${this.options?.errorContainerClass}_visible`
-          : 'ui-input__error_visible'
-      )
-    }
-
-    // снимаем класс invalid с обёртки
-    if (this.wrapper) {
-      this.wrapper.classList.remove(
-        this.options?.invalidClass ? this.options?.invalidClass : 'ui-input__invalid'
-      )
-    }
   }
 
   #checkValidCases() {
