@@ -10,7 +10,9 @@ const errorMessages: TLangErrorMessages = {
     'text-only': 'Введите корректное имя',
     'text-cyrillic': 'Только кириллица',
     'text-english': 'Только латиница',
-    'positive-number': 'Введите положительное число'
+    'positive-number': 'Введите положительное число',
+    checkbox: 'Это обязательное поле',
+    radio: 'Выберите один из вариантов',
   },
   en: {
     required: 'This field cannot be empty',
@@ -21,7 +23,9 @@ const errorMessages: TLangErrorMessages = {
     'text-only': 'Enter a valid name',
     'text-cyrillic': 'Only Cyrillic characters are allowed',
     'text-english': 'Only English characters are allowed',
-    'positive-number': 'Enter a positive number'
+    'positive-number': 'Enter a positive number',
+    checkbox: 'Please check the box',
+    radio: 'Please select an option',
   }
 }
 
