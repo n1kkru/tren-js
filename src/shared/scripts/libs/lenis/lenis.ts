@@ -44,7 +44,10 @@ class ScrollManager implements IScrollManager {
   }
 
   private handleMediaChange(e: MediaQueryListEvent): void {
-    e.matches ? this.lenis?.start() : this.lenis?.stop()
+    e.matches ? this.lenis?.start() : () => {
+      this.lenis?.stop()
+      this.enableScroll()
+    }
   }
 
   public start(): void {
