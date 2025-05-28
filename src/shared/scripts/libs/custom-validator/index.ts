@@ -33,11 +33,14 @@ export const validatorInitFunction = (config?: IInputValidatorOptions) => {
 
   forms.forEach(form => {
     form.setAttribute('data-form-init', '')
-    const inputs = Array.from(form.querySelectorAll('[data-validate]')) as HTMLInputElement[]
+    const inputs = Array.from(form.querySelectorAll('[data-validate]')) as (
+      | HTMLInputElement
+      | HTMLSelectElement
+    )[]
 
     form.addEventListener('submit', e => {
       e.preventDefault()
-      let firstErrorElement: HTMLInputElement | null = null
+      let firstErrorElement: HTMLInputElement | HTMLSelectElement | null = null
       let isValidForm = true
       inputs.forEach(input => {
         const inputValidator = new InputValidator(input, globalValidatorConfig)
@@ -54,11 +57,11 @@ export const validatorInitFunction = (config?: IInputValidatorOptions) => {
         // Код для валидной формы
       } else {
         if (firstErrorElement) {
-          ; (firstErrorElement as HTMLInputElement).scrollIntoView({
+          ;(firstErrorElement as HTMLInputElement | HTMLSelectElement).scrollIntoView({
             behavior: 'smooth',
             block: 'center'
           })
-            ; (firstErrorElement as HTMLInputElement).focus()
+          ;(firstErrorElement as HTMLInputElement | HTMLSelectElement).focus()
         }
       }
     })
@@ -66,9 +69,7 @@ export const validatorInitFunction = (config?: IInputValidatorOptions) => {
 }
 
 export const validatorDestroyFunction = () => {
-  const forms = Array.from(
-    document.querySelectorAll('form[data-form-init]')
-  ) as HTMLFormElement[]
+  const forms = Array.from(document.querySelectorAll('form[data-form-init]')) as HTMLFormElement[]
   if (forms.length === 0) return
 
   forms.forEach(form => {

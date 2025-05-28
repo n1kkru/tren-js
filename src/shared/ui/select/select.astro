@@ -22,6 +22,7 @@ const serializedConfig = JSON.stringify(config)
 <div
   id={wrapperId}
   class={`ui-select ${allMods}`}
+  data-input-parent
 >
   {
     Astro.slots.default ? (
@@ -35,6 +36,10 @@ const serializedConfig = JSON.stringify(config)
       </select>
     )
   }
+   <span
+    class="ui-select__error"
+    data-error-container
+  ></span>
 </div>
 
 <script is:inline>
@@ -53,3 +58,7 @@ const serializedConfig = JSON.stringify(config)
     window.frontApi.select.init(el, JSON.parse(serializedConfig))
   })
 </script>
+
+<style>
+  @import './select.scss';
+</style>
