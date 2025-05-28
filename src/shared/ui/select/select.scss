@@ -82,4 +82,28 @@
     left: 0;
     font: 12px/1.2 $font;
   }
+
+  &__error {
+    pointer-events: none;
+    will-change: opacity, transform;
+
+    position: absolute;
+    top: calc(100% + 4px);
+    transform: translateY(-4px);
+
+    height: fit-content;
+
+    transition:
+      opacity,
+      transform $transition;
+
+    @apply text-12 text-red;
+
+    &:not(:empty),
+    &.visible {
+      pointer-events: auto;
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
 }
