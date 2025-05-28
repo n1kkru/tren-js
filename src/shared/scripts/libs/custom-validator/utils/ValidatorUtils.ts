@@ -85,9 +85,11 @@ export const resetFormFieldErrors = (input: TInputTarget) => {
 
 export const getInputElement = (el: TInputTarget) => {
   const currentInput =
-    typeof el === 'string' ? (document.querySelector(el) as HTMLInputElement) : el
+    typeof el === 'string'
+      ? (document.querySelector(el) as HTMLInputElement | HTMLSelectElement)
+      : el
   if (!currentInput) {
-    throw new Error('Input not found :(')
+    throw new Error('Input | Select not found :(')
   }
   return currentInput
 }
@@ -108,12 +110,9 @@ export const getElement = (el: TElementTarget) => {
   return currentElement
 }
 
-
 export const destroyAllFields = (form: TFormTarget) => {
   const currentForm = getFormElement(form)
-  const inputs = Array.from(
-    currentForm.querySelectorAll('[data-validate]')
-  ) as HTMLInputElement[]
+  const inputs = Array.from(currentForm.querySelectorAll('[data-validate]')) as HTMLInputElement[]
 
   inputs.forEach(input => {
     const inputValidator = new InputValidator(input)

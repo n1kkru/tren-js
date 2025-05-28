@@ -6,7 +6,7 @@ import { getErrorMessage, getErrorMessages } from './utils/ErrorMessages'
 import type { IInputValidatorOptions } from './utils/model/IInputValidator'
 
 export class InputValidator {
-  el: HTMLInputElement
+  el: HTMLInputElement | HTMLSelectElement
   value: string
   type: string
   errorMessage: string
@@ -18,14 +18,20 @@ export class InputValidator {
   wrapper: HTMLElement
   options: IInputValidatorOptions | undefined
 
-  constructor(input: HTMLInputElement, options?: IInputValidatorOptions) {
+  constructor(input: HTMLInputElement | HTMLSelectElement, options?: IInputValidatorOptions) {
     this.options = options
     this.el = input
     this.value = input.value
-    this.el.addEventListener('input', () => {
-      this.value = this.el.value
-    })
     this.type = this.#getType()
+    if (this.type === 'select') {
+      this.el.addEventListener('change', () => {
+        this.value = this.el.value
+      })
+    } else {
+      this.el.addEventListener('input', () => {
+        this.value = this.el.value
+      })
+    }
     this.errorMessage = input.getAttribute('data-error-message') || getErrorMessages()[this.type]
     this.minlength = input.getAttribute('minlength')
     this.required = input.required
@@ -36,11 +42,18 @@ export class InputValidator {
   }
 
   validate() {
+    this.isValid = true
     if (!this.afterSubmit) {
       this.afterSubmit = true
-      this.el.addEventListener('input', () => {
-        this.validate()
-      })
+      if (this.type === 'select') {
+        this.el.addEventListener('change', () => {
+          this.validate()
+        })
+      } else {
+        this.el.addEventListener('input', () => {
+          this.validate()
+        })
+      }
     }
     const valid = this.checkValid()
     this.#switchError(this.errorMessage)
@@ -85,6 +98,7 @@ export class InputValidator {
       this.isValid = false
       this.errorMessage = getErrorMessages().required
     }
+    
     return this.isValid
   }
 

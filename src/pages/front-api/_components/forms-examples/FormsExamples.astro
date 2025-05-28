@@ -1,6 +1,7 @@
 ---
 import Form from '@shared/ui/form/form.astro'
 import Input from '@shared/ui/input/Input.astro'
+import Select from '@shared/ui/select/select.astro'
 
 interface Props {
   class?: string
@@ -305,6 +306,21 @@ export { FormsExamples }
             minlength="3"
             data-error-message="Неправильный email"
           />
+        </div>
+        <div class="flex flex-col gap-1">
+          <p class="font-bold">Select</p>
+          <Select>
+            <select
+              id="tomSelect1"
+              class="js-tomselect w-full"
+              data-validate="select"
+              required
+            >
+              <option></option>
+              <option value="1">Option 1</option>
+              <option value="2">Option 2</option>
+            </select>
+          </Select>
         </div>
         <div class="flex flex-col gap-1">
           <p class="font-bold">Тут будет кастомный блок для ошибки (выделен верхним регистром)</p>
