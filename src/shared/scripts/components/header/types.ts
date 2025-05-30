@@ -55,8 +55,6 @@ export interface IPanelConfig {
   trigger?: 'click' | 'hover'
 }
 
-export type DefaultPanelIds = 'menu' | 'menu-mob' | 'catalog' | 'search' | 'compare' | 'favorite'
-
 export interface IHeaderConfig {
   containerSelector?: string
   overlay?: boolean
@@ -64,5 +62,5 @@ export interface IHeaderConfig {
   panelsAnimation?: IAnimationConfig
   panelsPosition?: IPositionConfig
   defaultTrigger?: 'click' | 'hover'
-  panels?: Partial<Record<DefaultPanelIds, IPanelConfig>>
+  panels?: Record<string, IPanelConfig>
 }

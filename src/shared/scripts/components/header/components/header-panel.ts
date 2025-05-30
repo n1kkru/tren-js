@@ -27,6 +27,12 @@ export class HeaderPanel {
 
   initState() {
     const animType = this.config.animation?.type || 'fade'
+
+    if (this.config.animation?.custom) {
+      this.config.animation.custom(this.el, false, this.config.animation);
+      return;
+    }
+
     switch (animType) {
       case 'clip':
         gsap.set(this.el, { clipPath: 'inset(0% 0% 100% 0%)', pointerEvents: 'none' })
@@ -48,6 +54,12 @@ export class HeaderPanel {
    * @param options Объект с triggerEl и headerEl.
    */
   applyPositioning(options: { triggerEl?: HTMLElement; headerEl?: HTMLElement } = {}) {
+    const wasHidden = this.el.style.display === 'none' || getComputedStyle(this.el).display === 'none';
+    if (wasHidden) {
+      this.el.style.visibility = 'hidden';
+      this.el.style.display = 'block';
+    }
+
     const pos = this.config.position!
 
     // --- Ось Y ---
@@ -78,6 +90,10 @@ export class HeaderPanel {
       targetAnchorCoordY = targetRectY.bottom
     }
     const panelRect = this.el.getBoundingClientRect()
+    if (wasHidden) {
+      this.el.style.display = 'none';
+      this.el.style.visibility = '';
+    }
     let panelAnchorCoordY = 0
     if (panelAnchorY === 'top') {
       panelAnchorCoordY = 0
@@ -132,45 +148,61 @@ export class HeaderPanel {
 
   show() {
     this.config.on?.beforeShow && this.config.on.beforeShow(this)
+
     let tween: gsap.core.Tween
-    if (this.config.animation?.custom) {
-      tween = this.config.animation.custom(this.el, true, this.config.animation)
-    } else {
-      const typeKey =
-        this.config.animation?.type && this.config.animation?.type in animationRegistry
-          ? this.config.animation.type
-          : 'fade'
-      const animFn = animationRegistry[typeKey as keyof typeof animationRegistry]
-      tween = animFn(this.el, true, this.config.animation || {})
+
+    try {
+      if (this.config.animation?.custom) {
+        tween = this.config.animation.custom(this.el, true, this.config.animation)
+      } else {
+        const typeKey =
+          this.config.animation?.type && this.config.animation?.type in animationRegistry
+            ? this.config.animation.type
+            : 'fade'
+        const animFn = animationRegistry[typeKey as keyof typeof animationRegistry]
+        tween = animFn(this.el, true, this.config.animation || {})
+      }
+      tween.eventCallback('onStart', () => {
+        this.config.on?.show && this.config.on.show(this)
+      })
+      tween.eventCallback('onComplete', () => {
+        this.config.on?.afterShow && this.config.on.afterShow(this)
+      })
+    } catch (error) {
+      console.error('GSAP animation error', error)
+      tween = gsap.to(this.el, { opacity: 1, pointerEvents: 'auto', duration: 0 }) as gsap.core.Tween
     }
-    tween.eventCallback('onStart', () => {
-      this.config.on?.show && this.config.on.show(this)
-    })
-    tween.eventCallback('onComplete', () => {
-      this.config.on?.afterShow && this.config.on.afterShow(this)
-    })
+
     return tween
   }
 
-  hide() {
+  hide(): gsap.core.Tween | undefined {
     this.config.on?.beforeHide && this.config.on.beforeHide(this)
+
     let tween: gsap.core.Tween
-    if (this.config.animation?.custom) {
-      tween = this.config.animation.custom(this.el, false, this.config.animation)
-    } else {
-      const typeKey =
-        this.config.animation?.type && this.config.animation?.type in animationRegistry
-          ? this.config.animation.type
-          : 'fade'
-      const animFn = animationRegistry[typeKey as keyof typeof animationRegistry]
-      tween = animFn(this.el, false, this.config.animation || {})
+
+    try {
+      if (this.config.animation?.custom) {
+        tween = this.config.animation.custom(this.el, false, this.config.animation)
+      } else {
+        const typeKey =
+          this.config.animation?.type && this.config.animation?.type in animationRegistry
+            ? this.config.animation.type
+            : 'fade'
+        const animFn = animationRegistry[typeKey as keyof typeof animationRegistry]
+        tween = animFn(this.el, false, this.config.animation || {})
+      }
+      tween.eventCallback('onStart', () => {
+        this.config.on?.hide && this.config.on.hide(this)
+      })
+      tween.eventCallback('onComplete', () => {
+        this.config.on?.afterHide && this.config.on.afterHide(this)
+      })
+    } catch (error) {
+      console.error('GSAP animation error', error)
+      tween = gsap.to(this.el, { opacity: 1, pointerEvents: 'auto', duration: 0 }) as gsap.core.Tween
     }
-    tween.eventCallback('onStart', () => {
-      this.config.on?.hide && this.config.on.hide(this)
-    })
-    tween.eventCallback('onComplete', () => {
-      this.config.on?.afterHide && this.config.on.afterHide(this)
-    })
+
     return tween
   }
 }
