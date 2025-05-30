@@ -1,5 +1,5 @@
 import { scrollManager } from '@shared/scripts/libs/lenis/lenis';
-import type { DefaultPanelIds, IHeaderConfig, IPanelConfig } from '../types';
+import type { IHeaderConfig, IPanelConfig } from '../types';
 import { HeaderPanel } from './header-panel';
 import gsap from 'gsap';
 
@@ -16,10 +16,15 @@ export class HeaderController {
   activePanel?: HeaderPanel;
   activeButton?: IHeaderButton;
   overlay: HTMLElement | null;
-  pendingHoverHideTimer: number | null = null;
   tl: gsap.core.Timeline | null = null;
   sequentialSwitch: boolean;
   switchDelay: number;
+  resizeObserver?: ResizeObserver;
+
+  private positionTicker?: () => void;
+  private pendingHoverShowTimer: number | null = null;
+  private pendingHoverHideTimer: number | null = null;
+  private repositionRafId = 0;
 
   constructor(config: IHeaderConfig) {
     this.config = config;
@@ -27,19 +32,64 @@ export class HeaderController {
     const headerEl = document.querySelector(containerSel) as HTMLElement;
     if (!headerEl) throw new Error('Header container not found');
     this.headerEl = headerEl;
-    this.overlay = config.overlay === false ? null : headerEl.querySelector('[data-header="overlay"]');
+    this.overlay = config.overlay === false
+      ? null
+      : headerEl.querySelector('[data-header="overlay"]:not([data-initialized])');
+    if (this.overlay) this.overlay.setAttribute('data-initialized', 'true');
+
     this.sequentialSwitch = config.panelsAnimation?.sequentialSwitch ?? false;
     this.switchDelay = config.panelsAnimation?.delay ?? 0;
     this.initPanels();
     this.bindOverlay();
     this.bindGlobalEvents();
+    this.initResizeObserver();
+  }
+
+  private initResizeObserver() {
+    if (!('ResizeObserver' in window)) return;
+
+    const target = this.headerEl.querySelector('[data-header="body"]') ?? this.headerEl;
+
+    this.resizeObserver = new ResizeObserver(() => {
+      if (this.activePanel) this.requestReposition();
+    });
+
+    this.resizeObserver.observe(target);
+  }
+
+  private requestReposition() {
+    if (this.repositionRafId) return;
+    this.repositionRafId = requestAnimationFrame(() => {
+      this.repositionRafId = 0;
+      this._repositionActivePanel();
+    });
+  }
+
+  private _repositionActivePanel() {
+    if (!this.activePanel) return;
+    this.activePanel.applyPositioning({
+      triggerEl: this.activeButton?.el,
+      headerEl: this.headerEl,
+    });
+  }
+
+  private startPositionTracking() {
+    if (this.positionTicker) return;
+    this.positionTicker = () => this._repositionActivePanel();
+    gsap.ticker.add(this.positionTicker);
+  }
+
+  private stopPositionTracking() {
+    if (!this.positionTicker) return;
+    gsap.ticker.remove(this.positionTicker);
+    this.positionTicker = undefined;
   }
 
   private initPanels() {
     const panelEls = document.querySelectorAll('[data-header-panel]') as NodeListOf<HTMLElement>;
     panelEls.forEach(panelEl => {
       const panelId = panelEl.getAttribute('data-header-panel')!;
-      const specificConfig = (this.config.panels && this.config.panels[panelId as DefaultPanelIds]) || {};
+      const specificConfig = (this.config.panels && this.config.panels[panelId]) || {};
       const mergedAnimation = { ...this.config.panelsAnimation, ...specificConfig.animation };
       const mergedPosition = { ...this.config.panelsPosition, ...specificConfig.position };
       const mergedOn = { ...this.config.on, ...specificConfig.on };
@@ -63,16 +113,23 @@ export class HeaderController {
       const panel = new HeaderPanel(panelEl, mergedConfig);
       const triggerSel = `[data-header="button"][data-target="${panelId}"]`;
       const triggerEl = document.querySelector(triggerSel) as HTMLElement;
-      if (!triggerEl) return;
+
+      if (!triggerEl) {
+        console.warn(`Trigger element for panel "${panelId}" not found`);
+        return;
+      }
+
       const button: IHeaderButton = { el: triggerEl, trigger: determinedTrigger, target: panel };
       this.buttons.push(button);
+
       if (button.trigger === 'click') {
         triggerEl.addEventListener('click', e => { e.preventDefault(); this.handleToggle(button); });
-      } else {
-        triggerEl.addEventListener('mouseenter', () => { this.cancelHoverHide(); this.handleToggle(button); });
-        triggerEl.addEventListener('mouseleave', () => this.scheduleHoverHide(button));
+      }
+      if (button.trigger === 'hover') {
+        triggerEl.addEventListener('mouseenter', () => this.scheduleHoverShow(button));
+        triggerEl.addEventListener('mouseleave', () => this.scheduleHoverHide());
         panel.el.addEventListener('mouseenter', () => this.cancelHoverHide());
-        panel.el.addEventListener('mouseleave', () => this.scheduleHoverHide(button));
+        panel.el.addEventListener('mouseleave', () => this.scheduleHoverHide());
       }
     });
   }
@@ -80,30 +137,42 @@ export class HeaderController {
   private handleToggle(button: IHeaderButton) {
     this.killTimeline();
     this.cancelHoverHide();
+
     const isSame = this.activePanel === button.target;
+
     this.buttons.forEach(btn => btn.el.classList.remove('active'));
     if (!isSame) button.el.classList.add('active');
     this.tl = gsap.timeline({ onComplete: () => { this.tl = null; } });
 
-    if (this.activePanel) {
-      this.tl.add(this.activePanel.hide());
+    if (isSame) {
+      if (this.activePanel) {
+        this.tl.add(this.activePanel.hide() as gsap.core.Tween);
+      }
       this.tl.add(() => {
-        if (isSame) {
-          if (this.overlay) this.overlay.classList.remove('active');
-          scrollManager.enableScroll();
-          this.activePanel = undefined;
-          this.activeButton = undefined;
-        }
+        if (this.overlay) this.overlay.classList.remove('active');
+        scrollManager.enableScroll();
+        this.activePanel = undefined;
+        this.activeButton = undefined;
+        this.stopPositionTracking();
       });
+      return;
     }
 
-    if (!isSame) {
+    if (this.activePanel) {
       if (this.sequentialSwitch) {
+        // Сначала hide, потом open
+        this.tl.add(this.activePanel.hide() as gsap.core.Tween);
         this.tl.add(() => this.openPanel(button));
       } else {
-        this.tl.add(() => { }, `+=${this.switchDelay}`);
-        this.tl.add(() => this.openPanel(button));
+        // Одновременно — скрываем старую и открываем новую
+        this.tl.add([
+          this.activePanel.hide() as gsap.core.Tween,
+          gsap.delayedCall(this.switchDelay, () => this.openPanel(button))
+        ]);
       }
+    } else {
+      if (this.switchDelay) this.tl.add(() => { }, `+=${this.switchDelay}`);
+      this.tl.add(() => this.openPanel(button));
     }
   }
 
@@ -115,16 +184,39 @@ export class HeaderController {
       if (button.target.config.overlay === false) this.overlay.classList.remove('active');
       else this.overlay.classList.add('active');
     }
+    this.startPositionTracking();
     this.tl!.add(button.target.show());
     scrollManager.disableScroll();
   }
 
-  private scheduleHoverHide(button: IHeaderButton) {
+
+  private scheduleHoverShow(button: IHeaderButton) {
+    this.cancelHoverHide();
+    if (this.pendingHoverShowTimer) clearTimeout(this.pendingHoverShowTimer);
+
+    this.pendingHoverShowTimer = window.setTimeout(() => {
+      this.handleToggle(button);
+      this.pendingHoverShowTimer = null;
+    }, 180); // задержка на открытие, можно подкрутить под UX
+  }
+
+  private cancelHoverShow() {
+    if (this.pendingHoverShowTimer) {
+      clearTimeout(this.pendingHoverShowTimer);
+      this.pendingHoverShowTimer = null;
+    }
+  }
+
+
+  private scheduleHoverHide() {
+    this.cancelHoverShow();
     if (this.pendingHoverHideTimer) clearTimeout(this.pendingHoverHideTimer);
+
     this.pendingHoverHideTimer = window.setTimeout(() => {
-      if (!button.el.matches(':hover') && !button.target.el.matches(':hover')) {
-        this.handleToggle(button);
-      }
+      const anyHovered = this.buttons.some(btn =>
+        btn.el.matches(':hover') || btn.target.el.matches(':hover')
+      );
+      if (!anyHovered) this.hideAll();
       this.pendingHoverHideTimer = null;
     }, 250);
   }
@@ -155,6 +247,8 @@ export class HeaderController {
 
   destroy() {
     this.killTimeline();
+    this.cancelHoverShow();
+    this.cancelHoverHide();
     this.buttons.forEach(({ el, trigger, target }) => {
       const clone = el.cloneNode(true) as HTMLElement;
       el.replaceWith(clone);
@@ -169,16 +263,21 @@ export class HeaderController {
     this.activePanel = undefined;
     this.activeButton = undefined;
     scrollManager.enableScroll();
+    this.resizeObserver?.disconnect();
+    this.stopPositionTracking();
   }
 
   hideAll() {
     this.killTimeline();
+    this.cancelHoverShow();
+    this.cancelHoverHide();
     this.buttons.forEach(({ el }) => el.classList.remove('active'));
     if (this.activePanel) this.activePanel.hide();
     this.activePanel = undefined;
     this.activeButton = undefined;
     if (this.overlay) this.overlay.classList.remove('active');
     scrollManager.enableScroll();
+    this.stopPositionTracking();
   }
 
   private _onKeyUp = (e: KeyboardEvent) => {
