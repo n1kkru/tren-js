@@ -1,0 +1,36 @@
+---
+import Picture from '@shared/ui/picture/Picture.astro'
+import Text from '@shared/ui/text/Text.astro'
+import Title from '@shared/ui/title/Title.astro'
+
+interface Props {
+  class?: string
+  title: string
+  text: string
+  img?: any
+}
+
+const { title, text, img, class: className, ...props } = Astro.props as Props
+
+export { SlideCard }
+---
+
+<div
+  class:list={['slide-card', 'flex', className]}
+  {...props}
+>
+  <div class="flex flex-col">
+    <Title>{title}</Title>
+    <Text>This is slide. {text}</Text>
+  </div>
+  <div class="h-[200px] w-[300px]">
+    <Picture
+      src={img}
+      alt=""
+    />
+  </div>
+</div>
+
+<style>
+  @import './slide-card.scss';
+</style>

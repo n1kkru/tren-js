@@ -1,0 +1,110 @@
+---
+import ButtonSquare from '@shared/ui/buttons/button-square/ButtonSquare.astro'
+import Text from '@shared/ui/text/Text.astro'
+import Title from '@shared/ui/title/Title.astro'
+import Layout from '@widgets/layout/Layout.astro'
+import Swiper from 'swiper'
+import SlideCard from './_components/slide-card/SlideCard.astro'
+import Image1 from './img/slider-image-1.png'
+import Image2 from './img/slider-image-2.png'
+import Image3 from './img/slider-image-3.png'
+import Image4 from './img/slider-image-4.png'
+---
+
+<Layout pageName="ui">
+  <div class="bg-slate-500">
+    <div class="h-28">
+      <Title
+        class="text-center"
+        variant="80"
+        >Swiper</Title
+      >
+    </div>
+    <section class="flex flex-col gap-8 bg-slate-900 p-6">
+      <div
+        id="swiper-1"
+        class="swiper"
+        data-swiper="swiper-1"
+      >
+        <div class="swiper-pagination swiper__tabs">
+          <span class="swiper__tab swiper__tab_active">2001</span>
+          <span class="swiper__tab">2002</span>
+          <span class="swiper__tab">2003</span>
+          <span class="swiper__tab">2004</span>
+        </div>
+        <div class="swiper-wrapper">
+          <SlideCard
+            class="swiper-slide"
+            title="2001"
+            img={Image1}
+            text="Lorem ipsum dolor sit amet consectetur adipisicing elit."
+          />
+          <SlideCard
+            class="swiper-slide"
+            title="2002"
+            text="World cup 2022"
+            img={Image2}
+          />
+          <SlideCard
+            class="swiper-slide"
+            title="2003"
+            text="Fuck you"
+            img={Image3}
+          />
+          <SlideCard
+            class="swiper-slide"
+            title="2004"
+            text="Life is good. Life is good"
+            img={Image4}
+          />
+        </div>
+        <div class="swiper__navigations">
+          <ButtonSquare icon="arrow-small-left" />
+          <ButtonSquare icon="arrow-small-right" />
+        </div>
+      </div>
+    </section>
+  </div>
+</Layout>
+
+<style>
+  @import 'swiper-page.scss';
+  @import 'swiper/css';
+</style>
+
+<script>
+  import Swiper from 'swiper'
+  import 'swiper/css'
+  import {
+    Autoplay,
+    Controller,
+    EffectFade,
+    FreeMode,
+    Keyboard,
+    Navigation,
+    Pagination,
+    Thumbs
+  } from 'swiper/modules'
+  import type { SwiperOptions } from 'swiper/types'
+
+  const settings: SwiperOptions = {
+    modules: [EffectFade, Navigation, Pagination, Thumbs, Keyboard, Autoplay, FreeMode, Controller],
+    slidesPerView: 'auto',
+    speed: 800,
+    keyboard: {
+      enabled: true,
+      onlyInViewport: true
+    },
+    pagination: {
+      el: '.swiper__tabs',
+      type: 'custom'
+    },
+    navigation: {
+      nextEl: '.swiper-button-next',
+      prevEl: '.swiper-button-prev'
+    }
+  }
+
+  const swiper = document.querySelector('[data-swiper="swiper-1"]') as HTMLElement
+  if (swiper) new Swiper(swiper, settings)
+</script>
