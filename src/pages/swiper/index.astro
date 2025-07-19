@@ -22,16 +22,22 @@ import Image4 from './img/slider-image-4.png'
     </div>
     <section class="flex flex-col gap-8 bg-slate-900 p-6">
       <div
+        class="swiper"
+        data-swiper="swiper-2"
+      >
+        <div class="swiper-wrapper">
+          <span class="swiper-slide swiper-years__tab swiper-years__tab_active">2001</span>
+          <span class="swiper-slide swiper-years__tab">2002</span>
+          <span class="swiper-slide swiper-years__tab">2003</span>
+          <span class="swiper-slide swiper-years__tab">2004</span>
+        </div>
+      </div>
+
+      <div
         id="swiper-1"
         class="swiper"
         data-swiper="swiper-1"
       >
-        <div class="swiper-pagination swiper__tabs">
-          <span class="swiper__tab swiper__tab_active">2001</span>
-          <span class="swiper__tab">2002</span>
-          <span class="swiper__tab">2003</span>
-          <span class="swiper__tab">2004</span>
-        </div>
         <div class="swiper-wrapper">
           <SlideCard
             class="swiper-slide"
@@ -59,8 +65,14 @@ import Image4 from './img/slider-image-4.png'
           />
         </div>
         <div class="swiper__navigations">
-          <ButtonSquare icon="arrow-small-left" />
-          <ButtonSquare icon="arrow-small-right" />
+          <ButtonSquare
+            icon="arrow-small-left"
+            class="swiper-button-prev"
+          />
+          <ButtonSquare
+            icon="arrow-small-right"
+            class="swiper-button-next"
+          />
         </div>
       </div>
     </section>
@@ -71,40 +83,3 @@ import Image4 from './img/slider-image-4.png'
   @import 'swiper-page.scss';
   @import 'swiper/css';
 </style>
-
-<script>
-  import Swiper from 'swiper'
-  import 'swiper/css'
-  import {
-    Autoplay,
-    Controller,
-    EffectFade,
-    FreeMode,
-    Keyboard,
-    Navigation,
-    Pagination,
-    Thumbs
-  } from 'swiper/modules'
-  import type { SwiperOptions } from 'swiper/types'
-
-  const settings: SwiperOptions = {
-    modules: [EffectFade, Navigation, Pagination, Thumbs, Keyboard, Autoplay, FreeMode, Controller],
-    slidesPerView: 'auto',
-    speed: 800,
-    keyboard: {
-      enabled: true,
-      onlyInViewport: true
-    },
-    pagination: {
-      el: '.swiper__tabs',
-      type: 'custom'
-    },
-    navigation: {
-      nextEl: '.swiper-button-next',
-      prevEl: '.swiper-button-prev'
-    }
-  }
-
-  const swiper = document.querySelector('[data-swiper="swiper-1"]') as HTMLElement
-  if (swiper) new Swiper(swiper, settings)
-</script>
