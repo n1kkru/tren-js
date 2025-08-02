@@ -3,54 +3,51 @@ import 'swiper/css'
 import {
   Autoplay,
   Controller,
+  EffectFade,
   FreeMode,
   Keyboard,
   Navigation,
   Pagination,
   Thumbs
 } from 'swiper/modules'
-import type { SwiperOptions } from 'swiper/types'
 
-Swiper.use([Navigation, Pagination, Thumbs, Keyboard, Autoplay, FreeMode, Controller])
-export function swipersInit() {
-  const swiperYearsContainer = document.querySelector('[data-swiper="swiper-2"]') as HTMLElement
-  if (!swiperYearsContainer) {
-    throw new Error('Swiper container "[data-swiper=\"swiper-2\"]" not found')
-  }
-  console.info('[swiperYearsContainer > ]', swiperYearsContainer)
+export const swipersInit = () => {
+  const slider = document.querySelector('[data-history-slider]') as HTMLElement
+  if (!slider) return
 
-  const swiperYears = new Swiper(swiperYearsContainer, {
-    spaceBetween: 10,
-    slidesPerView: 1
-  })
-  console.info('[swiperYears > ]', swiperYears)
+  const sliderThumbs = document.querySelector('[data-history-slider-thumbs]') as HTMLElement
+  if (!sliderThumbs) return
 
-  const settings: SwiperOptions = {
+  const sliderNext = document.querySelector('[data-history-slider-button-next]') as HTMLElement
+  const sliderPrev = document.querySelector('[data-history-slider-button-prev]') as HTMLElement
+  if (!sliderNext || !sliderPrev) return
+
+  const sliderThumbsSwiper = new Swiper(sliderThumbs, {
     slidesPerView: 'auto',
-    speed: 800,
-    keyboard: {
-      enabled: true,
-      onlyInViewport: true
-    },
-    pagination: {
-      el: '.swiper__tabs',
-      type: 'custom'
-    },
-    navigation: {
-      nextEl: '.swiper-button-next',
-      prevEl: '.swiper-button-prev'
+    spaceBetween: 20,
+    watchSlidesProgress: true,
+    speed: 400,
+    centeredSlides: false,
+    modules: [EffectFade, Navigation, Pagination, Thumbs, Keyboard, FreeMode, Autoplay, Controller],
+    breakpoints: {
+      1201: {
+        spaceBetween: 40
+      }
     }
-  }
+  })
 
-  const swiperContainer = document.querySelector('[data-swiper="swiper-1"]') as HTMLElement
-  if (!swiperContainer) {
-    throw new Error('Swiper container "[data-swiper=\"swiper-1\"]" not found')
-  }
-  console.info('[swiperContainer > ]', swiperContainer)
-
-  const swiperContent = new Swiper<HTMLElement>(swiperContainer, settings)
-  console.info('[swiperContent > ]', swiperContent)
-
-  swiperYears.controller.control = swiperContent
-  swiperContent.controller.control = swiperYears
+  const sliderMainSwiper = new Swiper(slider, {
+    slidesPerView: 1,
+    spaceBetween: 0,
+    thumbs: {
+      swiper: sliderThumbsSwiper
+    },
+    autoHeight: true,
+    speed: 200,
+    navigation: {
+      nextEl: sliderNext,
+      prevEl: sliderPrev
+    },
+    modules: [Thumbs, Controller, Navigation]
+  })
 }

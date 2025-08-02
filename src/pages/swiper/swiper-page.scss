@@ -1,2 +1,38 @@
 .swiper-page {
+  .years-swiper {
+    margin: 0;
+    .swiper-slide {
+      width: 150px;
+      text-align: center;
+      cursor: pointer;
+      opacity: 0.6;
+      transition: $transition;
+    }
+    .swiper-slide-thumb-active {
+      font-weight: bold;
+      border-bottom: 2px solid #2563eb;
+      opacity: 1;
+    }
+  }
+
+  .content-swiper {
+    max-width: calc(100vw - 32px);
+  }
+
+  .swiper-nav {
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-start;
+    margin-top: 2rem;
+  }
+
+  .swiper-button-prev,
+  .swiper-button-next {
+    position: static;
+    background-color: greenyellow;
+    box-shadow: 0 1px 8px 0 #0001;
+    &::after {
+      content: '';
+    }
+  }
 }
