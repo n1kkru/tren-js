@@ -1,17 +1,18 @@
 .swiper-page {
   .years-swiper {
     margin: 0;
+    overflow: visible;
     .swiper-slide {
-      width: 150px;
+      background-color: aliceblue;
+      border-radius: 5px;
+      border: 2px solid hsla(240, 75%, 36%, 0.856);
+      width: 120px;
       text-align: center;
       cursor: pointer;
-      opacity: 0.6;
       transition: $transition;
     }
     .swiper-slide-thumb-active {
       font-weight: bold;
-      border-bottom: 2px solid #2563eb;
-      opacity: 1;
     }
   }
 

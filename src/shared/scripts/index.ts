@@ -27,7 +27,7 @@ import { frontApi } from './frontApi'
 import { fancyboxInit } from './libs/fancybox'
 import { inputmaskApi } from './libs/inputmask/inputmask'
 import { scrollManager } from './libs/lenis/lenis'
-import { swiperApi } from './libs/swiper/swiper-manager'
+import { initMaps } from './libs/ymap'
 import { initHorizontalScroll } from './utils/horizontal-scroll'
 import { initOverlayScrollbars } from './utils/overlayScrollbars'
 
@@ -79,6 +79,8 @@ export const commonFunction = (): void => {
   initHorizontalScroll()
 
   StickyManager.init()
+
+  initMaps()
 }
 
 console.info(import.meta.env)

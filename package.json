@@ -20,6 +20,7 @@
   "dependencies": {
     "@astrojs/tailwind": "6.0.2",
     "@fancyapps/ui": "^5.0.36",
+    "@yandex/ymaps3-types": "^1.0.17084091",
     "accordion-js": "^3.4.0",
     "astro": "5.7.2",
     "gsap": "^3.12.7",

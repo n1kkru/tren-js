@@ -1,4 +1,4 @@
-import { YMapCenterZoomLocation, YMapProps, YMapTheme } from '@yandex/ymaps3-types'
+import type { YMapCenterZoomLocation, YMapProps, YMapTheme } from '@yandex/ymaps3-types'
 
 import themes from '../themes'
 
@@ -30,7 +30,8 @@ export const mapConfig: IMapConfig = {
   },
   camera: { tilt: 0 * (Math.PI / 180), azimuth: 0 * (Math.PI / 180) },
   mode: 'vector',
-  behaviors: ['drag', 'dblClick', 'oneFingerZoom'],
+  behaviors: ['drag', 'dblClick', 'oneFingerZoom', 'pinchZoom', 'scrollZoom'],
+  showScaleInCopyrights: true,
   margin: [0, 0, 0, 0],
   theme: 'grayscale'
 }

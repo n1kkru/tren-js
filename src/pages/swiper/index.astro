@@ -1,13 +1,12 @@
 ---
-import ButtonSquare from '@shared/ui/buttons/button-square/ButtonSquare.astro'
 import Title from '@shared/ui/title/Title.astro'
 import Layout from '@widgets/layout/Layout.astro'
-import SlideCard from './_components/slide-card/SlideCard.astro'
 import Image1 from './img/slider-image-1.png'
 import Image2 from './img/slider-image-2.png'
 import Image3 from './img/slider-image-3.png'
 import Image4 from './img/slider-image-4.png'
 import Picture from '@shared/ui/picture/Picture.astro'
+import SlideCard from './_components/slide-card/SlideCard.astro'
 
 const slides = [
   {
@@ -98,14 +97,17 @@ const slides = [
     <section class="flex flex-col gap-8 bg-zinc-500 p-6">
       <div
         data-history-slider-thumbs
-        class="swiper years-swiper"
+        class="swiper years-swiper border-b border-cyan-400"
       >
-        <div class="swiper-wrapper">
+        <div class="swiper-wrapper pb-4">
           {
             slides.map(slide => (
-              <div class="swiper-slide">
-                <h2>{slide.year}</h2>
-              </div>
+              <Title
+                class="swiper-slide"
+                variant="20"
+              >
+                {slide.year}
+              </Title>
             ))
           }
         </div>
@@ -118,14 +120,12 @@ const slides = [
         <div class="swiper-wrapper">
           {
             slides.map(slide => (
-              <div class="swiper-slide">
-                <h2>{slide.title}</h2>
-                <p>{slide.desc}</p>
-                <Picture
-                  src={slide.img}
-                  alt=""
-                />
-              </div>
+              <SlideCard
+                class="swiper-slide"
+                title={slide.title}
+                text={slide.desc}
+                img={slide.img}
+              />
             ))
           }
         </div>
