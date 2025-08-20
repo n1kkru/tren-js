@@ -110,22 +110,6 @@ class MapComponent {
   }
 
   private initMap(mapElement: HTMLElement): void {
-    //  проверка на устройство
-    // if (
-    //   window.matchMedia(`(min-width: ${BREAKPOINT_DESKTOP}px)`).matches &&
-    //   mapElement.id.includes('-mobile')
-    // ) {
-    //   return
-    // } else if (
-    //   window.matchMedia(`(max-width: ${BREAKPOINT_DESKTOP - 1}px)`).matches &&
-    //   !mapElement.id.includes('-mobile') &&
-    //   !document.getElementById(mapElement.id.replace('-mobile', ''))
-    // ) {
-    //   return
-    // } else {
-    //   return
-    // }
-
     if (
       window.matchMedia(`(min-width: ${BREAKPOINT_DESKTOP}px)`).matches &&
       mapElement.id.includes('-mobile')
@@ -135,33 +119,13 @@ class MapComponent {
       window.matchMedia(`(max-width: ${BREAKPOINT_DESKTOP - 1}px)`).matches &&
       !mapElement.id.includes('-mobile')
     ) {
-      // Проверяем, есть ли мобильная версия этого элемента
       const mobileElementId = mapElement.id + '-mobile'
       const mobileElementExists = document.getElementById(mobileElementId) !== null
 
-      // Если мобильная версия существует - прерываем инициализацию
       if (mobileElementExists) {
         return
       }
-      // Если мобильной версии нет - продолжаем инициализацию
     }
-
-    // const isDesktop = window.matchMedia(`(min-width: ${BREAKPOINT_DESKTOP}px)`).matches
-    // const isMobile = !isDesktop
-    // const isMobileElement = mapElement.id.includes('mobile')
-
-    // // Для десктопа: пропускаем только mobile-элементы
-    // if (isDesktop && isMobileElement) {
-    //   return
-    // }
-
-    // // Для мобильных: пропускаем НЕ mobile-элементы ТОЛЬКО если существует хотя бы один mobile-элемент на странице
-    // if (isMobile && !isMobileElement) {
-    //   const mobileElementExists = document.querySelector('[id*="mobile"]') !== null
-    //   if (mobileElementExists) {
-    //     return
-    //   }
-    // }
 
     const { theme, ...restConfig } = this.config
     mapElement.innerHTML = ''
@@ -205,22 +169,6 @@ class MapComponent {
     this.activeMarkerId = null
   }
 
-  // Фокус на маркере по id, вызывается из списка или снаружи
-  // public focusOnMarker(id: string) {
-  //   const marker = this.markerRefs[id]
-  //   if (!marker) return
-
-  //   this.resetActiveMarkers()
-  //   marker.element?.classList.add('map__marker--active')
-  //   this.activeMarkerId = id
-  //   this.map.update({
-  //     location: {
-  //       center: marker.coordinates, // или вытащи координаты как у тебя
-  //       zoom: 13,
-  //       duration: 200
-  //     }
-  //   })
-  // }
   public async focusOnMarker(data: { id: string; coords: any }) {
     // 1. Центруем и зумим карту к маркеру
     console.log('data', data.coords)
@@ -251,17 +199,13 @@ class MapComponent {
     const mapID = mapElement.dataset.map
     if (!mapID) return
 
-    const elements = document.querySelectorAll('[data-list-placemark-id]')
-    elements.forEach(el => {
-      el.addEventListener('click', () => {
-        const id = el.getAttribute('data-list-placemark-id')
-        const coords = el.getAttribute('data-list-placemark-coords')
+    const buttons = document.querySelectorAll<HTMLButtonElement>('[data-id-button]')
+    buttons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = btn.getAttribute('data-id-button')
+        const coords = btn.closest('li')?.getAttribute('data-coords')
         if (!id || !coords) return
-
         this.focusOnMarker({ id, coords })
-
-        elements.forEach(el2 => el2.classList.remove('is-active'))
-        el.classList.add('is-active')
       })
     })
   }

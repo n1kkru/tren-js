@@ -31,7 +31,7 @@ import { initMaps } from './libs/ymap'
 import { initHorizontalScroll } from './utils/horizontal-scroll'
 import { initOverlayScrollbars } from './utils/overlayScrollbars'
 
-;(window as any).process = { env: {} } // Фикс для совместимости с TomSelect
+;(window as any).process = { env: {} }
 
 export const commonFunction = (): void => {
   initOverlayScrollbars()

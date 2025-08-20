@@ -1,7 +1,64 @@
 .map-container {
   position: static;
   #map {
-    width: 100vw;
+    width: calc(100vw - 250px);
     height: 100vh;
+  }
+
+  &__list {
+    width: 250px;
+    ul {
+      overflow: auto;
+      max-height: 100vh;
+      @include scrollbar-hidden();
+    }
+  }
+
+  .map__marker {
+    position: relative;
+    width: 36px;
+    height: 44px;
+    transform: translate(-50%, -100%); // чтобы "носик" пина указывал на точку
+    cursor: pointer;
+
+    .map__marker-icon path {
+      fill: #db7151;
+      transition: $transition;
+    }
+
+    @media #{media('>',t)} and (hover: hover) and (pointer: fine) {
+      &:hover {
+        .map__marker-icon path {
+          fill: #ff5722;
+        }
+      }
+    }
+  }
+
+  .map__cluster {
+    position: relative;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #ff5722 0%, #db7151 100%);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    transition: $transition;
+    cursor: pointer;
+
+    &:hover {
+      scale: 1.1;
+    }
+  }
+
+  .map__cluster-count {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #fff;
+    font-size: 16px;
+    font-weight: 600;
+    pointer-events: none;
+    will-change: scale;
   }
 }

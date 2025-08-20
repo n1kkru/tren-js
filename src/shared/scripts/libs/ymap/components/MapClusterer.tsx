@@ -15,19 +15,13 @@ export async function createClusterer(map: any, markerData: any, options = {}) {
 
   function createMarkerElem(onClick?) {
     const markerElement = document.createElement('div')
-    markerElement.innerHTML = `<svg class=initial width="60" height="66" viewBox="0 0 60 66" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <g clip-path="url(#clip0_621_69682)">
-        <path d="M0 49.7143L70.8857 49.7143V59.3185C65.1885 59.7376 58.1668 60.4841 50.5333 61.8488C44.4427 62.9378 39.3173 64.1786 35.1509 65.3553C32.2104 66.1865 28.3721 66.2164 25.3606 65.4307C20.3874 64.1325 14.3541 62.7858 7.26945 61.6166C4.77488 61.205 2.34563 60.8477 0 60.537L0 49.7143Z" fill="#02B3E3"/>
-        </g>
-        <rect width="60" height="60" transform="matrix(0 -1 -1 0 60 60)" fill="#02B3E3"/>
-        <defs>
-        <clipPath id="clip0_621_69682">
-        <rect width="6" height="60" fill="white" transform="matrix(0 -1 1 0 0 66)"/>
-        </clipPath>
-        </defs>
-      </svg>`
-
-    markerElement.classList.add('map__marker')
+    markerElement.className = 'map__marker'
+    markerElement.innerHTML = `
+      <svg class="map__marker-icon" width="36" height="44" viewBox="0 0 36 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M18 44C18 44 36 26.6 36 14C36 6.26801 27.9411 0 18 0C8.05887 0 0 6.26801 0 14C0 26.6 18 44 18 44Z" fill="currentColor"/>
+        <circle cx="18" cy="14" r="6" fill="white"/>
+      </svg>
+    `
     markerElement.dataset.mapMarker = ''
 
     if (onClick) markerElement.addEventListener('click', onClick)
@@ -80,21 +74,10 @@ export async function createClusterer(map: any, markerData: any, options = {}) {
     return markerInstance
   }
 
-  function createClusterElem(count) {
+  function createClusterElem(count: number) {
     const div = document.createElement('div')
-    div.innerHTML = `<svg class=initial width="60" height="66" viewBox="0 0 60 66" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <g clip-path="url(#clip0_621_69682)">
-        <path d="M0 49.7143L70.8857 49.7143V59.3185C65.1885 59.7376 58.1668 60.4841 50.5333 61.8488C44.4427 62.9378 39.3173 64.1786 35.1509 65.3553C32.2104 66.1865 28.3721 66.2164 25.3606 65.4307C20.3874 64.1325 14.3541 62.7858 7.26945 61.6166C4.77488 61.205 2.34563 60.8477 0 60.537L0 49.7143Z" fill="#02B3E3"/>
-        </g>
-        <rect width="60" height="60" transform="matrix(0 -1 -1 0 60 60)" fill="#02B3E3"/>
-        <defs>
-        <clipPath id="clip0_621_69682">
-        <rect width="6" height="60" fill="white" transform="matrix(0 -1 1 0 0 66)"/>
-        </clipPath>
-        </defs>
-      </svg>
-      <span class='count'>${count}</span>`
     div.className = 'map__cluster'
+    div.innerHTML = `<span class="map__cluster-count">${count}</span>`
     return div
   }
 
