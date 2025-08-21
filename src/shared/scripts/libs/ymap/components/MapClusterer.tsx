@@ -1,4 +1,3 @@
-// MapClusterer.ts
 export async function createClusterer(
   map: any,
   markerData: any[],
@@ -12,7 +11,6 @@ export async function createClusterer(
 
   const { YMapClusterer, clusterByGrid } = await ymaps3.import('@yandex/ymaps3-clusterer@0.0.1')
 
-  // GeoJSON-like features
   const features = markerData.map((m, idx) => ({
     type: 'Feature',
     id: m.id ?? idx,
@@ -48,8 +46,6 @@ export async function createClusterer(
     const markerInstance = new ymaps3.YMapMarker(
       {
         coordinates: coords,
-        // смещать не обязательно, если центруешь svg/элемент через CSS
-        // offset: [-18, -44],
         zIndex: 1000
       },
       markerElement
