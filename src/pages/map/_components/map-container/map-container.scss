@@ -14,6 +14,12 @@
     }
   }
 
+  &__button {
+    &.active {
+      background-color: red;
+    }
+  }
+
   .map__marker {
     position: relative;
     width: 36px;
@@ -61,4 +67,48 @@
     pointer-events: none;
     will-change: scale;
   }
+}
+
+.map-balloon {
+  position: relative;
+  transform: translate(-50%, calc(-100% - 50px));
+  min-width: 220px;
+  max-width: 320px;
+  padding: 12px 14px 12px 14px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.18);
+  pointer-events: auto;
+}
+
+.map-balloon__body {
+  font-size: 14px;
+  line-height: 1.45;
+  color: #222;
+}
+.map-balloon__title {
+  font-weight: 700;
+  margin-bottom: 6px;
+  font-size: 16px;
+}
+.map-balloon__row {
+  margin-top: 4px;
+}
+
+.map-balloon__close {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 28px;
+  height: 28px;
+  border: none;
+  background: transparent;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 18px;
+  line-height: 1;
+}
+
+.map__marker {
+  pointer-events: auto;
 }

@@ -1,76 +1,61 @@
-export async function createClusterer(map: any, markerData: any, options = {}) {
-  window.map = null
-
+// MapClusterer.ts
+export async function createClusterer(
+  map: any,
+  markerData: any[],
+  options: {
+    onMarkerCreated?: (id: string, marker: ymaps3.YMapMarker) => void
+    onMarkerClick?: (data: { id: string; coords: [number, number]; props?: any }) => void
+    resetActiveMarkers?: () => void
+  } = {}
+) {
   await ymaps3.ready
 
   const { YMapClusterer, clusterByGrid } = await ymaps3.import('@yandex/ymaps3-clusterer@0.0.1')
 
-  // Преобразуем данные к geojson-фичам
+  // GeoJSON-like features
   const features = markerData.map((m, idx) => ({
     type: 'Feature',
     id: m.id ?? idx,
-    geometry: { type: 'Point', coordinates: parseCoords(m.coords) },
+    geometry: { type: 'Point', coordinates: parseCoords(m.coords) as [number, number] },
     properties: m
   }))
 
-  function createMarkerElem(onClick?) {
-    const markerElement = document.createElement('div')
-    markerElement.className = 'map__marker'
-    markerElement.innerHTML = `
+  function createMarkerElem(onClick?: () => void) {
+    const el = document.createElement('div')
+    el.className = 'map__marker'
+    el.innerHTML = `
       <svg class="map__marker-icon" width="36" height="44" viewBox="0 0 36 44" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M18 44C18 44 36 26.6 36 14C36 6.26801 27.9411 0 18 0C8.05887 0 0 6.26801 0 14C0 26.6 18 44 18 44Z" fill="currentColor"/>
         <circle cx="18" cy="14" r="6" fill="white"/>
       </svg>
     `
-    markerElement.dataset.mapMarker = ''
-
-    if (onClick) markerElement.addEventListener('click', onClick)
-    return markerElement
+    el.dataset.mapMarker = ''
+    if (onClick) el.addEventListener('click', onClick)
+    return el
   }
 
-  function marker(feature) {
+  function marker(feature: any) {
     const dataItem = feature.properties
-
-    const id = dataItem.id
-    const coords = dataItem.coords
+    const id = String(dataItem.id ?? feature.id)
+    const coords = feature.geometry.coordinates as [number, number]
 
     const markerElement = createMarkerElem(() => {
-      options.resetActiveMarkers && options.resetActiveMarkers()
+      options.resetActiveMarkers?.()
       markerElement.classList.add('map__marker--active')
-      options.onMarkerClick && options.onMarkerClick({ id, coords })
-
-      const container = document.querySelector('.pickup-points-modal__list')
-      const target = document.querySelector(`[data-list-placemark-id="${id}"]`)
-      if (target && container) {
-        document
-          .querySelectorAll('[data-list-placemark-id]')
-          .forEach(el => el.classList.remove('is-active'))
-        target.classList.add('is-active')
-
-        // скролл списка на активный элемент
-        const containerTop = container.getBoundingClientRect().top
-        const targetTop = target.getBoundingClientRect().top
-        const offset = targetTop - containerTop + container.scrollTop - 145
-
-        container.scrollTo({ behavior: 'smooth', top: offset })
-      }
-      map.update({
-        location: {
-          center: feature.geometry.coordinates,
-          zoom: map.zoom,
-          duration: 300
-        }
-      })
+      options.onMarkerClick?.({ id, coords, props: dataItem })
     })
+
     const markerInstance = new ymaps3.YMapMarker(
       {
-        coordinates: feature.geometry.coordinates,
-        // @ts-ignore
-        offset: [-25, -25]
+        coordinates: coords,
+        // смещать не обязательно, если центруешь svg/элемент через CSS
+        // offset: [-18, -44],
+        zIndex: 1000
       },
       markerElement
     )
-    options.onMarkerCreated && options.onMarkerCreated(id, markerInstance)
+
+    options.onMarkerCreated?.(id, markerInstance)
     return markerInstance
   }
 
@@ -81,23 +66,22 @@ export async function createClusterer(map: any, markerData: any, options = {}) {
     return div
   }
 
-  function cluster(coords, features) {
-    const el = createClusterElem(features.length)
-
+  function cluster(coords: [number, number], featuresInCluster: any[]) {
+    const el = createClusterElem(featuresInCluster.length)
     return new ymaps3.YMapMarker(
       {
         coordinates: coords,
         onClick: () => {
-          const bounds = getBounds(features.map(f => f.geometry.coordinates))
-          const center = [(bounds[0][0] + bounds[1][0]) / 2, (bounds[0][1] + bounds[1][1]) / 2]
+          const bounds = getBounds(featuresInCluster.map(f => f.geometry.coordinates))
+          const center: [number, number] = [
+            (bounds[0][0] + bounds[1][0]) / 2,
+            (bounds[0][1] + bounds[1][1]) / 2
+          ]
           map.update({
-            location: {
-              center,
-              zoom: map.zoom + 2,
-              duration: 500
-            }
+            location: { center, zoom: map.zoom + 2, duration: 500 }
           })
-        }
+        },
+        zIndex: 900
       },
       el
     )
@@ -114,7 +98,7 @@ export async function createClusterer(map: any, markerData: any, options = {}) {
   return clusterer
 }
 
-function getBounds(coords) {
+function getBounds(coords: [number, number][]) {
   let minX = Infinity,
     minY = Infinity,
     maxX = -Infinity,
@@ -128,9 +112,12 @@ function getBounds(coords) {
   return [
     [minX, minY],
     [maxX, maxY]
-  ]
+  ] as [[number, number], [number, number]]
 }
 
-export function parseCoords(str: string) {
-  return str.split(',').map(s => Number(s.trim()))
+export function parseCoords(strOrArr: string | [number, number]): [number, number] {
+  if (Array.isArray(strOrArr)) return strOrArr
+  return String(strOrArr)
+    .split(',')
+    .map(s => Number(s.trim())) as [number, number]
 }
