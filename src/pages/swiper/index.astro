@@ -1,0 +1,152 @@
+---
+import Title from '@shared/ui/title/Title.astro'
+import Layout from '@widgets/layout/Layout.astro'
+import Image1 from './img/slider-image-1.png'
+import Image2 from './img/slider-image-2.png'
+import Image3 from './img/slider-image-3.png'
+import Image4 from './img/slider-image-4.png'
+import Picture from '@shared/ui/picture/Picture.astro'
+import SlideCard from './_components/slide-card/SlideCard.astro'
+
+const slides = [
+  {
+    year: '1991',
+    img: Image1,
+    title: '1991',
+    desc: 'ля ля ля ! ЛЯ ля  ЯЛЛЯЯ asdasd sa dasdasdasd asdasdasdasd asdasdasd ЯЛЛЯЯ asdasd sa dasdasdasd asdasdasdasd asdasdasd ЯЛЛЯЯ asdasd sa dasdasdasd asdasdasdasd asdasdasd ЯЛЛЯЯ asdasd sa dasdasdasd asdasdasdasd asdasdasd  '
+  },
+  {
+    year: '2001',
+    img: Image2,
+    title: '2001',
+    desc: 'Труля ла ЛЯ ла ла ла'
+  },
+  {
+    year: '2007',
+    img: Image3,
+    title: '2007',
+    desc: 'парам па парам парам па парам парам па парам парам па парам парам па парам парам па парам парам па парам парам па парам парам па парам парам па парам парам па парам парам па парам парам па парам парам па парам парам па парам парам па парам парам па парам парам па парам парам па парам парам па парам парам па парам парам па парам парам па парам парам па парам '
+  },
+  {
+    year: '2010',
+    img: Image4,
+    title: '2010',
+    desc: 'хоп хоп хоп '
+  },
+  {
+    year: '2015',
+    img: Image1,
+    title: '2015',
+    desc: 'ля ля ля ! ЛЯ ля ЯЛЛЯЯ 2015'
+  },
+  {
+    year: '2020',
+    img: Image2,
+    title: '2020',
+    desc: 'Труля л2020'
+  },
+  {
+    year: '2025',
+    img: Image3,
+    title: '2025',
+    desc: 'парам пasdawsdм'
+  },
+  {
+    year: '2030',
+    img: Image4,
+    title: '2030',
+    desc: 'хвввввхоп '
+  },
+  {
+    year: '2035',
+    img: Image1,
+    title: '2035',
+    desc: 'ля ля ля ! ЛЯ ля ЯЛЛЯЯ 2035'
+  },
+  {
+    year: '2040',
+    img: Image2,
+    title: '2040',
+    desc: 'Труля л2040'
+  },
+  {
+    year: '2045',
+    img: Image3,
+    title: '2045',
+    desc: 'парам па парам'
+  },
+  {
+    year: '2050',
+    img: Image4,
+    title: '2050',
+    desc: 'хоп хоп хоп '
+  }
+]
+---
+
+<Layout pageName="ui">
+  <div class="swiper-page bg-slate-500">
+    <div class="h-28">
+      <Title
+        class="text-center"
+        variant="80"
+        >Swiper</Title
+      >
+    </div>
+
+    <section class="flex flex-col gap-8 bg-zinc-500 p-6">
+      <div
+        data-history-slider-thumbs
+        class="swiper years-swiper border-b border-cyan-400"
+      >
+        <div class="swiper-wrapper pb-4">
+          {
+            slides.map(slide => (
+              <Title
+                class="swiper-slide"
+                variant="20"
+              >
+                {slide.year}
+              </Title>
+            ))
+          }
+        </div>
+      </div>
+
+      <div
+        data-history-slider
+        class="swiper content-swiper"
+      >
+        <div class="swiper-wrapper">
+          {
+            slides.map(slide => (
+              <SlideCard
+                class="swiper-slide"
+                title={slide.title}
+                text={slide.desc}
+                img={slide.img}
+              />
+            ))
+          }
+        </div>
+        <div class="swiper-nav">
+          <button
+            data-history-slider-button-prev
+            class="swiper-button-prev"
+            >&lt;</button
+          >
+          <button
+            data-history-slider-button-next
+            class="swiper-button-next"
+            >&gt;</button
+          >
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <style>
+    @import 'swiper-page.scss';
+    @import 'swiper/css';
+  </style>
+</Layout>

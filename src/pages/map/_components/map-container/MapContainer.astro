@@ -1,0 +1,70 @@
+---
+import ButtonSquare from '@shared/ui/buttons/button-square/ButtonSquare.astro'
+import { points } from './points.ts'
+import Text from '@shared/ui/text/Text.astro'
+import Button from '@shared/ui/buttons/button/Button.astro'
+interface Props {
+  id?: string
+  class?: string
+}
+
+const mark = points.map(({ id, coords }) => ({ id, coords }))
+const { id, class: className, ...props } = Astro.props as Props
+
+export { MapContainer }
+---
+
+<div
+  class:list={['map-container', className]}
+  {...props}
+>
+  <div
+    class="map-container__wrapper flex"
+    data-lenis-prevent="true"
+  >
+    <div class="map-container__list">
+      <ul>
+        {
+          mark.map(({ id, coords }) => (
+            <li data-coords={coords}>
+              <Button
+                type={'button'}
+                class="map-container__button"
+                data-id-button={id}
+              >
+                <Text class="map-container__text">{id}</Text>
+              </Button>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+    <div class="map-container__map">
+      <div
+        id="map"
+        class="map"
+        data-map="modal-map-data"
+        data-map-center="30.306067, 59.838249"
+        data-map-zoom="11"
+        data-map-markers="modal-map-data"
+      >
+        map
+      </div>
+      <input
+        type="hidden"
+        name="modal-map-data"
+        value={JSON.stringify(mark)}
+      />
+    </div>
+  </div>
+</div>
+
+<style is:global>
+  @import './map-container.scss';
+</style>
+
+<script
+  is:inline
+  data-astro-rerun
+  src="https://api-maps.yandex.ru/v3/?apikey=8b0cc5ae-a8db-493a-b52e-ac8183dd8171&lang=ru_RU"
+></script>

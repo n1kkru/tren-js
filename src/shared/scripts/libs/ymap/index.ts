@@ -2,24 +2,39 @@ import type { YMap } from '@yandex/ymaps3-types'
 
 import { MapComponent } from './components/MapComponent'
 
-const readyMaps: Record<string, YMap> = {}
+const readyMaps: Record<string, MapComponent> = {}
+const mapIDs = new Set<string>()
 
-const getMap = (mapID: string): YMap => readyMaps[mapID]
+const getMap = (mapID: string): YMap => readyMaps[mapID]?.getMap()
 
-/*
-TODO:
-  1. Инициализация карты
-  2. Изменение темы карты
-  3. Добавление маркеров
-  4. Добавление кластеров
-  5. Добавление баллунов
-*/
+declare global {
+  interface Window {
+    ymaps3?: any
+  }
+}
+
+const destroyMaps = (): void => {
+  Object.entries(readyMaps).forEach(([mapID, instance]) => {
+    instance.destroy?.()
+    delete readyMaps[mapID]
+    mapIDs.delete(mapID)
+  })
+
+  // Удаление глобальной переменной ymaps3
+  if (typeof ymaps3 !== 'undefined') window.ymaps3 = undefined
+
+  // Удаление скрипта Yandex Maps из DOM
+  const script = document.querySelector('script[src*="ymaps3"]')
+  if (script) script.remove()
+}
 
 const initMaps = async (): Promise<void> => {
-  const maps: NodeListOf<HTMLElement> = document.querySelectorAll('[data-map]')
+  console.log('initMaps')
 
+  const maps: NodeListOf<HTMLElement> = document.querySelectorAll('[data-map]')
   if (!maps.length) return
 
+  // Проверяем, загрузился ли YMaps
   if (typeof ymaps3 === 'undefined') {
     console.error('ymaps3 не загружен.')
     return
@@ -33,14 +48,16 @@ const initMaps = async (): Promise<void> => {
   }
 
   maps.forEach((mapElement: HTMLElement) => {
-    const mapID = mapElement.dataset.map
+    const mapID = mapElement.dataset.map as string
 
-    if (readyMaps[mapID]) return
+    if (readyMaps[mapID]) {
+      readyMaps[mapID].destroy()
+      delete readyMaps[mapID]
+    }
 
     const mapComponent = new MapComponent(mapElement)
-
-    readyMaps[mapID] = mapComponent.getMap()
+    readyMaps[mapID] = mapComponent
   })
 }
 
-export { initMaps, getMap }
+export { initMaps, destroyMaps, getMap }
