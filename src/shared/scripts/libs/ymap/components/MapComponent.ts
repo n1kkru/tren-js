@@ -1,4 +1,3 @@
-// MapComponent.ts
 import { BREAKPOINT_DESKTOP } from '@shared/scripts/config'
 import type { YMap, YMapTheme } from '@yandex/ymaps3-types'
 
@@ -12,9 +11,8 @@ class MapComponent {
   private markerRefs: Record<string, ymaps3.YMapMarker> = {}
   private activeMarkerId: string | null = null
 
-  // балун у маркера
   private balloonMarker: ymaps3.YMapMarker | null = null
-  // кэш данных по id, чтобы тянуть props при клике по списку
+
   private pointsById: Record<string, any> = {}
 
   constructor(mapElement: HTMLElement) {
@@ -81,7 +79,6 @@ class MapComponent {
       return
     }
 
-    // кэш по id
     this.pointsById = Object.fromEntries(markersData.map((p: any) => [String(p.id ?? ''), p]))
 
     this.clusterer = createClusterer(this.map, markersData, {
@@ -89,8 +86,8 @@ class MapComponent {
         this.markerRefs[id] = markerInstance
       },
       onMarkerClick: (data: { id: string; coords: [number, number]; props?: any }) => {
-        this.focusOnMarker(data) // центрирование и подсветка маркера/кнопки
-        this.openBalloon(data) // балун рядом с маркером
+        this.focusOnMarker(data)
+        this.openBalloon(data)
       },
       resetActiveMarkers: () => this.resetActiveMarkers()
     })
@@ -113,7 +110,6 @@ class MapComponent {
   }
 
   private initMap(mapElement: HTMLElement): void {
-    // mobile/desktop разруливание
     if (
       window.matchMedia(`(min-width: ${BREAKPOINT_DESKTOP}px)`).matches &&
       mapElement.id.includes('-mobile')
@@ -141,21 +137,21 @@ class MapComponent {
 
   public destroy(): void {
     if (!this.map) return
-    // убираем балун
+
     if (this.balloonMarker) {
       try {
         this.map.removeChild(this.balloonMarker)
       } catch {}
       this.balloonMarker = null
     }
-    // кластерер
+
     if (this.clusterer && (this.map as any).children?.includes(this.clusterer)) {
       try {
         this.map.removeChild(this.clusterer)
       } catch {}
       this.clusterer = null
     }
-    // карта
+
     try {
       ;(this.map as any).destroy?.()
     } catch {}
@@ -169,7 +165,6 @@ class MapComponent {
     return this.map
   }
 
-  // сброс активных маркеров + закрыть балун
   public resetActiveMarkers() {
     Object.values(this.markerRefs).forEach(marker => {
       marker.element?.classList.remove('map__marker--active')
@@ -199,7 +194,6 @@ class MapComponent {
     if (btn) btn.classList.add('active')
   }
 
-  // ====== Балун у маркера ======
   private renderBalloonContent(data: { id: string; props?: any }): HTMLElement {
     const p = data.props ?? this.pointsById[data.id] ?? {}
     const el = document.createElement('div')
@@ -248,7 +242,6 @@ class MapComponent {
     } catch {}
     this.balloonMarker = null
   }
-  // ====== /Балун ======
 
   public async focusOnMarker(data: { id: string; coords: any }) {
     const center = this.normalizeCoords(data.coords)

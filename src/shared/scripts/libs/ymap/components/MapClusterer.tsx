@@ -48,8 +48,6 @@ export async function createClusterer(
     const markerInstance = new ymaps3.YMapMarker(
       {
         coordinates: coords,
-        // смещать не обязательно, если центруешь svg/элемент через CSS
-        // offset: [-18, -44],
         zIndex: 1000
       },
       markerElement
