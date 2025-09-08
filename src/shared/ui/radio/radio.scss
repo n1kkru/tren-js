@@ -4,15 +4,30 @@
   position: relative;
 
   display: inline-flex;
-  gap: rem(12px);
+  gap: 16px;
   align-items: center;
+
+  border: 1px solid #e4e4e4;
+  padding: 12px 20px;
+  border-radius: 20px;
+  transition: $transition;
 
   @media #{media('>',t)} and (hover: hover) and (pointer: fine) {
     &:hover {
+      background-color: #0070b8;
       .radio__circle {
-        @apply bg-gray-400;
+        border-width: 8px;
+        border-color: #fff;
+        background-color: #0070b8;
+      }
+      .radio__text {
+        color: #fff;
       }
     }
+  }
+
+  &:has(.radio__input:checked) {
+    background-color: #0070b8;
   }
 
   &.disabled {
@@ -24,8 +39,15 @@
     position: absolute;
     opacity: 0;
 
-    &:checked + .radio__circle {
-      @apply border-blue-400 bg-blue-400;
+    &:checked {
+      + .radio__circle {
+        border-width: 8px;
+        border-color: #fff;
+        background-color: #0070b8;
+      }
+      ~ .radio__text {
+        color: #fff;
+      }
     }
   }
 
@@ -35,28 +57,60 @@
     display: inline-block;
     flex-shrink: 0;
 
-    border: 2px solid;
+    width: 32px;
+    height: 32px;
+
+    border: 2px solid #e4e4e4;
+    background-color: #fff;
     border-radius: 50%;
     border-radius: rem(36px);
-
-    @apply size-6 border-gray-300 bg-white;
-
+    will-change: border-width, border-color;
+    transition: $transition;
     @media #{media('<',d)} {
       @apply size-5;
     }
   }
 
   &__text {
-    font-family: $font;
-    font-size: rem(17px);
-    font-weight: 300;
-    font-style: normal;
-    line-height: 150%;
+    color: #0b1226;
 
-    @apply text-gray-900;
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 160%;
+    letter-spacing: -0.24px;
 
     @media #{media('<',d)} {
       font-size: rem(14px);
+    }
+  }
+
+  &_text {
+    border: none;
+    padding: 0;
+    background: none;
+    @media #{media('>',t)} and (hover: hover) and (pointer: fine) {
+      &:hover {
+        background-color: transparent;
+        .radio__circle {
+          border-color: #0070b8;
+          background-color: #fff;
+        }
+        .radio__text {
+          color: #000;
+        }
+      }
+    }
+    &:has(.radio__input:checked) {
+      background-color: transparent;
+    }
+    .radio__input:checked {
+      + .radio__circle {
+        border-color: #0070b8;
+        background-color: #fff;
+      }
+      ~ .radio__text {
+        color: #000;
+      }
     }
   }
 }

@@ -1,6 +1,7 @@
 ---
 interface Props {
   class?: string
+  variant?: 'default' | 'text'
   label: string
   name: string
   value: string
@@ -8,17 +9,17 @@ interface Props {
   disabled?: boolean
 }
 
-const { class: className, label, ...props } = Astro.props as Props
+const { variant = 'default', class: className, label, ...props } = Astro.props as Props
 ---
 
-<label class:list={['radio', { disabled: props.disabled }, className]}>
+<label class:list={['radio', `radio_${variant}`, { disabled: props.disabled }, className]}>
   <input
-    type='radio'
+    type="radio"
     {...props}
-    class='radio__input'
+    class="radio__input"
   />
-  <span class='radio__circle'></span>
-  <span class='radio__text'>{label}</span>
+  <span class="radio__circle"></span>
+  <span class="radio__text">{label}</span>
 </label>
 
 <style>

@@ -1,0 +1,114 @@
+---
+import Checkbox from '@shared/ui/checkbox/Checkbox.astro'
+import Radio from '@shared/ui/radio/Radio.astro'
+import Textarea from '@shared/ui/textarea/Textarea.astro'
+import Title from '@shared/ui/title/Title.astro'
+import Button from '@shared/ui/buttons/button/Button.astro'
+import Text from '@shared/ui/text/Text.astro'
+
+interface Props {
+  class?: string
+}
+
+const { class: className, ...props } = Astro.props as Props
+
+export { AstroContent }
+---
+
+<div
+  class:list={['astro-content', className]}
+  {...props}
+>
+  <Title
+    variant="60"
+    class="mt-[60px]"
+    weight="600"
+    >Заявка на отгрузку</Title
+  >
+  <!-- Способ доставки -->
+  <div class="astro-content__block mt-[100px]">
+    <Title
+      weight="600"
+      variant="32"
+    >
+      Способ доставки
+    </Title>
+    <div class="mt-[40px] flex gap-5">
+      <Radio
+        label="Самовывоз"
+        name="delivery"
+        value="self"
+      />
+      <Radio
+        label="Курьер"
+        name="delivery"
+        value="courier"
+      />
+    </div>
+  </div>
+
+  <!-- Доп требования к доставке -->
+  <div class="astro-content__block mt-[80px] flex flex-col gap-10">
+    <div class="flex justify-between">
+      <Title
+        weight="600"
+        variant="32"
+      >
+        Дополнительные требования к доставке
+      </Title>
+      <button class="astro-content__clear"> очистить все </button>
+    </div>
+    <Textarea
+      placeholder={'Комментарий (например, инструкция, паспорт и другое). Если доставка через ТК, укажите вид упаковки'}
+    />
+    <Checkbox>
+      Нажимая на кнопку «Отправить», я принимаю
+      <a class="text-[#0070B8] underline underline-offset-2">условия политики конфиденциальности</a>
+    </Checkbox>
+    <Button>Отправить</Button>
+  </div>
+
+  <!-- Кто будет забирать -->
+  <div class="astro-content__block mt-[80px] flex flex-col gap-10">
+    <Title
+      weight="600"
+      variant="32"
+    >
+      Кто будет забирать
+    </Title>
+    <div class="flex flex-col gap-3">
+      <Radio
+        variant="text"
+        label="Конечный покупатель"
+        name="who"
+        value="self"
+      />
+      <Radio
+        variant="text"
+        label="Транспортная компания"
+        name="who"
+        value="courier"
+      />
+      <Radio
+        variant="text"
+        label="Доверенное лицо"
+        name="who"
+        value="courier"
+      />
+    </div>
+    <div>
+      <span class="text-[#0070B8]">*</span>
+      <Text
+        variant="20"
+        class="inline"
+      >
+        Если данной информации нет на момент заполнения шаблона, то предоставление необходимо после
+        информирования о дате забора.
+      </Text>
+    </div>
+  </div>
+
+  <style>
+    @import './astro-content.scss';
+  </style>
+</div>

@@ -17,8 +17,6 @@
 
   display: flex;
   gap: rem(12px);
-  align-items: center;
-  justify-content: center;
 
   transition:
     color,
@@ -99,7 +97,25 @@
 
   &_color {
     &_primary {
-      @apply bg-primary text-white;
+      position: relative;
+      height: 100px;
+      @apply text-white;
+      padding: 20px;
+      align-self: flex-start;
+
+      border-radius: 20px;
+      background: var(--CNP-2, #0070b8);
+
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: 8px;
+        right: 8px;
+        width: 40px;
+        height: 40px;
+        background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0nNDAnIGhlaWdodD0nNDAnIHZpZXdCb3g9JzAgMCA0MCA0MCcgZmlsbD0nbm9uZScgeG1sbnM9J2h0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnJz48cmVjdCB4PScwLjUnIHk9JzAuNTAwMTIyJyB3aWR0aD0nMzknIGhlaWdodD0nMzknIHJ4PScxMS41JyBmaWxsPSd3aGl0ZScvPjxyZWN0IHg9JzAuNScgeT0nMC41MDAxMjInIHdpZHRoPSczOScgaGVpZ2h0PSczOScgcng9JzExLjUnIHN0cm9rZT0nI0U0RTRFNCcvPjxwYXRoIGQ9J00yMi4wMjUgMTQuOTQxOEwyNy4wODMzIDIwLjAwMDFNMjcuMDgzMyAyMC4wMDAxTDIyLjAyNSAyNS4wNTg1TTI3LjA4MzMgMjAuMDAwMUwxMi41IDIwLjAwMDEnIHN0cm9rZT0nIzBCMTIyNicgc3Ryb2tlLXdpZHRoPScyJyBzdHJva2UtbWl0ZXJsaW1pdD0nMTAnIHN0cm9rZS1saW5lY2FwPSdyb3VuZCcgc3Ryb2tlLWxpbmVqb2luPSdyb3VuZCcvPjwvc3ZnPgo=');
+        background-repeat: no-repeat;
+      }
 
       @media #{media('>',d)} and (hover: hover) and (pointer: fine) {
         &:hover {
