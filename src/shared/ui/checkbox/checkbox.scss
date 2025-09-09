@@ -4,7 +4,8 @@
   position: relative;
 
   display: flex;
-  gap: rem(12px);
+  align-items: center;
+  gap: rem(16px);
 
   width: fit-content;
 
@@ -27,9 +28,10 @@
 
     width: 32px;
     height: 32px;
-    border: 1px solid #e4e4e4;
+    border: 2px solid #e4e4e4;
+    border-radius: 8px;
 
-    background: #f6f6f6;
+    background: transparent;
 
     transition: $transition;
 
@@ -55,6 +57,15 @@
   &__text {
     margin-top: 1px;
     transition: color $transition;
+
+    color: #747884;
+
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 120%; /* 19.2px */
+    letter-spacing: -0.16px;
+
     @include cropText(4);
 
     @media #{media('<',d)} {

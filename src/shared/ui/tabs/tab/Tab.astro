@@ -21,7 +21,8 @@ const { class: className, id, isActive = false, ...props } = Astro.props as Prop
     aria-controls={`${id}-panel`}
     tabindex={isActive ? '0' : '-1'}
   >
-    <slot />
+    <div class="tab__circle"></div>
+    <div class="tab__text"><slot /></div>
   </button>
 </li>
 

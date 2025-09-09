@@ -36,10 +36,10 @@
       }
     }
 
-    &_80 {
-      font-size: rem(80px);
+    &_60 {
+      font-size: rem(60px);
       line-height: 100%;
-      letter-spacing: -4.8px;
+      letter-spacing: -2.4px;
 
       @media #{media('<', d)} {
         font-size: rem(32px);
@@ -130,6 +130,10 @@
 
     &_500 {
       font-weight: 500;
+    }
+
+    &_600 {
+      font-weight: 600;
     }
 
     &_700 {

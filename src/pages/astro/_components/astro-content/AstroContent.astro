@@ -1,0 +1,205 @@
+---
+import Checkbox from '@shared/ui/checkbox/Checkbox.astro'
+import Radio from '@shared/ui/radio/Radio.astro'
+import Textarea from '@shared/ui/textarea/Textarea.astro'
+import Title from '@shared/ui/title/Title.astro'
+import Button from '@shared/ui/buttons/button/Button.astro'
+import Text from '@shared/ui/text/Text.astro'
+import Tabs from '@shared/ui/tabs/Tabs.astro'
+import TabsList from '@shared/ui/tabs/tabs-list/TabsList.astro'
+import Tab from '@shared/ui/tabs/tab/Tab.astro'
+import TabPanel from '@shared/ui/tabs/tab-panel/TabPanel.astro'
+import Input from '@shared/ui/input/Input.astro'
+import FileInput from '@shared/ui/file-input/FileInput.astro'
+
+interface Props {
+  class?: string
+}
+
+const { class: className, ...props } = Astro.props as Props
+
+export { AstroContent }
+---
+
+<div
+  class:list={['astro-content', className]}
+  {...props}
+>
+  <Title
+    variant="60"
+    class="mt-[60px]"
+    weight="600"
+    >Заявка на отгрузку</Title
+  >
+  <!-- Способ доставки -->
+  <div class="astro-content__block mt-[100px]">
+    <Title
+      weight="600"
+      variant="32"
+    >
+      Способ доставки
+    </Title>
+    <div class="mt-[40px] flex gap-5">
+      <Tabs id="delivery-tabs">
+        <TabsList>
+          <Tab id="delivery-tab-1">Самовывоз</Tab>
+          <Tab id="delivery-tab-2">Курьер</Tab>
+        </TabsList>
+        <TabPanel id="delivery-tab-1-panel">
+          <!-- Кто будет забирать -->
+          <div class="astro-content__block mt-[80px] flex flex-col gap-10">
+            <Title
+              weight="600"
+              variant="32"
+            >
+              Кто будет забирать
+            </Title>
+            <div class="flex flex-col gap-3">
+              <Radio
+                variant="text"
+                label="Конечный покупатель"
+                name="who"
+                value="self"
+              />
+              <Radio
+                variant="text"
+                label="Транспортная компания"
+                name="who"
+                value="courier"
+              />
+              <Radio
+                variant="text"
+                label="Доверенное лицо"
+                name="who"
+                value="courier"
+              />
+            </div>
+            <Input placeholder={'Наименование'} />
+            <Input placeholder={'ИНН(необязательно)'} />
+            <FileInput text="Прикрепить файл" />
+            <div>
+              <span class="text-[#0070B8]">*</span>
+              <Text
+                variant="20"
+                class="inline"
+              >
+                Если данной информации нет на момент заполнения шаблона, то предоставление
+                необходимо после информирования о дате забора.
+              </Text>
+            </div>
+          </div>
+
+          <!-- Вариант отгрузки документов -->
+          <div class="astro-content__block mt-[80px] flex flex-col gap-10">
+            <Title
+              weight="600"
+              variant="32"
+            >
+              Вариант отгрузки документов
+            </Title>
+            <div class="flex flex-col gap-3">
+              <Radio
+                variant="text"
+                label="Оригиналы отгрузочных документов передать с грузом (доверенному лицу)"
+                name="variant"
+                value="v1"
+              />
+              <Radio
+                variant="text"
+                label="Оригиналы отгрузочных документов вложить в ящик с грузом"
+                name="variant"
+                value="v2"
+              />
+              <Radio
+                variant="text"
+                label="Отправка третьим лицам, документы с ценами не прикладывать к грузу, оригиналы отгрузочных документов отправить почтой по адресу"
+                name="variant"
+                value="v3"
+              />
+            </div>
+            <Input placeholder={'Адрес'} />
+            <div>
+              <span class="text-[#0070B8]">*</span>
+              <Text
+                variant="20"
+                class="inline"
+              >
+                Возможна отгрузка по скану доверенности, с гарантией дальнейшей отправки оригинала
+                по почте. Доверенность от даты составления шаблона.
+              </Text>
+            </div>
+          </div>
+        </TabPanel>
+      </Tabs>
+    </div>
+
+    <!-- Доп требования к доставке -->
+    <div class="astro-content__block mt-[80px] flex flex-col gap-10">
+      <div class="flex justify-between">
+        <Title
+          weight="600"
+          variant="32"
+        >
+          Дополнительные требования к доставке
+        </Title>
+        <button class="astro-content__clear"> очистить все </button>
+      </div>
+      <Textarea
+        placeholder={'Комментарий (например, инструкция, паспорт и другое). Если доставка через ТК, укажите вид упаковки'}
+      />
+      <Checkbox>
+        Нажимая на кнопку «Отправить», я принимаю
+        <a class="text-[#0070B8] underline underline-offset-2"
+          >условия политики конфиденциальности</a
+        >
+      </Checkbox>
+      <div class="grid grid-cols-2 gap-5">
+        <button class="rounded-[20px] border border-solid border-gray px-12 py-6 text-lg font-bold">
+          Предварительный просмотр
+        </button>
+        <button
+          class="relative rounded-[20px] border border-solid border-gray px-12 py-6 text-lg font-bold"
+          >Скачать заявку в PDF
+          <div
+            class="absolute right-5 top-1/2 -translate-y-1/2 rounded-2xl border border-solid border-gray p-4"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+            >
+              <path
+                d="M6 21.0003H18"
+                stroke="#0B1226"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              ></path>
+              <path
+                d="M12 3.00034L12 17.0003"
+                stroke="#0B1226"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              ></path>
+              <path
+                d="M17 12.0003L12 17.0003L7 12.0003"
+                stroke="#0B1226"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              ></path>
+            </svg>
+          </div>
+        </button>
+      </div>
+      <Button>Отправить</Button>
+    </div>
+  </div>
+</div>
+
+<style>
+  @import './astro-content.scss';
+</style>
