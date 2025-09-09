@@ -1,10 +1,26 @@
 .tab {
-  transition: color $transition;
+  border: 1px solid #e4e4e4;
+  padding: 12px 20px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  transition: $transition;
 
-  @apply text-title-32 text-secondary;
+  &__circle {
+    transition: $transition;
+    width: 32px;
+    height: 32px;
+    border-radius: 18px;
+    border: 2px solid #e4e4e4;
+    background: #fff;
+  }
 
-  @media #{media('<',d)} {
-    @apply text-title-18;
+  &__text {
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 160%;
+    letter-spacing: -0.24px;
   }
 
   @media #{media('>',t)} and (hover: hover) and (pointer: fine) {
@@ -15,8 +31,17 @@
 
   &.active {
     pointer-events: none;
+    background-color: #0070b8;
 
-    @apply text-primary;
+    .tab__circle {
+      border-width: 8px;
+      background: #0070b8;
+      border-color: #fff;
+    }
+
+    .tab__text {
+      color: #fff;
+    }
   }
 
   &[disabled] {

@@ -5,12 +5,20 @@
 
   display: block;
 
-  padding-bottom: 13px;
-  border-bottom: 3px solid;
+  padding: 20px 40px;
+  border-radius: 20px;
+  border: 1px solid var(--borders-lines, #e4e4e4);
+  background: var(--Third, #f5f5f5);
+  box-shadow: 0 0 12px 0 rgba(0, 0, 0, 0.04) inset;
 
   transition: border-color $transition;
 
-  @apply border-gray-light text-20;
+  color: var(--Second, #000);
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 160%; /* 38.4px */
+  letter-spacing: -0.24px;
 
   @media #{media('>',d)} and (hover: hover) and (pointer: fine) {
     &:hover {
@@ -36,7 +44,7 @@
 
     &::placeholder {
       user-select: none;
-      color: inherit;
+      color: #747884;
       transition: opacity $transition-timing-function 0.2s;
     }
 
